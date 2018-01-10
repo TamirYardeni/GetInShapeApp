@@ -122,6 +122,12 @@ public class AuthActivity extends AppCompatActivity implements AuthFragment.OnFr
         signIn();
     }
 
+    /**
+     * After connecting with google auth and saving the user to firebase
+     * we want to start the main activity of the app.
+     * For that we hide the auth fragment and starts PersonalAreaActivity.
+     * @param user
+     */
     private void updateUI(FirebaseUser user) {
         AuthFragment frag = AuthFragment.newInstance();
 
