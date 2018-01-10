@@ -1,7 +1,9 @@
-package tmrapps.getinshapeapp;
+package tmrapps.getinshapeapp.User;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import tmrapps.getinshapeapp.R;
 
 public class AuthActivity extends AppCompatActivity {
 

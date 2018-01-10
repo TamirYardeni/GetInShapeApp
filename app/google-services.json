@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "597202379032",
+    "firebase_url": "https://getinshape-f4acd.firebaseio.com",
+    "project_id": "getinshape-f4acd",
+    "storage_bucket": "getinshape-f4acd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:597202379032:android:cda6cc7f698aa9d3",
+        "android_client_info": {
+          "package_name": "tmrapps.getinshapeapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "597202379032-ntmoqhaeqltc77tlhs5b1ksin1sl0r2r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "tmrapps.getinshapeapp",
+            "certificate_hash": "9a38489771e546cb3287ca029927557ca28085aa"
+          }
+        },
+        {
+          "client_id": "597202379032-j4i4ie295m4jknqtdoakb7rs1i20oph8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAacwa69H_cT2gNpI_9NCTgGKANU0_myMY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "597202379032-j4i4ie295m4jknqtdoakb7rs1i20oph8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
