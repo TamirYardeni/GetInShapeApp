@@ -1,5 +1,6 @@
 package tmrapps.getinshapeapp.User;
 
+import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -20,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import tmrapps.getinshapeapp.PersonalArea.PersonalAreaActivity;
 import tmrapps.getinshapeapp.R;
 
 public class AuthActivity extends AppCompatActivity implements AuthFragment.OnFragmentInteractionListener{
@@ -28,11 +30,13 @@ public class AuthActivity extends AppCompatActivity implements AuthFragment.OnFr
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
     private static int RC_SIGN_IN = 100;
+    private AuthFragment authFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);
+        authFragment = (AuthFragment) getSupportFragmentManager().findFragmentById(R.id.authFragment);
 
         // Configure Google Sign In
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -42,11 +46,23 @@ public class AuthActivity extends AppCompatActivity implements AuthFragment.OnFr
         mAuth = FirebaseAuth.getInstance();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
     }
+
+    /**
+     * Open the sign in activity of google
+     */
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
+    /**
+     * This code run after running the sign in of google
+     * This function authenticate with firebase if the sign in was good
+     * or show a message in case there was a fail to sign.
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -71,7 +87,9 @@ public class AuthActivity extends AppCompatActivity implements AuthFragment.OnFr
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
+        if (currentUser != null) {
+            updateUI(currentUser);
+        }
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
@@ -105,6 +123,16 @@ public class AuthActivity extends AppCompatActivity implements AuthFragment.OnFr
     }
 
     private void updateUI(FirebaseUser user) {
+        AuthFragment frag = AuthFragment.newInstance();
 
+        FragmentTransaction tran = getSupportFragmentManager().beginTransaction();
+        tran.hide(authFragment);
+        tran.commit();
+
+        Intent intent = new Intent(this, PersonalAreaActivity.class);
+        /*EditText editText = (EditText) findViewById(R.id.editText);
+        String message = editText.getText().toString();
+        intent.putExtra(EXTRA_MESSAGE, message);*/
+        startActivity(intent);
     }
 }
