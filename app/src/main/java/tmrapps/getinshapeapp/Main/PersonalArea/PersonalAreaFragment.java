@@ -1,4 +1,4 @@
-package tmrapps.getinshapeapp.User;
+package tmrapps.getinshapeapp.Main.PersonalArea;
 
 import android.content.Context;
 import android.net.Uri;
@@ -7,64 +7,57 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import tmrapps.getinshapeapp.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link AuthFragment.OnFragmentInteractionListener} interface
+ * Activities that contain this fragment_personal_area must implement the
+ * {@link PersonalAreaFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link AuthFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Use the {@link PersonalAreaFragment#newInstance} factory method to
+ * create an instance of this fragment_personal_area.
  */
-public class AuthFragment extends Fragment {
-
-
+public class PersonalAreaFragment extends Fragment {
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment_personal_area initialization parameters, e.g. ARG_ITEM_NUMBER
     private OnFragmentInteractionListener mListener;
 
-    public AuthFragment() {
+    public PersonalAreaFragment() {
         // Required empty public constructor
     }
 
     /**
      * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
+     * this fragment_personal_area using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AuthFragment.
+     * @return A new instance of fragment_personal_area PersonalAreaFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static AuthFragment newInstance(String param1, String param2) {
-        AuthFragment fragment = new AuthFragment();
+    public static PersonalAreaFragment newInstance() {
+        PersonalAreaFragment fragment = new PersonalAreaFragment();
+
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Inflate the layout for this fragment_personal_area
+        return inflater.inflate(R.layout.fragment_personal_area, container, false);
+    }
 
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_auth, container, false);
-        Button signBtn = (Button) view.findViewById(R.id.signBtn);
-
-        signBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mListener != null){
-                    mListener.onEntranceFragmentInteraction();
-                }
-            }
-        });
-
-        return view;
+    // TODO: Rename method, update argument and hook method into UI event
+    public void onButtonPressed(Uri uri) {
+        if (mListener != null) {
+            mListener.onFragmentInteraction(uri);
+        }
     }
 
     @Override
@@ -86,12 +79,16 @@ public class AuthFragment extends Fragment {
 
     /**
      * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
+     * fragment_personal_area to allow an interaction in this fragment_personal_area to be communicated
      * to the activity and potentially other fragments contained in that
      * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        void onEntranceFragmentInteraction();
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
     }
 }
-

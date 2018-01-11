@@ -1,4 +1,4 @@
-package tmrapps.getinshapeapp.PersonalArea;
+package tmrapps.getinshapeapp.Main.Exercise;
 
 import android.content.Context;
 import android.net.Uri;
@@ -12,60 +12,45 @@ import tmrapps.getinshapeapp.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Activities that contain this fragment_home must implement the
- * {@link HomePage.OnFragmentInteractionListener} interface
+ * Activities that contain this fragment must implement the
+ * {@link Exercise.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link HomePage#newInstance} factory method to
- * create an instance of this fragment_home.
+ * Use the {@link Exercise#newInstance} factory method to
+ * create an instance of this fragment.
  */
-public class HomePage extends Fragment {
+public class Exercise extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
-    // the fragment_home initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private OnFragmentInteractionListener mListener;
 
-    public HomePage() {
+    public Exercise() {
         // Required empty public constructor
     }
 
     /**
      * Use this factory method to create a new instance of
-     * this fragment_home using the provided parameters.
+     * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment_home HomePage.
+     * @return A new instance of fragment Exercise.
      */
     // TODO: Rename and change types and number of parameters
-    public static HomePage newInstance(String param1, String param2) {
-        HomePage fragment = new HomePage();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
+    public static Exercise newInstance() {
+        Exercise fragment = new Exercise();
+
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+       
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment_home
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_exercise, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -94,7 +79,7 @@ public class HomePage extends Fragment {
 
     /**
      * This interface must be implemented by activities that contain this
-     * fragment_home to allow an interaction in this fragment_home to be communicated
+     * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
      * activity.
      * <p>
