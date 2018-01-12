@@ -21,7 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-import tmrapps.getinshapeapp.PersonalArea.PersonalAreaActivity;
+import tmrapps.getinshapeapp.Main.MainActivity;
 import tmrapps.getinshapeapp.R;
 
 public class AuthActivity extends AppCompatActivity implements AuthFragment.OnFragmentInteractionListener{
@@ -135,7 +135,7 @@ public class AuthActivity extends AppCompatActivity implements AuthFragment.OnFr
         tran.hide(authFragment);
         tran.commit();
 
-        Intent intent = new Intent(this, PersonalAreaActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         /*EditText editText = (EditText) findViewById(R.id.editText);
         String message = editText.getText().toString();
         intent.putExtra(EXTRA_MESSAGE, message);*/
