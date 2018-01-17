@@ -5,9 +5,87 @@
     tools:context="tmrapps.getinshapeapp.Main.PersonalArea.PersonalAreaFragment">
 
     <!-- TODO: Update blfragment_homement layout -->
-    <TextView
+
+    <TableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layoutDirection="rtl">
+
+        <TableRow
+            android:id="@+id/1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layoutDirection="rtl">
+
+            <TextView
+                android:id="@+id/lblWeight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:labelFor="@id/edWeight"
+                android:layoutDirection="rtl"
+                android:text="@string/weightlbl"
+                android:textSize="24sp" />
+
+            <EditText
+                android:id="@+id/edWeight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="number" />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:labelFor="@+id/editText3"
+                android:text="משקל יעד"
+                android:textSize="24sp" />
+
+            <EditText
+                android:id="@+id/editText3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="number" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:labelFor="@id/multiAutoCompleteTextView"
+                android:text="מטרה"
+                android:textSize="24sp" />
+
+            <MultiAutoCompleteTextView
+                android:id="@+id/multiAutoCompleteTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="שמירה" />
+        </TableRow>
+    </TableLayout>
 
 </FrameLayout>
