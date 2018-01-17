@@ -12,7 +12,7 @@
         android:layoutDirection="rtl">
 
         <TableRow
-            android:id="@+id/1"
+            android:id="@+id/tbRow1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layoutDirection="rtl">
@@ -36,7 +36,7 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/2"
+            android:id="@+id/tbRow2"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -57,9 +57,9 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/3"
+            android:id="@+id/tbRow3"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/textView3"
@@ -76,9 +76,9 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/4"
+            android:id="@+id/tbRow4"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <Button
                 android:id="@+id/button2"
