@@ -7,10 +7,11 @@ import android.os.Bundle;
 import android.view.Window;
 
 import tmrapps.getinshapeapp.Main.Exercise.Exercise;
+import tmrapps.getinshapeapp.Main.Motivation.MotivationFragment;
 import tmrapps.getinshapeapp.Main.PersonalArea.PersonalAreaFragment;
 import tmrapps.getinshapeapp.R;
 
-public class MainActivity extends AppCompatActivity implements PersonalAreaFragment.OnFragmentInteractionListener, Exercise.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements PersonalAreaFragment.OnFragmentInteractionListener, Exercise.OnFragmentInteractionListener, MotivationFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements PersonalAreaFragm
                 .newTab()
                 .setText("איזור אישי")
                // .setIcon(R.drawable.ic_home)
-                .setTabListener(new SupportFragmentTabListener<PersonalAreaFragment>(R.id.flContainer, this,
+                .setTabListener(new SupportFragmentTabListener<PersonalAreaFragment>(R.id.mainContent, this,
                         "first", PersonalAreaFragment.class));
 
         actionBar.addTab(tab1);
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements PersonalAreaFragm
                 .newTab()
                 .setText("תרגילים")
                 //.setIcon(R.drawable.ic_mentions)
-                .setTabListener(new SupportFragmentTabListener<Exercise>(R.id.flContainer, this,
+                .setTabListener(new SupportFragmentTabListener<Exercise>(R.id.mainContent, this,
                         "second", Exercise.class));
         actionBar.addTab(tab2);
 
@@ -47,9 +48,9 @@ public class MainActivity extends AppCompatActivity implements PersonalAreaFragm
                 .newTab()
                 .setText("מוטיבציה")
                 //.setIcon(R.drawable.ic_mentions)
-                .setTabListener(new SupportFragmentTabListener<PersonalAreaFragment>(R.id.flContainer, this,
-                        "second", PersonalAreaFragment.class));
-        actionBar.addTab(tab2);
+                .setTabListener(new SupportFragmentTabListener<MotivationFragment>(R.id.mainContent, this,
+                        "third", MotivationFragment.class));
+        actionBar.addTab(tab3);
 
     }
 
