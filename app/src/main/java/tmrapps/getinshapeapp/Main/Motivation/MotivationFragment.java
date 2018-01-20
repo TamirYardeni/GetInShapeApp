@@ -2,6 +2,8 @@ package tmrapps.getinshapeapp.Main.Motivation;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,7 +18,9 @@ import android.widget.ListView;
 import java.util.LinkedList;
 import java.util.List;
 
+import tmrapps.getinshapeapp.Main.FirebaseModel;
 import tmrapps.getinshapeapp.Main.Motivation.Model.Motivation;
+import tmrapps.getinshapeapp.Main.Motivation.Model.MotivationRepository;
 import tmrapps.getinshapeapp.R;
 
 /**
@@ -114,7 +118,7 @@ public class MotivationFragment extends Fragment {
 
         public MotivationAdapter() {
             for (int i = 0; i < 100; i++) {
-                data.add(new Motivation(i+"",i + ""));
+                data.add(new Motivation(i + "", "https://firebasestorage.googleapis.com/v0/b/getinshape-f4acd.appspot.com/o/motivation%2FIMG-20180117-WA0001.jpg?alt=media&token=2fac5e31-5340-4c42-b0b9-bc1b79a86466"));
             }
         }
 
@@ -137,7 +141,48 @@ public class MotivationFragment extends Fragment {
         public View getView(int i, View view, ViewGroup viewGroup) {
             if (view == null) {
                 view = getLayoutInflater().inflate(R.layout.motivation_row, null);
-                ImageView imageView = view.findViewById(R.id.imageMotivationView);
+                final ImageView imageView = view.findViewById(R.id.imageMotivationView);
+                final Motivation st = data.get(i);
+                if (i == 1) {
+                    /*if (*//*st.imageUrl != null && !st.imageUrl.isEmpty() && !st.imageUrl.equals("")*//*true) {
+                        *//*progressBar.setVisibility(View.VISIBLE);*//*
+                        MotivationRepository.instace.getImage(st.getImageSrc(), new MotivationRepository.GetImageListener() {
+                            @Override
+                            public void onSuccess(Bitmap image) {
+                                String tagUrl = imageView.getTag().toString();
+                               *//* if (tagUrl.equals(st.imageUrl)) {*//*
+                                imageView.setImageBitmap(image);
+                                 *//*   progressBar.setVisibility(View.GONE);
+                                }*//*
+                            }
+
+                            @Override
+                            public void onFail() {
+                                *//*progressBar.setVisibility(View.GONE);*//*
+                            }
+                        });
+                    }*/
+
+                    MotivationRepository.instace.saveImage(((BitmapDrawable)imageView.getDrawable()).getBitmap(),
+                            st.getId() + ".jpeg", new MotivationRepository.SaveImageListener() {
+                        @Override
+                        public void complete(String url) {
+                            st.setImageSrc(url);
+                            /*MotivationRepository.instace.addStudent(st);*/
+                            /*setResult(RESAULT_SUCCESS);
+                            progressBar.setVisibility(GONE);*/
+                            /*finish();*/
+                        }
+
+                        @Override
+                        public void fail() {
+                            //notify operation fail,...
+                            /*setResult(RESAULT_SUCCESS);
+                            progressBar.setVisibility(GONE);
+                            finish();*/
+                        }
+                    });
+                }
             }
             /*image*/
             return view;
