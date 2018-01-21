@@ -26,12 +26,10 @@
                 android:text="@string/weightlbl"
                 android:textSize="24sp" />
 
-            <EditText
+            <NumberPicker
                 android:id="@+id/edWeight"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="number" />
+                android:layout_height="107dp" />
 
         </TableRow>
 
@@ -44,16 +42,15 @@
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:labelFor="@+id/editText3"
+                android:labelFor="@id/test2"
                 android:text="משקל יעד"
                 android:textSize="24sp" />
 
-            <EditText
-                android:id="@+id/editText3"
+            <NumberPicker
+                android:id="@+id/test2"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="number" />
+                android:layout_height="108dp" />
+
         </TableRow>
 
         <TableRow
@@ -85,6 +82,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="שמירה" />
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
         </TableRow>
     </TableLayout>
 
