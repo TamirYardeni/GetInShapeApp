@@ -1,93 +1,39 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:textDirection="rtl"
     tools:context="tmrapps.getinshapeapp.Main.PersonalArea.PersonalAreaFragment">
 
     <!-- TODO: Update blfragment_homement layout -->
+    <LinearLayout
+        android:id="@+id/linLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:textDirection="rtl"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layoutDirection="rtl">
+        <TextView
+            android:id="@+id/lblWeight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:labelFor="@id/edWeight"
+            android:layoutDirection="rtl"
+            android:text="@string/weightlbl"
+            android:textSize="24sp" />
 
-        <TableRow
-            android:id="@+id/tbRow1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layoutDirection="rtl">
+        <NumberPicker
+            android:id="@+id/edWeight"
+            android:layout_width="wrap_content"
+            android:layout_height="107dp" />
 
-            <TextView
-                android:id="@+id/lblWeight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:labelFor="@id/edWeight"
-                android:layoutDirection="rtl"
-                android:text="@string/weightlbl"
-                android:textSize="24sp" />
+    </LinearLayout>
 
-            <NumberPicker
-                android:id="@+id/edWeight"
-                android:layout_width="wrap_content"
-                android:layout_height="107dp" />
 
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/tbRow2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:labelFor="@id/test2"
-                android:text="משקל יעד"
-                android:textSize="24sp" />
-
-            <NumberPicker
-                android:id="@+id/test2"
-                android:layout_width="wrap_content"
-                android:layout_height="108dp" />
-
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/tbRow3"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:labelFor="@id/multiAutoCompleteTextView"
-                android:text="מטרה"
-                android:textSize="24sp" />
-
-            <MultiAutoCompleteTextView
-                android:id="@+id/multiAutoCompleteTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/tbRow4"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <Button
-                android:id="@+id/button2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="שמירה" />
-
-            <ListView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-        </TableRow>
-    </TableLayout>
-
-</FrameLayout>
+</android.support.constraint.ConstraintLayout>
