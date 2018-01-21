@@ -1,8 +1,6 @@
 package tmrapps.getinshapeapp.Main.Motivation;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -18,7 +15,6 @@ import android.widget.ListView;
 import java.util.LinkedList;
 import java.util.List;
 
-import tmrapps.getinshapeapp.Main.FirebaseModel;
 import tmrapps.getinshapeapp.Main.Motivation.Model.Motivation;
 import tmrapps.getinshapeapp.Main.Motivation.Model.MotivationRepository;
 import tmrapps.getinshapeapp.R;
@@ -26,16 +22,15 @@ import tmrapps.getinshapeapp.R;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link MotivationFragment.OnFragmentInteractionListener} interface
+ * {@link MotivationAdminFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link MotivationFragment#newInstance} factory method to
+ * Use the {@link MotivationAdminFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MotivationFragment extends Fragment {
-
+public class MotivationAdminFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
-    public MotivationFragment() {
+    public MotivationAdminFragment() {
         // Required empty public constructor
     }
 
@@ -45,28 +40,26 @@ public class MotivationFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment MotivationFragment.
+     * @return A new instance of fragment MotivationAdminFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static MotivationFragment newInstance(String param1, String param2) {
-        MotivationFragment fragment = new MotivationFragment();
+    public static MotivationAdminFragment newInstance(String param1, String param2) {
+        MotivationAdminFragment fragment = new MotivationAdminFragment();
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View motivationView = inflater.inflate(R.layout.fragment_motivation, container, false);
+        View motivationView = inflater.inflate(R.layout.fragment_motivation_admin, container, false);
 
-        ListView list = motivationView.findViewById(R.id.motivationList);
-        MotivationAdapter myAdapter = new MotivationAdapter();
+        ListView list = motivationView.findViewById(R.id.motivationAdminList);
+        MotivationAdminFragment.MotivationAdminAdapter myAdapter = new MotivationAdminAdapter();
         list.setAdapter(myAdapter);
 
         // Inflate the layout for this fragment
@@ -108,15 +101,14 @@ public class MotivationFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 
-    class MotivationAdapter extends BaseAdapter {
+    class MotivationAdminAdapter extends BaseAdapter {
 
         List<Motivation> data = new LinkedList<>();
 
-        public MotivationAdapter() {
+        public MotivationAdminAdapter() {
             for (int i = 0; i < 100; i++) {
                 data.add(new Motivation(i + "", "https://firebasestorage.googleapis.com/v0/b/getinshape-f4acd.appspot.com/o/motivation%2FIMG-20180117-WA0001.jpg?alt=media&token=2fac5e31-5340-4c42-b0b9-bc1b79a86466"));
             }
@@ -165,23 +157,23 @@ public class MotivationFragment extends Fragment {
 
                     MotivationRepository.instace.saveImage(((BitmapDrawable)imageView.getDrawable()).getBitmap(),
                             st.getId() + ".jpeg", new MotivationRepository.SaveImageListener() {
-                        @Override
-                        public void complete(String url) {
-                            st.setImageSrc(url);
+                                @Override
+                                public void complete(String url) {
+                                    st.setImageSrc(url);
                             /*MotivationRepository.instace.addStudent(st);*/
                             /*setResult(RESAULT_SUCCESS);
                             progressBar.setVisibility(GONE);*/
                             /*finish();*/
-                        }
+                                }
 
-                        @Override
-                        public void fail() {
-                            //notify operation fail,...
+                                @Override
+                                public void fail() {
+                                    //notify operation fail,...
                             /*setResult(RESAULT_SUCCESS);
                             progressBar.setVisibility(GONE);
                             finish();*/
-                        }
-                    });
+                                }
+                            });
                 }
             }
             /*image*/

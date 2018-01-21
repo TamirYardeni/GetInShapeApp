@@ -31,10 +31,12 @@ public class AuthActivity extends AppCompatActivity implements AuthFragment.OnFr
     private GoogleSignInClient mGoogleSignInClient;
     private static int RC_SIGN_IN = 100;
     private AuthFragment authFragment;
+    private Bundle savedInstanceState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.savedInstanceState = savedInstanceState;
         setContentView(R.layout.activity_auth);
         authFragment = (AuthFragment) getSupportFragmentManager().findFragmentById(R.id.authFragment);
 
@@ -109,7 +111,7 @@ public class AuthActivity extends AppCompatActivity implements AuthFragment.OnFr
                             // If sign in fails, display a message to the user.
                             Log.w("TAG", "signInWithCredential:failure", task.getException());
                             Snackbar.make(findViewById(R.id.authFragment), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
-                            updateUI(null);
+                            /*updateUI(null);*/
                         }
 
                         // ...
@@ -129,8 +131,6 @@ public class AuthActivity extends AppCompatActivity implements AuthFragment.OnFr
      * @param user
      */
     private void updateUI(FirebaseUser user) {
-        AuthFragment frag = AuthFragment.newInstance();
-
         FragmentTransaction tran = getSupportFragmentManager().beginTransaction();
         tran.hide(authFragment);
         tran.commit();
