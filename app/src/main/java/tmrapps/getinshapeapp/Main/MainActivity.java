@@ -16,7 +16,9 @@ import android.view.Window;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import tmrapps.getinshapeapp.Main.Exercise.Exercise;
+import tmrapps.getinshapeapp.Main.Exercise.ExerciseAdminFragment;
+import tmrapps.getinshapeapp.Main.Exercise.ExerciseFragment;
+import tmrapps.getinshapeapp.Main.Motivation.MotivationAdminFragment;
 import tmrapps.getinshapeapp.Main.Motivation.MotivationFragment;
 import tmrapps.getinshapeapp.Main.PersonalArea.PersonalAreaFragment;
 import tmrapps.getinshapeapp.R;
@@ -24,7 +26,7 @@ import tmrapps.getinshapeapp.User.AuthActivity;
 import tmrapps.getinshapeapp.User.AuthFragment;
 import tmrapps.getinshapeapp.User.RoleType;
 
-public class MainActivity extends AppCompatActivity implements PersonalAreaFragment.OnFragmentInteractionListener, Exercise.OnFragmentInteractionListener, MotivationFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements PersonalAreaFragment.OnFragmentInteractionListener, ExerciseFragment.OnFragmentInteractionListener, MotivationFragment.OnFragmentInteractionListener, MotivationAdminFragment.OnFragmentInteractionListener, ExerciseAdminFragment.OnFragmentInteractionListener {
 
     private ActionBar actionBar;
     private RoleType role;
@@ -33,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements PersonalAreaFragm
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_ACTION_BAR);
         setContentView(R.layout.activity_main);
-        role = RoleType.USER;
+        role = RoleType.ADMIN;
         setupTabs(role);
     }
 
@@ -57,8 +59,8 @@ public class MainActivity extends AppCompatActivity implements PersonalAreaFragm
                     .newTab()
                     .setText("תרגילים")
                     //.setIcon(R.drawable.ic_mentions)
-                    .setTabListener(new SupportFragmentTabListener<Exercise>(R.id.mainContent, this,
-                            "second", Exercise.class));
+                    .setTabListener(new SupportFragmentTabListener<ExerciseFragment>(R.id.mainContent, this,
+                            "second", ExerciseFragment.class));
             actionBar.addTab(tab2);
 
             ActionBar.Tab tab3 = actionBar
@@ -73,8 +75,8 @@ public class MainActivity extends AppCompatActivity implements PersonalAreaFragm
                     .newTab()
                     .setText("תרגילים")
                     //.setIcon(R.drawable.ic_mentions)
-                    .setTabListener(new SupportFragmentTabListener<Exercise>(R.id.mainContent, this,
-                            "first", Exercise.class));
+                    .setTabListener(new SupportFragmentTabListener<ExerciseAdminFragment>(R.id.mainContent, this,
+                            "first", ExerciseAdminFragment.class));
             actionBar.addTab(tab1);
 
             ActionBar.Tab tab2 = actionBar

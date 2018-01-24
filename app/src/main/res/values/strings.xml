@@ -6,4 +6,6 @@
     <string name="client_id">597202379032-j4i4ie295m4jknqtdoakb7rs1i20oph8.apps.googleusercontent.com</string>
     <string name="weightlbl">משקל</string>
     <string name="log_out_txt">התנתק</string>
+    <string name="add_category_err">שגיאה בהוספת קטגוריה</string>
+    <string name="add_category_ok">קטגוריה הוספה בהצלחה</string>
 </resources>

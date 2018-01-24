@@ -13,17 +13,17 @@ import tmrapps.getinshapeapp.R;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link Exercise.OnFragmentInteractionListener} interface
+ * {@link ExerciseFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link Exercise#newInstance} factory method to
+ * Use the {@link ExerciseFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Exercise extends Fragment {
+public class ExerciseFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private OnFragmentInteractionListener mListener;
 
-    public Exercise() {
+    public ExerciseFragment() {
         // Required empty public constructor
     }
 
@@ -34,8 +34,8 @@ public class Exercise extends Fragment {
      * @return A new instance of fragment Exercise.
      */
     // TODO: Rename and change types and number of parameters
-    public static Exercise newInstance() {
-        Exercise fragment = new Exercise();
+    public static ExerciseFragment newInstance() {
+        ExerciseFragment fragment = new ExerciseFragment();
 
         return fragment;
     }

@@ -30,6 +30,7 @@ public class MotivationRepository {
     }
 
     public void saveImage(final Bitmap imageBmp, final String name, final SaveImageListener listener) {
+
         modelFirebase.saveImage(imageBmp, name, new SaveImageListener() {
             @Override
             public void complete(String url) {

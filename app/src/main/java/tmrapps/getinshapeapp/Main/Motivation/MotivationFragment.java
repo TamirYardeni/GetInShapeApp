@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -144,44 +145,53 @@ public class MotivationFragment extends Fragment {
                 final ImageView imageView = view.findViewById(R.id.imageMotivationView);
                 final Motivation st = data.get(i);
                 if (i == 1) {
-                    /*if (*//*st.imageUrl != null && !st.imageUrl.isEmpty() && !st.imageUrl.equals("")*//*true) {
-                        *//*progressBar.setVisibility(View.VISIBLE);*//*
-                        MotivationRepository.instace.getImage(st.getImageSrc(), new MotivationRepository.GetImageListener() {
+                    /*if (st.imageUrl != null && !st.imageUrl.isEmpty() && !st.imageUrl.equals("")true) {
+                        progressBar.setVisibility(View.VISIBLE);*/
+                        MotivationRepository.instace.getImage("https://firebasestorage.googleapis.com/v0/b/getinshape-f4acd.appspot.com/o/images%2F1.jpeg?alt=media&token=bd22c54e-b4b9-43a6-a2a0-e00df491b2c2", new MotivationRepository.GetImageListener() {
                             @Override
                             public void onSuccess(Bitmap image) {
-                                String tagUrl = imageView.getTag().toString();
-                               *//* if (tagUrl.equals(st.imageUrl)) {*//*
+                                //String tagUrl = imageView.getTag().toString();
+                               // if (tagUrl.equals(st.imageUrl)) {
                                 imageView.setImageBitmap(image);
-                                 *//*   progressBar.setVisibility(View.GONE);
-                                }*//*
-                            }
+                                    //progressBar.setVisibility(View.GONE);
+                                }
 
                             @Override
                             public void onFail() {
-                                *//*progressBar.setVisibility(View.GONE);*//*
+
                             }
                         });
-                    }*/
+                   // }
 
-                    MotivationRepository.instace.saveImage(((BitmapDrawable)imageView.getDrawable()).getBitmap(),
+                    /*
+                    *** Write to firebase storage
+                    imageView.setDrawingCacheEnabled(true);
+                    imageView.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+                    imageView.layout(0, 0,
+                            imageView.getMeasuredWidth(), imageView.getMeasuredHeight());
+                    imageView.buildDrawingCache(true);
+                    Bitmap bitmap = Bitmap.createBitmap(imageView.getDrawingCache());
+                    imageView.setDrawingCacheEnabled(false);
+                    MotivationRepository.instace.saveImage(bitmap,
                             st.getId() + ".jpeg", new MotivationRepository.SaveImageListener() {
                         @Override
                         public void complete(String url) {
                             st.setImageSrc(url);
-                            /*MotivationRepository.instace.addStudent(st);*/
-                            /*setResult(RESAULT_SUCCESS);
-                            progressBar.setVisibility(GONE);*/
-                            /*finish();*/
+                            *//*MotivationRepository.instace.addStudent(st);*//*
+                            *//*setResult(RESAULT_SUCCESS);
+                            progressBar.setVisibility(GONE);*//*
+                            *//*finish();*//*
                         }
 
                         @Override
                         public void fail() {
                             //notify operation fail,...
-                            /*setResult(RESAULT_SUCCESS);
+                            *//*setResult(RESAULT_SUCCESS);
                             progressBar.setVisibility(GONE);
-                            finish();*/
+                            finish();*//*
                         }
-                    });
+                    });*/
                 }
             }
             /*image*/
