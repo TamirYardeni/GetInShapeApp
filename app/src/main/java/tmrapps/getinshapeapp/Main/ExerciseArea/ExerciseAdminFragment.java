@@ -1,30 +1,26 @@
-package tmrapps.getinshapeapp.Main.Exercise;
+package tmrapps.getinshapeapp.Main.ExerciseArea;
 
 import android.content.Context;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.LinkedList;
 import java.util.List;
 
+import tmrapps.getinshapeapp.Category.CategoryFragment;
 import tmrapps.getinshapeapp.Category.Model.AddCategoryDialog;
 import tmrapps.getinshapeapp.Category.Model.Category;
-import tmrapps.getinshapeapp.Main.Motivation.Model.Motivation;
-import tmrapps.getinshapeapp.Main.Motivation.Model.MotivationRepository;
-import tmrapps.getinshapeapp.Main.Motivation.MotivationFragment;
 import tmrapps.getinshapeapp.R;
 
 /**
@@ -68,7 +64,7 @@ public class ExerciseAdminFragment extends Fragment {
         View exerciseView = inflater.inflate(R.layout.fragment_exercise_admin, container, false);
 
         ListView list = exerciseView.findViewById(R.id.categoryListAdmin);
-        ExerciseAdminFragment.ExerciseAdminAdapter myAdapter = new ExerciseAdminFragment.ExerciseAdminAdapter();
+        ExerciseAdminFragment.ExerciseAdminAdapter myAdapter = new ExerciseAdminFragment.ExerciseAdminAdapter(this);
         list.setAdapter(myAdapter);
 
         FloatingActionButton addCategoryBtn = exerciseView.findViewById(R.id.addCategoryBtn);
@@ -85,11 +81,8 @@ public class ExerciseAdminFragment extends Fragment {
         return exerciseView;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+    public void showCategory(String categoryId) {
+        mListener.onShowCategory(categoryId);
     }
 
     @Override
@@ -120,18 +113,22 @@ public class ExerciseAdminFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void onShowCategory(String categoryId);
     }
 
     class ExerciseAdminAdapter extends BaseAdapter {
 
+        ExerciseAdminFragment exerciseFrag;
         List<Category> data = new LinkedList<>();
 
-        public ExerciseAdminAdapter() {
-            for (int i = 0; i < 8; i++) {
-                data.add(new Category("ידיים"));
-            }
+        public ExerciseAdminAdapter(ExerciseAdminFragment fragment) {
+            data.add(new Category("ידיים"));
+            data.add(new Category("בטן"));
+            data.add(new Category("גב"));
+            data.add(new Category("ישבן"));
+            data.add(new Category("חזה"));
+
+            this.exerciseFrag = fragment;
         }
 
         @Override
@@ -154,12 +151,19 @@ public class ExerciseAdminFragment extends Fragment {
             if (view == null) {
                 view = getLayoutInflater().inflate(R.layout.category_row, null);
                 TextView categoryName = view.findViewById(R.id.categoryTxt);
-                Category cat = data.get(i);
+                final Category cat = data.get(i);
                 categoryName.setText(cat.getName());
-                return view;
+                categoryName.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        exerciseFrag.showCategory(cat.getId());
+                    }
+                });
             }
 
             return view;
         }
+
+
     }
 }

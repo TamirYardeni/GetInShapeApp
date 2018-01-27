@@ -1,4 +1,4 @@
-package tmrapps.getinshapeapp.Main.Exercise;
+package tmrapps.getinshapeapp.Main;
 
 import android.content.Context;
 import android.net.Uri;
@@ -13,17 +13,16 @@ import tmrapps.getinshapeapp.R;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ExerciseFragment.OnFragmentInteractionListener} interface
+ * {@link MainUserFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link ExerciseFragment#newInstance} factory method to
+ * Use the {@link MainUserFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ExerciseFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+public class MainUserFragment extends Fragment {
+
     private OnFragmentInteractionListener mListener;
 
-    public ExerciseFragment() {
+    public MainUserFragment() {
         // Required empty public constructor
     }
 
@@ -31,11 +30,13 @@ public class ExerciseFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @return A new instance of fragment Exercise.
+     * @param param1 Parameter 1.
+     * @param param2 Parameter 2.
+     * @return A new instance of fragment MainUserFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ExerciseFragment newInstance() {
-        ExerciseFragment fragment = new ExerciseFragment();
+    public static MainUserFragment newInstance(String param1, String param2) {
+        MainUserFragment fragment = new MainUserFragment();
 
         return fragment;
     }
@@ -43,14 +44,16 @@ public class ExerciseFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       
+        if (getArguments() != null) {
+
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_exercise, container, false);
+        return inflater.inflate(R.layout.fragment_main_user, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
