@@ -1,7 +1,6 @@
 package tmrapps.getinshapeapp.Main;
 
 import android.annotation.SuppressLint;
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.FragmentTransaction;
@@ -13,15 +12,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.Window;
-import android.widget.DatePicker;
-import android.widget.EditText;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Calendar;
 
-import tmrapps.getinshapeapp.Main.Exercise.Exercise;
+import tmrapps.getinshapeapp.Main.Exercise.ExerciseAdminFragment;
+import tmrapps.getinshapeapp.Main.Exercise.ExerciseFragment;
+import tmrapps.getinshapeapp.Main.Motivation.MotivationAdminFragment;
 import tmrapps.getinshapeapp.Main.Motivation.MotivationFragment;
 import tmrapps.getinshapeapp.Main.PersonalArea.PersonalAreaFragment;
 import tmrapps.getinshapeapp.R;
@@ -29,18 +28,16 @@ import tmrapps.getinshapeapp.User.AuthActivity;
 import tmrapps.getinshapeapp.User.AuthFragment;
 import tmrapps.getinshapeapp.User.RoleType;
 
-public class MainActivity extends AppCompatActivity implements PersonalAreaFragment.OnFragmentInteractionListener, Exercise.OnFragmentInteractionListener, MotivationFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements PersonalAreaFragment.OnFragmentInteractionListener, ExerciseFragment.OnFragmentInteractionListener, MotivationFragment.OnFragmentInteractionListener, MotivationAdminFragment.OnFragmentInteractionListener, ExerciseAdminFragment.OnFragmentInteractionListener {
 
     private ActionBar actionBar;
     private RoleType role;
-    DatePickerDialog datePickerDialog;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_ACTION_BAR);
         setContentView(R.layout.activity_main);
-        role = RoleType.USER;
+        role = RoleType.ADMIN;
         setupTabs(role);
     }
 
@@ -64,8 +61,8 @@ public class MainActivity extends AppCompatActivity implements PersonalAreaFragm
                     .newTab()
                     .setText("תרגילים")
                     //.setIcon(R.drawable.ic_mentions)
-                    .setTabListener(new SupportFragmentTabListener<Exercise>(R.id.mainContent, this,
-                            "second", Exercise.class));
+                    .setTabListener(new SupportFragmentTabListener<ExerciseFragment>(R.id.mainContent, this,
+                            "second", ExerciseFragment.class));
             actionBar.addTab(tab2);
 
             ActionBar.Tab tab3 = actionBar
@@ -80,8 +77,8 @@ public class MainActivity extends AppCompatActivity implements PersonalAreaFragm
                     .newTab()
                     .setText("תרגילים")
                     //.setIcon(R.drawable.ic_mentions)
-                    .setTabListener(new SupportFragmentTabListener<Exercise>(R.id.mainContent, this,
-                            "first", Exercise.class));
+                    .setTabListener(new SupportFragmentTabListener<ExerciseAdminFragment>(R.id.mainContent, this,
+                            "first", ExerciseAdminFragment.class));
             actionBar.addTab(tab1);
 
             ActionBar.Tab tab2 = actionBar
@@ -121,7 +118,6 @@ public class MainActivity extends AppCompatActivity implements PersonalAreaFragm
     public void onFragmentInteraction(Uri uri) {
 
     }
-
 
     /**
      * After connecting with google auth and saving the user to firebase
