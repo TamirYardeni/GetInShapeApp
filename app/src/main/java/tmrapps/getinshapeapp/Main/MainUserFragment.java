@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import tmrapps.getinshapeapp.R;
 
@@ -53,14 +54,39 @@ public class MainUserFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main_user, container, false);
-    }
+        View view = inflater.inflate(R.layout.fragment_main_user, container, false);
+        Button personalAreaBtn = (Button) view.findViewById(R.id.personalAreaBtn);
+        Button exerciseBtn = (Button) view.findViewById(R.id.exerciseBtn);
+        Button motivationBtn = (Button) view.findViewById(R.id.motivationBtn);
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+        personalAreaBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mListener != null){
+                    mListener.onShowPersonalArea();
+                }
+            }
+        });
+
+        exerciseBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mListener != null){
+                    mListener.onShowExercise();
+                }
+            }
+        });
+
+        motivationBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mListener != null){
+                    mListener.onShowMotivation();
+                }
+            }
+        });
+        
+        return view;
     }
 
     @Override
@@ -91,7 +117,14 @@ public class MainUserFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+
+        // Note for the main activity that the personal area button was clicked
+        void onShowPersonalArea();
+
+        // Note for the main activity that the exercise button was clicked
+        void onShowExercise();
+
+        // Note for the main activity that the motivation button was clicked
+        void onShowMotivation();
     }
 }

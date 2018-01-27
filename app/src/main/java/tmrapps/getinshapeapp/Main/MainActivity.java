@@ -6,27 +6,19 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Window;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-import tmrapps.getinshapeapp.Category.CategoryFragment;
 import tmrapps.getinshapeapp.Exercise.ExerciseActivity;
-import tmrapps.getinshapeapp.Main.ExerciseArea.ExerciseAdminFragment;
-import tmrapps.getinshapeapp.Main.ExerciseArea.ExerciseFragment;
-import tmrapps.getinshapeapp.Main.Motivation.MotivationAdminFragment;
-import tmrapps.getinshapeapp.Main.Motivation.MotivationFragment;
-import tmrapps.getinshapeapp.Main.PersonalArea.PersonalAreaFragment;
+import tmrapps.getinshapeapp.Motivation.MotivationActivity;
+import tmrapps.getinshapeapp.PersonalArea.PersonalAreaActivity;
 import tmrapps.getinshapeapp.R;
 import tmrapps.getinshapeapp.User.AuthActivity;
 import tmrapps.getinshapeapp.User.RoleType;
@@ -105,6 +97,32 @@ public class MainActivity extends AppCompatActivity implements MainAdminFragment
         Intent intent = new Intent(this, AuthActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public void onShowPersonalArea() {
+        moveToNewActivity(RoleType.USER, PersonalAreaActivity.class);
+    }
+
+    @Override
+    public void onShowExercise() {
+        moveToNewActivity(RoleType.USER, ExerciseActivity.class);
+    }
+
+    @Override
+    public void onShowMotivation() {
+        moveToNewActivity(RoleType.USER, MotivationActivity.class);
+    }
+
+    private void moveToNewActivity(RoleType permissions, Class activityClass){
+        if (this.role == permissions) {
+            android.support.v4.app.FragmentTransaction tran = getSupportFragmentManager().beginTransaction();
+            tran.hide(mainFrag);
+            tran.commit();
+
+            Intent intent = new Intent(this, activityClass);
+            startActivity(intent);
+        }
     }
 
 //    @Override

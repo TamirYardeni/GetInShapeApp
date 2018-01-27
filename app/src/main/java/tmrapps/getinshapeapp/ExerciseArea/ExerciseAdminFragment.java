@@ -1,13 +1,10 @@
-package tmrapps.getinshapeapp.Main.ExerciseArea;
+package tmrapps.getinshapeapp.ExerciseArea;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +15,6 @@ import android.widget.TextView;
 import java.util.LinkedList;
 import java.util.List;
 
-import tmrapps.getinshapeapp.Category.CategoryFragment;
 import tmrapps.getinshapeapp.Category.Model.AddCategoryDialog;
 import tmrapps.getinshapeapp.Category.Model.Category;
 import tmrapps.getinshapeapp.R;

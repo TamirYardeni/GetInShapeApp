@@ -1,4 +1,4 @@
-package tmrapps.getinshapeapp.Main.Motivation.Model;
+package tmrapps.getinshapeapp.Motivation.Model;
 
 import android.graphics.Bitmap;
 import android.util.Log;
