@@ -19,7 +19,7 @@
         <activity android:name=".Main.MainActivity" />
         <activity android:name=".Exercise.ExerciseActivity" />
         <activity android:name=".Motivation.MotivationActivity" />
-        <activity android:name=".PersonalArea.PerrsonalAreaActivity"></activity>
+        <activity android:name=".PersonalArea.PersonalAreaActivity"></activity>
     </application>
 
 </manifest>

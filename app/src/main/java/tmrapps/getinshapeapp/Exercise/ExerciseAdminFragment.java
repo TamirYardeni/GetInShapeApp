@@ -98,7 +98,8 @@ public class ExerciseAdminFragment extends Fragment {
 
         if (!isExist) {
             this.categoriesAdapter.data.add(new Category(categoryName));
-            this.categoriesAdapter.notifyItemInserted(this.categoriesAdapter.data.size()-1);
+            //TODO: notifyItemInserted
+            //this.categoriesAdapter.notifyItemInserted(this.categoriesAdapter.data.size()-1);
         }
     }
 
