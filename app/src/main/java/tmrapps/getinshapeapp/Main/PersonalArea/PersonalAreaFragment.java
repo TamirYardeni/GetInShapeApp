@@ -11,12 +11,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import tmrapps.getinshapeapp.Main.MainActivity;
+import tmrapps.getinshapeapp.Main.MultiSelectionSpinner;
 import tmrapps.getinshapeapp.R;
 
 /**
@@ -62,7 +66,7 @@ public class PersonalAreaFragment extends Fragment {
         // Inflate the layout for this fragment_personal_area
         View view = inflater.inflate(R.layout.fragment_personal_area, container, false);
 
-        Button signBtn = (Button) view.findViewById(R.id.btnTime);
+        Button signBtn = (Button) view.findViewById(R.id.btnEndDate);
         signBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,12 +74,25 @@ public class PersonalAreaFragment extends Fragment {
             }
         });
 
+        MultiSelectionSpinner spinner=(MultiSelectionSpinner)view.findViewById(R.id.input1);
+
+        List<String> list = new ArrayList<String>();
+        list.add("ראשון");
+        list.add("שני");
+        list.add("שלישי");
+        list.add("רביעי");
+        list.add("חמישי");
+        list.add("שישי");
+        list.add("שבת");
+
+        spinner.setItems(list);
+
         return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onTimePickerClick(View v) {
-            final TextView textView = (TextView) getView().findViewById(R.id.time);
+            final TextView textView = (TextView) getView().findViewById(R.id.txtEndDate);
 
             final Calendar c = Calendar.getInstance();
             int mYear = c.get(Calendar.YEAR); // current year
