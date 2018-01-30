@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import tmrapps.getinshapeapp.R;
 
@@ -55,14 +56,29 @@ public class MainAdminFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main_admin, container, false);
-    }
+        View view = inflater.inflate(R.layout.fragment_main_admin, container, false);
+        Button exerciseBtn = (Button) view.findViewById(R.id.exerciseBtn);
+        Button motivationBtn = (Button) view.findViewById(R.id.motivationBtn);
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+        exerciseBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mListener != null){
+                    mListener.onShowExerciseAdmin();
+                }
+            }
+        });
+
+        motivationBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mListener != null){
+                    mListener.onShowMotivationAdmin();
+                }
+            }
+        });
+
+        return view;
     }
 
     @Override
@@ -93,7 +109,10 @@ public class MainAdminFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        // Note for the main activity that the manage exercises button was clicked
+        void onShowExerciseAdmin();
+
+        // Note for the main activity that the manage motivation button was clicked
+        void onShowMotivationAdmin();
     }
 }

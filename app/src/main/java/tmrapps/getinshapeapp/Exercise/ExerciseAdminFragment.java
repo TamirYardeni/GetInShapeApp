@@ -1,4 +1,4 @@
-package tmrapps.getinshapeapp.ExerciseArea;
+package tmrapps.getinshapeapp.Exercise;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -31,6 +31,8 @@ public class ExerciseAdminFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    private ExerciseAdminFragment.ExerciseAdminAdapter categoriesAdapter;
+
     public ExerciseAdminFragment() {
         // Required empty public constructor
     }
@@ -60,21 +62,44 @@ public class ExerciseAdminFragment extends Fragment {
         View exerciseView = inflater.inflate(R.layout.fragment_exercise_admin, container, false);
 
         ListView list = exerciseView.findViewById(R.id.categoryListAdmin);
-        ExerciseAdminFragment.ExerciseAdminAdapter myAdapter = new ExerciseAdminFragment.ExerciseAdminAdapter(this);
-        list.setAdapter(myAdapter);
+        categoriesAdapter = new ExerciseAdminFragment.ExerciseAdminAdapter(this);
+        list.setAdapter(categoriesAdapter);
 
         FloatingActionButton addCategoryBtn = exerciseView.findViewById(R.id.addCategoryBtn);
         addCategoryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogFragment newFragment = new
+                AddCategoryDialog newFragment = new
                         AddCategoryDialog();
+                newFragment.setHandlerListener(new AddCategoryDialog.OnCategoryDialogInteractionListener() {
+                    @Override
+                    public void onCategoryAdded(String categoryName) {
+                        addCategory(categoryName);
+                    }
+                });
+
                 newFragment.show(ExerciseAdminFragment.this.getActivity().getSupportFragmentManager(),
                         "TAG");
             }
         });
+
         // Inflate the layout for this fragment
         return exerciseView;
+    }
+
+    private void addCategory(String categoryName) {
+        boolean isExist = false;
+        for (int counter = 0; counter < this.categoriesAdapter.data.size(); counter++) {
+            if (this.categoriesAdapter.data.get(counter).getName().equals(categoryName)) {
+                isExist = true;
+                break;
+            }
+        }
+
+        if (!isExist) {
+            this.categoriesAdapter.data.add(new Category(categoryName));
+            this.categoriesAdapter.notifyItemInserted(this.categoriesAdapter.data.size()-1);
+        }
     }
 
     public void showCategory(String categoryId) {
@@ -159,7 +184,5 @@ public class ExerciseAdminFragment extends Fragment {
 
             return view;
         }
-
-
     }
 }

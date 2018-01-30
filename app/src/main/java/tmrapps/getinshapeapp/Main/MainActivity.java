@@ -1,9 +1,6 @@
 package tmrapps.getinshapeapp.Main;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
@@ -84,11 +81,6 @@ public class MainActivity extends AppCompatActivity implements MainAdminFragment
         updateUI();
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
-
     /**
      * After doing logout we go back to auth activity
      */
@@ -121,8 +113,19 @@ public class MainActivity extends AppCompatActivity implements MainAdminFragment
             tran.commit();
 
             Intent intent = new Intent(this, activityClass);
+            intent.putExtra("ROLE_TYPE", this.role.name());
             startActivity(intent);
         }
+    }
+
+    @Override
+    public void onShowExerciseAdmin() {
+        moveToNewActivity(RoleType.ADMIN, ExerciseActivity.class);
+    }
+
+    @Override
+    public void onShowMotivationAdmin() {
+        moveToNewActivity(RoleType.ADMIN, MotivationActivity.class);
     }
 
 //    @Override

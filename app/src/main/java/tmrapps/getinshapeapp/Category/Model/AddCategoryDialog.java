@@ -2,6 +2,7 @@ package tmrapps.getinshapeapp.Category.Model;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,20 +19,27 @@ import tmrapps.getinshapeapp.R;
  */
 
 public class AddCategoryDialog extends DialogFragment{
+    private OnCategoryDialogInteractionListener mListener;
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View v = inflater.inflate(R.layout.add_category_layout, null);
+
         final EditText categoryTxt = v.findViewById(R.id.categoryTxt);
         builder.setView(v);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 String msg = getString(R.string.add_category_err);
-                if (!categoryTxt.getText().toString().equals("")) {
+                String catName = categoryTxt.getText().toString();
+                if (!catName.equals("")) {
                     msg = getString(R.string.add_category_ok);
                 }
                 Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
+
+                if(mListener!=null)
+                    mListener.onCategoryAdded(catName);
             }
         });
         builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
@@ -43,8 +51,20 @@ public class AddCategoryDialog extends DialogFragment{
         return builder.create();
     }
 
+    public void setHandlerListener(OnCategoryDialogInteractionListener listener)
+    {
+        mListener = listener;
+    }
+
+
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
     public interface OnCategoryDialogInteractionListener {
-        // TODO: Update argument type and name
         void onCategoryAdded(String categoryName);
     }
 }

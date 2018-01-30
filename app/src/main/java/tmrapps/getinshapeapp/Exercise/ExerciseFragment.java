@@ -1,4 +1,4 @@
-package tmrapps.getinshapeapp.ExerciseArea;
+package tmrapps.getinshapeapp.Exercise;
 
 import android.content.Context;
 import android.net.Uri;
@@ -43,7 +43,6 @@ public class ExerciseFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       
     }
 
     @Override
@@ -88,7 +87,6 @@ public class ExerciseFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }
