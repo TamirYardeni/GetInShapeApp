@@ -13,8 +13,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 
-import tmrapps.getinshapeapp.Main.Motivation.Model.Motivation;
-import tmrapps.getinshapeapp.Main.Motivation.Model.MotivationRepository;
+import tmrapps.getinshapeapp.Motivation.Model.MotivationRepository;
 
 /**
  * Created by tamir on 1/19/2018.

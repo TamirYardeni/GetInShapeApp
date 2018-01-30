@@ -1,6 +1,7 @@
-package tmrapps.getinshapeapp.Main.PersonalArea;
+package tmrapps.getinshapeapp.PersonalArea;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 
 import java.util.ArrayList;
@@ -36,6 +38,8 @@ public class PersonalAreaFragment extends Fragment {
     // the fragment_personal_area initialization parameters, e.g. ARG_ITEM_NUMBER
     private OnFragmentInteractionListener mListener;
     DatePickerDialog datePickerDialog;
+    TimePickerDialog timePickerDialog;
+
 
     public PersonalAreaFragment() {
         // Required empty public constructor
@@ -66,8 +70,16 @@ public class PersonalAreaFragment extends Fragment {
         // Inflate the layout for this fragment_personal_area
         View view = inflater.inflate(R.layout.fragment_personal_area, container, false);
 
-        Button signBtn = (Button) view.findViewById(R.id.btnEndDate);
-        signBtn.setOnClickListener(new View.OnClickListener() {
+        Button dateBtn = (Button) view.findViewById(R.id.btnEndDate);
+        dateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onDatePickerClick(v);
+            }
+        });
+
+        Button timeBtn = (Button) view.findViewById(R.id.btnTime);
+        timeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onTimePickerClick(v);
@@ -92,27 +104,51 @@ public class PersonalAreaFragment extends Fragment {
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onTimePickerClick(View v) {
-            final TextView textView = (TextView) getView().findViewById(R.id.txtEndDate);
+            final TextView textView = (TextView) getView().findViewById(R.id.txtTime);
 
             final Calendar c = Calendar.getInstance();
-            int mYear = c.get(Calendar.YEAR); // current year
-            int mMonth = c.get(Calendar.MONTH); // current month
-            int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
+            int mHour = c.get(Calendar.HOUR); // current hour
+            int mMinute = c.get(Calendar.MINUTE); // current minute
 
             // date picker dialog
-            datePickerDialog = new DatePickerDialog(getActivity(),
-                    new DatePickerDialog.OnDateSetListener() {
+            timePickerDialog = new TimePickerDialog(getActivity(),
+                    new TimePickerDialog.OnTimeSetListener() {
 
                         @Override
-                        public void onDateSet(DatePicker view, int year,
-                                              int monthOfYear, int dayOfMonth) {
+                        public void onTimeSet(TimePicker view, int hour,
+                                              int minute) {
                             // set day of month , month and year value in the edit text
-                            textView.setText(dayOfMonth + "/"
-                                    + (monthOfYear + 1) + "/" + year);
+                            textView.setText(hour + ":" +
+                            minute);
 
                         }}
-                    , mYear, mMonth, mDay);
-            datePickerDialog.show();
+                    , mHour, mMinute, true);
+
+        timePickerDialog.show();
+    }
+
+    public void onDatePickerClick(View v) {
+        final TextView textView = (TextView) getView().findViewById(R.id.txtEndDate);
+
+        final Calendar c = Calendar.getInstance();
+        int mYear = c.get(Calendar.YEAR); // current year
+        int mMonth = c.get(Calendar.MONTH); // current month
+        int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
+
+        // date picker dialog
+        datePickerDialog = new DatePickerDialog(getActivity(),
+                new DatePickerDialog.OnDateSetListener() {
+
+                    @Override
+                    public void onDateSet(DatePicker view, int year,
+                                          int monthOfYear, int dayOfMonth) {
+                        // set day of month , month and year value in the edit text
+                        textView.setText(dayOfMonth + "/"
+                                + (monthOfYear + 1) + "/" + year);
+
+                    }}
+                , mYear, mMonth, mDay);
+        datePickerDialog.show();
     }
 
     @Override

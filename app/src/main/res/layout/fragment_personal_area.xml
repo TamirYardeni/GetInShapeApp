@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
     android:textDirection="rtl"
-    tools:context="tmrapps.getinshapeapp.Main.PersonalArea.PersonalAreaFragment">
+    tools:context=".PersonalArea.PersonalAreaFragment">
 
     <!-- TODO: Update blfragment_homement layout -->
     <LinearLayout

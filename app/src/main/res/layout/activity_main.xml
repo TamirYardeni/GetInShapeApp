@@ -9,12 +9,6 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent">
     </android.support.design.widget.AppBarLayout>
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tabLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:tabMode="scrollable">
-    </android.support.design.widget.TabLayout>
     <FrameLayout
         android:id="@+id/mainContent"
         android:layout_width="match_parent"

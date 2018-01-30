@@ -127,7 +127,7 @@ public class AuthActivity extends AppCompatActivity implements AuthFragment.OnFr
     /**
      * After connecting with google auth and saving the user to firebase
      * we want to start the main activity of the app.
-     * For that we hide the auth fragment and starts PersonalAreaActivity.
+     * For that we hide the auth fragment and starts MainActivity.
      * @param user
      */
     private void updateUI(FirebaseUser user) {
@@ -136,9 +136,6 @@ public class AuthActivity extends AppCompatActivity implements AuthFragment.OnFr
         tran.commit();
 
         Intent intent = new Intent(this, MainActivity.class);
-        /*EditText editText = (EditText) findViewById(R.id.editText);
-        String message = editText.getText().toString();
-        intent.putExtra(EXTRA_MESSAGE, message);*/
         startActivity(intent);
     }
 }

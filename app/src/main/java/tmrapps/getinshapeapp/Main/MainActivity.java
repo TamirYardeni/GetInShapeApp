@@ -3,93 +3,60 @@ package tmrapps.getinshapeapp.Main;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.Window;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
-import java.util.Calendar;
-
-import tmrapps.getinshapeapp.Main.Exercise.ExerciseAdminFragment;
-import tmrapps.getinshapeapp.Main.Exercise.ExerciseFragment;
-import tmrapps.getinshapeapp.Main.Motivation.MotivationAdminFragment;
-import tmrapps.getinshapeapp.Main.Motivation.MotivationFragment;
-import tmrapps.getinshapeapp.Main.PersonalArea.PersonalAreaFragment;
+import tmrapps.getinshapeapp.Exercise.ExerciseActivity;
+import tmrapps.getinshapeapp.Motivation.MotivationActivity;
+import tmrapps.getinshapeapp.PersonalArea.PersonalAreaActivity;
 import tmrapps.getinshapeapp.R;
 import tmrapps.getinshapeapp.User.AuthActivity;
-import tmrapps.getinshapeapp.User.AuthFragment;
 import tmrapps.getinshapeapp.User.RoleType;
 
-public class MainActivity extends AppCompatActivity implements PersonalAreaFragment.OnFragmentInteractionListener, ExerciseFragment.OnFragmentInteractionListener, MotivationFragment.OnFragmentInteractionListener, MotivationAdminFragment.OnFragmentInteractionListener, ExerciseAdminFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements MainAdminFragment.OnFragmentInteractionListener, MainUserFragment.OnFragmentInteractionListener {
 
-    private ActionBar actionBar;
+    /*private final String tagEx = "EXERCISE";
+
+    private ActionBar actionBar;*/
     private RoleType role;
+    private Fragment mainFrag;
+    /*private ExerciseAdminFragment exerciseAdminFragment;
+    private MotivationFragment motivationFragment;*/
+    /*private MyTabsListener exerciseFragmentTabListener;*/
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_ACTION_BAR);
         setContentView(R.layout.activity_main);
-        role = RoleType.ADMIN;
-        setupTabs(role);
+        role = RoleType.USER;
+        openMainFrag(role);
     }
 
-    private void setupTabs(RoleType role) {
-        actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        actionBar.setDisplayShowTitleEnabled(true);
+    /**
+     * Open the suitable fragment according to the permissions of the user (regular user or admin)
+     * @param role
+     */
+    private void openMainFrag(RoleType role) {
+        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+        android.support.v4.app.FragmentTransaction fragmentTransaction =
+                fragmentManager.beginTransaction();
 
         if (role == RoleType.USER) {
-            ActionBar.Tab tab1 = actionBar
-                    .newTab()
-                    .setText("איזור אישי")
-                    // .setIcon(R.drawable.ic_home)
-                    .setTabListener(new SupportFragmentTabListener<PersonalAreaFragment>(R.id.mainContent, this,
-                            "first", PersonalAreaFragment.class));
-
-            actionBar.addTab(tab1);
-            actionBar.selectTab(tab1);
-
-            ActionBar.Tab tab2 = actionBar
-                    .newTab()
-                    .setText("תרגילים")
-                    //.setIcon(R.drawable.ic_mentions)
-                    .setTabListener(new SupportFragmentTabListener<ExerciseFragment>(R.id.mainContent, this,
-                            "second", ExerciseFragment.class));
-            actionBar.addTab(tab2);
-
-            ActionBar.Tab tab3 = actionBar
-                    .newTab()
-                    .setText("מוטיבציה")
-                    //.setIcon(R.drawable.ic_mentions)
-                    .setTabListener(new SupportFragmentTabListener<MotivationFragment>(R.id.mainContent, this,
-                            "third", MotivationFragment.class));
-            actionBar.addTab(tab3);
+            mainFrag = new MainUserFragment();
         } else if (role == RoleType.ADMIN) {
-            ActionBar.Tab tab1 = actionBar
-                    .newTab()
-                    .setText("תרגילים")
-                    //.setIcon(R.drawable.ic_mentions)
-                    .setTabListener(new SupportFragmentTabListener<ExerciseAdminFragment>(R.id.mainContent, this,
-                            "first", ExerciseAdminFragment.class));
-            actionBar.addTab(tab1);
-
-            ActionBar.Tab tab2 = actionBar
-                    .newTab()
-                    .setText("מוטיבציה")
-                    //.setIcon(R.drawable.ic_mentions)
-                    .setTabListener(new SupportFragmentTabListener<MotivationFragment>(R.id.mainContent, this,
-                            "second", MotivationFragment.class));
-            actionBar.addTab(tab2);
+            mainFrag = new MainAdminFragment();
         }
 
+        fragmentTransaction.add(R.id.mainContent, mainFrag);
+        fragmentTransaction.commit();
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -114,21 +81,68 @@ public class MainActivity extends AppCompatActivity implements PersonalAreaFragm
         updateUI();
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
-
     /**
-     * After connecting with google auth and saving the user to firebase
-     * we want to start the main activity of the app.
-     * For that we hide the auth fragment and starts PersonalAreaActivity.
+     * After doing logout we go back to auth activity
      */
     @SuppressLint("RestrictedApi")
     private void updateUI() {
-        actionBar.closeOptionsMenu();
         Intent intent = new Intent(this, AuthActivity.class);
         startActivity(intent);
         finish();
     }
+
+    @Override
+    public void onShowPersonalArea() {
+        moveToNewActivity(RoleType.USER, PersonalAreaActivity.class);
+    }
+
+    @Override
+    public void onShowExercise() {
+        moveToNewActivity(RoleType.USER, ExerciseActivity.class);
+    }
+
+    @Override
+    public void onShowMotivation() {
+        moveToNewActivity(RoleType.USER, MotivationActivity.class);
+    }
+
+    private void moveToNewActivity(RoleType permissions, Class activityClass){
+        if (this.role == permissions) {
+            android.support.v4.app.FragmentTransaction tran = getSupportFragmentManager().beginTransaction();
+            tran.hide(mainFrag);
+            tran.commit();
+
+            Intent intent = new Intent(this, activityClass);
+            intent.putExtra("ROLE_TYPE", this.role.name());
+            startActivity(intent);
+        }
+    }
+
+    @Override
+    public void onShowExerciseAdmin() {
+        moveToNewActivity(RoleType.ADMIN, ExerciseActivity.class);
+    }
+
+    @Override
+    public void onShowMotivationAdmin() {
+        moveToNewActivity(RoleType.ADMIN, MotivationActivity.class);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        this.openMainFrag(this.role);
+    }
+
+    //    @Override
+//    public void onShowCategory(String categoryId) {
+//       /* android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+//        android.support.v4.app.FragmentTransaction fragmentTransaction =
+//                fragmentManager.beginTransaction();
+//
+//        fragmentTransaction.remove(exerciseAdminFragment);
+//        CategoryFragment fragment = new CategoryFragment();
+//        fragmentTransaction.add(R.id.mainContent, fragment);
+//        fragmentTransaction.commit();*/
+//    }
 }

@@ -8,4 +8,9 @@
     <string name="log_out_txt">התנתק</string>
     <string name="add_category_err">שגיאה בהוספת קטגוריה</string>
     <string name="add_category_ok">קטגוריה הוספה בהצלחה</string>
+    <string name="manageExercise">ניהול תרגילים</string>
+    <string name="manageMotivation">ניהול מוטיבציה</string>
+    <string name="personalArea">איזור אישי</string>
+    <string name="exercise">תרגילים</string>
+    <string name="motivation">מוטיבציה</string>
 </resources>

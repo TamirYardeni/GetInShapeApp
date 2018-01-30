@@ -1,13 +1,8 @@
-package tmrapps.getinshapeapp.Main.Motivation.Model;
+package tmrapps.getinshapeapp.Motivation.Model;
 
-import android.graphics.Bitmap;
-import android.util.Log;
-import android.webkit.URLUtil;
 import android.widget.ImageView;
 
 import java.io.Serializable;
-
-import tmrapps.getinshapeapp.Main.FirebaseModel;
 
 /**
  * Created by tamir on 1/17/2018.
