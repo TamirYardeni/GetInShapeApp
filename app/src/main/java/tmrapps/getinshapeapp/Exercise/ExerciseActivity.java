@@ -5,12 +5,13 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import tmrapps.getinshapeapp.Category.CategoryFragment;
 import tmrapps.getinshapeapp.Category.Model.AddCategoryDialog;
 import tmrapps.getinshapeapp.R;
 import tmrapps.getinshapeapp.User.RoleType;
 
 public class ExerciseActivity extends AppCompatActivity implements ExerciseFragment.OnFragmentInteractionListener,
-        ExerciseAdminFragment.OnFragmentInteractionListener, AddCategoryDialog.OnCategoryDialogInteractionListener{
+        ExerciseAdminFragment.OnFragmentInteractionListener, AddCategoryDialog.OnCategoryDialogInteractionListener, CategoryFragment.OnFragmentInteractionListener{
     private RoleType role;
 
     private Fragment exerciseFrag;
@@ -26,11 +27,13 @@ public class ExerciseActivity extends AppCompatActivity implements ExerciseFragm
         android.support.v4.app.FragmentTransaction fragmentTransaction =
                 fragmentManager.beginTransaction();
 
-        if (this.role == RoleType.USER) {
+        /*if (this.role == RoleType.USER) {
             this.exerciseFrag = new ExerciseFragment();
         } else if (role == RoleType.ADMIN) {
             this.exerciseFrag = new ExerciseAdminFragment();
-        }
+        }*/
+
+        this.exerciseFrag = new CategoryFragment();
 
         fragmentTransaction.add(R.id.exerciseContent, this.exerciseFrag);
         fragmentTransaction.commit();
