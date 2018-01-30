@@ -128,7 +128,13 @@ public class MainActivity extends AppCompatActivity implements MainAdminFragment
         moveToNewActivity(RoleType.ADMIN, MotivationActivity.class);
     }
 
-//    @Override
+    @Override
+    protected void onResume() {
+        super.onResume();
+        this.openMainFrag(this.role);
+    }
+
+    //    @Override
 //    public void onShowCategory(String categoryId) {
 //       /* android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
 //        android.support.v4.app.FragmentTransaction fragmentTransaction =
