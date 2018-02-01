@@ -21,15 +21,9 @@ import tmrapps.getinshapeapp.User.AuthActivity;
 import tmrapps.getinshapeapp.User.RoleType;
 
 public class MainActivity extends AppCompatActivity implements MainAdminFragment.OnFragmentInteractionListener, MainUserFragment.OnFragmentInteractionListener {
-
-    /*private final String tagEx = "EXERCISE";
-
-    private ActionBar actionBar;*/
+    
     private RoleType role;
     private Fragment mainFrag;
-    /*private ExerciseAdminFragment exerciseAdminFragment;
-    private MotivationFragment motivationFragment;*/
-    /*private MyTabsListener exerciseFragmentTabListener;*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

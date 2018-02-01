@@ -2,7 +2,9 @@ package tmrapps.getinshapeapp.Exercise;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,7 @@ import java.util.LinkedList;
 import java.util.List;
 import tmrapps.getinshapeapp.Exercise.Model.Exercise;
 import tmrapps.getinshapeapp.R;
+import tmrapps.getinshapeapp.User.RoleType;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,6 +27,11 @@ import tmrapps.getinshapeapp.R;
  * create an instance of this fragment.
  */
 public class ExerciseFragment extends Fragment {
+
+    private static final String ROLE_TYPE= "roleType";
+
+    private RoleType role;
+
     private ExerciseFragment.OnFragmentInteractionListener mListener;
 
     private ExerciseFragment.ExerciseAdapter exercisesAdapter;
@@ -34,15 +42,21 @@ public class ExerciseFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static ExerciseFragment newInstance() {
+    public static ExerciseFragment newInstance(String param1) {
         ExerciseFragment fragment = new ExerciseFragment();
-
+        Bundle args = new Bundle();
+        args.putString(ROLE_TYPE, param1);
+        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            String roleName = getArguments().getString(ROLE_TYPE);
+            role = RoleType.valueOf(roleName);
+        }
     }
 
     @Override
@@ -54,7 +68,18 @@ public class ExerciseFragment extends Fragment {
         exercisesAdapter = new ExerciseFragment.ExerciseAdapter(this);
         list.setAdapter(exercisesAdapter);
 
-        // Inflate the layout for this fragment
+        FloatingActionButton addExerciseBtn = exerciseListView.findViewById(R.id.addExerciseBtn);
+        if (role == RoleType.USER) {
+            addExerciseBtn.hide();
+        } else if (role == RoleType.ADMIN) {
+            addExerciseBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.onShowCreateExercise("1");
+                }
+            });
+        }
+
         return exerciseListView;
     }
 
@@ -82,6 +107,7 @@ public class ExerciseFragment extends Fragment {
 
     public interface OnFragmentInteractionListener {
         void onShowExerciseDetails(String id);
+        void onShowCreateExercise(String categoryId);
     }
 
     class ExerciseAdapter extends BaseAdapter {

@@ -13,4 +13,10 @@
     <string name="personalArea">איזור אישי</string>
     <string name="exercise">תרגילים</string>
     <string name="motivation">מוטיבציה</string>
+    <string name="categoryHeader">קטגוריה:</string>
+    <string name="exerciseNameHeader">שם התרגיל</string>
+    <string name="exerciseDataHeader">תוכן התרגיל</string>
+    <string name="exerciseNoteHeader">הערות</string>
+    <string name="exerciseImageHeader">בחר תמונה להמחשה</string>
+    <string name="exerciseAddBtn">הוסף תרגיל</string>
 </resources>
