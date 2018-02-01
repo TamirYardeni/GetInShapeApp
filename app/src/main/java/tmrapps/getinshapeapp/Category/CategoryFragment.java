@@ -165,18 +165,25 @@ public class CategoryFragment extends Fragment {
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
+
+            Category cat = data.get(i);
+
             if (view == null) {
                 view = getLayoutInflater().inflate(R.layout.category_row, null);
+
                 TextView categoryName = view.findViewById(R.id.categoryTxt);
-                final Category cat = data.get(i);
-                categoryName.setText(cat.getName());
                 categoryName.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        exerciseFrag.showCategory(cat.getId());
+                        int index =(int)view.getTag();
+                        exerciseFrag.showCategory(data.get(index).getId());
                     }
                 });
             }
+
+            TextView categoryName = view.findViewById(R.id.categoryTxt);
+            categoryName.setText(cat.getName());
+            categoryName.setTag(i);
 
             return view;
         }

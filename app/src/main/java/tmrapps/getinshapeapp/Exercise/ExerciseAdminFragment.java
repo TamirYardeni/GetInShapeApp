@@ -71,12 +71,12 @@ public class ExerciseAdminFragment extends Fragment {
             public void onClick(View view) {
                 AddCategoryDialog newFragment = new
                         AddCategoryDialog();
-                newFragment.setHandlerListener(new AddCategoryDialog.OnCategoryDialogInteractionListener() {
+                /*newFragment.setHandlerListener(new AddCategoryDialog.OnCategoryDialogInteractionListener() {
                     @Override
                     public void onCategoryAdded(String categoryName) {
                         addCategory(categoryName);
                     }
-                });
+                });*/
 
                 newFragment.show(ExerciseAdminFragment.this.getActivity().getSupportFragmentManager(),
                         "TAG");
