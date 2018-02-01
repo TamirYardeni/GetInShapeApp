@@ -7,7 +7,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import tmrapps.getinshapeapp.Exercise.Model.Exercise;
 import tmrapps.getinshapeapp.R;
 
 /**
@@ -50,8 +52,20 @@ public class ExerciseDetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_exercise_details, container, false);
+        View view = inflater.inflate(R.layout.fragment_exercise_details, container, false);
+
+        TextView exerciseName = (TextView)view.findViewById(R.id.exerciseNameTxt);
+        TextView exerciseData = (TextView)view.findViewById(R.id.exerciseDataTxt);
+        TextView exerciseNotes = (TextView)view.findViewById(R.id.exerciseNotesTxt);
+        //view.findViewById(R.id.exerciseImage);
+
+        Exercise exercise = getExerciseDetails();
+
+        exerciseName.setText(exercise.getName());
+        exerciseData.setText(exercise.getData());
+        exerciseNotes.setText(exercise.getNotes());
+
+        return view;
     }
 
     @Override
@@ -71,16 +85,18 @@ public class ExerciseDetailsFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+    public Exercise getExerciseDetails() {
+        Exercise exercise = new Exercise();
+        String name = "כפיפות בטן בישיבה";
+        String data = "1. שב זקוף עם הגב לקיר \n 2.עשה כפיפת בטן \n עלה חזרה עד למעלה";
+        String note = "אל תשכח לנשום";
+        exercise.setName(name);
+        exercise.setData(data);
+        exercise.setNotes(note);
+
+        return exercise;
+    }
+
     public interface OnFragmentInteractionListener {
 
     }
