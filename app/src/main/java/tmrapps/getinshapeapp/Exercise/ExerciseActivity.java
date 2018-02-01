@@ -11,10 +11,12 @@ import tmrapps.getinshapeapp.R;
 import tmrapps.getinshapeapp.User.RoleType;
 
 public class ExerciseActivity extends AppCompatActivity implements ExerciseFragment.OnFragmentInteractionListener,
-        ExerciseAdminFragment.OnFragmentInteractionListener, AddCategoryDialog.OnCategoryDialogInteractionListener, CategoryFragment.OnFragmentInteractionListener{
+        ExerciseAdminFragment.OnFragmentInteractionListener, CategoryFragment.OnFragmentInteractionListener, ExerciseDetailsFragment.OnFragmentInteractionListener{
     private RoleType role;
 
-    private Fragment exerciseFrag;
+    private Fragment categoryFrag;
+    private Fragment exerciseListFrag;
+    private Fragment exerciseDetailsFrag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,33 +29,38 @@ public class ExerciseActivity extends AppCompatActivity implements ExerciseFragm
         android.support.v4.app.FragmentTransaction fragmentTransaction =
                 fragmentManager.beginTransaction();
 
-        /*if (this.role == RoleType.USER) {
-            this.exerciseFrag = new ExerciseFragment();
-        } else if (role == RoleType.ADMIN) {
-            this.exerciseFrag = new ExerciseAdminFragment();
-        }*/
+        this.categoryFrag = new CategoryFragment();
 
-        this.exerciseFrag = new CategoryFragment();
-
-        fragmentTransaction.add(R.id.exerciseContent, this.exerciseFrag);
+        fragmentTransaction.add(R.id.exerciseContent, this.categoryFrag);
         fragmentTransaction.commit();
     }
 
     @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
-
-    @Override
     public void onShowCategory(String categoryId) {
+        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+        android.support.v4.app.FragmentTransaction fragmentTransaction =
+                fragmentManager.beginTransaction();
 
+        this.exerciseListFrag = new ExerciseFragment();
+
+        fragmentTransaction.replace(R.id.exerciseContent, this.exerciseListFrag);
+        fragmentTransaction.addToBackStack(this.categoryFrag.getClass().getName());
+        fragmentTransaction.commit();
     }
 
     @Override
-    public void onCategoryAdded(String categoryName) {
-        System.out.print("aaaa");
-        if (role == RoleType.ADMIN) {
-            //this.exerciseFrag.
-        }
+    public void onShowExerciseDetails(String id) {
+        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+        android.support.v4.app.FragmentTransaction fragmentTransaction =
+                fragmentManager.beginTransaction();
+
+        this.exerciseDetailsFrag = new ExerciseDetailsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("id", id);
+        this.exerciseDetailsFrag.setArguments(bundle);
+
+        fragmentTransaction.replace(R.id.exerciseContent, this.exerciseDetailsFrag);
+        fragmentTransaction.addToBackStack(this.exerciseListFrag.getClass().getName());
+        fragmentTransaction.commit();
     }
 }
