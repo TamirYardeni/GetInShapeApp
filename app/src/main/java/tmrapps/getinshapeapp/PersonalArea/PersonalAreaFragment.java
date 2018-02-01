@@ -2,9 +2,14 @@ package tmrapps.getinshapeapp.PersonalArea;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModel;
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +28,7 @@ import java.util.List;
 
 import tmrapps.getinshapeapp.Main.MainActivity;
 import tmrapps.getinshapeapp.Main.MultiSelectionSpinner;
+import tmrapps.getinshapeapp.PersonalArea.Model.PersonalInformation;
 import tmrapps.getinshapeapp.R;
 
 /**
@@ -39,6 +45,9 @@ public class PersonalAreaFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     DatePickerDialog datePickerDialog;
     TimePickerDialog timePickerDialog;
+
+    PersonalInformation personalInformation = new PersonalInformation();
+    PersonalAreaViewModel personalAreaViewModel;
 
 
     public PersonalAreaFragment() {
@@ -86,6 +95,14 @@ public class PersonalAreaFragment extends Fragment {
             }
         });
 
+        Button saveBtn = (Button) view.findViewById(R.id.btnSave);
+        timeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onSaveBtnClick(v);
+            }
+        });
+
         MultiSelectionSpinner spinner=(MultiSelectionSpinner)view.findViewById(R.id.input1);
 
         List<String> list = new ArrayList<String>();
@@ -102,8 +119,12 @@ public class PersonalAreaFragment extends Fragment {
         return view;
     }
 
+    private void onSaveBtnClick(View v) {
+
+    }
+
     // TODO: Rename method, update argument and hook method into UI event
-    public void onTimePickerClick(View v) {
+    private void onTimePickerClick(View v) {
             final TextView textView = (TextView) getView().findViewById(R.id.txtTime);
 
             final Calendar c = Calendar.getInstance();
@@ -113,7 +134,6 @@ public class PersonalAreaFragment extends Fragment {
             // date picker dialog
             timePickerDialog = new TimePickerDialog(getActivity(),
                     new TimePickerDialog.OnTimeSetListener() {
-
                         @Override
                         public void onTimeSet(TimePicker view, int hour,
                                               int minute) {
@@ -127,7 +147,7 @@ public class PersonalAreaFragment extends Fragment {
         timePickerDialog.show();
     }
 
-    public void onDatePickerClick(View v) {
+    private void onDatePickerClick(View v) {
         final TextView textView = (TextView) getView().findViewById(R.id.txtEndDate);
 
         final Calendar c = Calendar.getInstance();
@@ -160,6 +180,14 @@ public class PersonalAreaFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+
+        personalAreaViewModel = ViewModelProviders.of(this).get(PersonalAreaViewModel.class);
+        personalAreaViewModel.getPersonalInformation("TEst").observe(this, new Observer<PersonalInformation>() {
+            @Override
+            public void onChanged(@Nullable PersonalInformation info) {
+                personalInformation = info;
+            }
+        });
     }
 
     @Override
