@@ -153,8 +153,8 @@ public class MainUserFragment extends Fragment {
         LinearLayout adminLayout = mainView.findViewById(R.id.adminLayout);
         adminLayout.setVisibility(View.VISIBLE);
 
-        Button exerciseBtn = (Button) mainView.findViewById(R.id.exerciseBtn);
-        Button motivationBtn = (Button) mainView.findViewById(R.id.motivationBtn);
+        Button exerciseBtn = (Button) mainView.findViewById(R.id.exerciseAdminBtn);
+        Button motivationBtn = (Button) mainView.findViewById(R.id.motivationAdminBtn);
 
         exerciseBtn.setOnClickListener(new View.OnClickListener() {
             @Override

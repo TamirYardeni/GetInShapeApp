@@ -50,7 +50,7 @@ public class UserFirebase {
                 User user = new User();
 
                 if (value != null) {
-                    user.setId((String) value.get("userId"));
+                    user.setId((String) value.get("id"));
                     user.setRoleType(((Long) value.get("roleType")).intValue());
                 }
 
