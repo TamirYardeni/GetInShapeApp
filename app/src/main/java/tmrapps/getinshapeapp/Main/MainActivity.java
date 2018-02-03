@@ -2,7 +2,6 @@ package tmrapps.getinshapeapp.Main;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements MainAdminFragment
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_ACTION_BAR);
         setContentView(R.layout.activity_main);
-        role = RoleType.ADMIN;
+        role = RoleType.USER;
         openMainFrag(role);
     }
 

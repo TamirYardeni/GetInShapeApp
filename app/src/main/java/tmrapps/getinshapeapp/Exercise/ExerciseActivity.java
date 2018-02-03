@@ -1,13 +1,13 @@
 package tmrapps.getinshapeapp.Exercise;
 
-import android.net.Uri;
+import android.graphics.Bitmap;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import tmrapps.getinshapeapp.Category.CategoryFragment;
-import tmrapps.getinshapeapp.Category.Model.AddCategoryDialog;
-import tmrapps.getinshapeapp.CreateExerciseFragment;
+import tmrapps.getinshapeapp.Exercise.Model.Exercise;
 import tmrapps.getinshapeapp.R;
 import tmrapps.getinshapeapp.User.RoleType;
 
@@ -84,5 +84,11 @@ public class ExerciseActivity extends AppCompatActivity implements ExerciseFragm
         fragmentTransaction.replace(R.id.exerciseContent, this.createExerciseFrag);
         fragmentTransaction.addToBackStack(this.exerciseListFrag.getClass().getName());
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onCreateExercise(Exercise exercise, Bitmap exerciseImage) {
+        // TODO:  save exercise to firebase and db
+        Log.d("TAG","EXERCISE CREATED");
     }
 }

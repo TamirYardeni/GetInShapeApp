@@ -1,7 +1,7 @@
 package tmrapps.getinshapeapp.User;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import tmrapps.getinshapeapp.R;
+import tmrapps.getinshapeapp.User.Model.User;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -22,6 +23,10 @@ import tmrapps.getinshapeapp.R;
 public class AuthFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+
+    private UserViewModel userViewModel;
+
+    private User user;
 
     public AuthFragment() {
         // Required empty public constructor
@@ -72,6 +77,12 @@ public class AuthFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+
+        userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        userViewModel.getUser().observe(this, (user) -> {
+            this.user = user;
+            // if it was a list - notify adapter change
+        });
     }
 
     @Override

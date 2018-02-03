@@ -6,9 +6,8 @@
     android:layout_height="match_parent"
     tools:context="tmrapps.getinshapeapp.User.AuthActivity">
 
-    <fragment
+    <FrameLayout
         android:id="@+id/authFragment"
-        android:name="tmrapps.getinshapeapp.User.AuthFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

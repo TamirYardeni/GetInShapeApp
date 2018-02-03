@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,8 @@ import java.util.List;
 
 import tmrapps.getinshapeapp.Category.Model.AddCategoryDialog;
 import tmrapps.getinshapeapp.Category.Model.Category;
+import tmrapps.getinshapeapp.Exercise.Model.DBexercise;
+import tmrapps.getinshapeapp.Exercise.Model.ModelSql;
 import tmrapps.getinshapeapp.R;
 
 /**
@@ -71,13 +74,6 @@ public class ExerciseAdminFragment extends Fragment {
             public void onClick(View view) {
                 AddCategoryDialog newFragment = new
                         AddCategoryDialog();
-                /*newFragment.setHandlerListener(new AddCategoryDialog.OnCategoryDialogInteractionListener() {
-                    @Override
-                    public void onCategoryAdded(String categoryName) {
-                        addCategory(categoryName);
-                    }
-                });*/
-
                 newFragment.show(ExerciseAdminFragment.this.getActivity().getSupportFragmentManager(),
                         "TAG");
             }
@@ -85,22 +81,6 @@ public class ExerciseAdminFragment extends Fragment {
 
         // Inflate the layout for this fragment
         return exerciseView;
-    }
-
-    private void addCategory(String categoryName) {
-        boolean isExist = false;
-        for (int counter = 0; counter < this.categoriesAdapter.data.size(); counter++) {
-            if (this.categoriesAdapter.data.get(counter).getName().equals(categoryName)) {
-                isExist = true;
-                break;
-            }
-        }
-
-        if (!isExist) {
-            this.categoriesAdapter.data.add(new Category(categoryName));
-            //TODO: notifyItemInserted
-            //this.categoriesAdapter.notifyItemInserted(this.categoriesAdapter.data.size()-1);
-        }
     }
 
     public void showCategory(String categoryId) {
@@ -124,16 +104,6 @@ public class ExerciseAdminFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         void onShowCategory(String categoryId);
     }

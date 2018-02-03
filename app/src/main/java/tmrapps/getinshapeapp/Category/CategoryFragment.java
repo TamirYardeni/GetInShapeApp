@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,8 @@ import java.util.List;
 
 import tmrapps.getinshapeapp.Category.Model.AddCategoryDialog;
 import tmrapps.getinshapeapp.Category.Model.Category;
+import tmrapps.getinshapeapp.Exercise.Model.DBexercise;
+import tmrapps.getinshapeapp.Exercise.Model.FirebaseExercise;
 import tmrapps.getinshapeapp.R;
 
 public class CategoryFragment extends Fragment {
@@ -144,6 +147,20 @@ public class CategoryFragment extends Fragment {
             data.add(new Category("גב"));
             data.add(new Category("ישבן"));
             data.add(new Category("חזה"));
+
+            /*// Write to local db
+            Category catForDB = new Category("ידיים");
+            catForDB.setId("0");
+            DBexercise.getInstance().addCategory(catForDB);*/
+
+            // write to firebase
+            Category catForDB = new Category("ידיים");
+            FirebaseExercise.getInstance().addCategory(catForDB);
+            /*List<Category> categoriesFromDB = DBexercise.getInstance().getAllCategories();
+
+            for (Category cat :categoriesFromDB) {
+                Log.d("TAG", "read category from db" + cat.getName());
+            }*/
 
             this.exerciseFrag = fragment;
         }

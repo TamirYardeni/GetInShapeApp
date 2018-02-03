@@ -1,5 +1,6 @@
 package tmrapps.getinshapeapp.Main;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import tmrapps.getinshapeapp.R;
+import tmrapps.getinshapeapp.User.UserViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -98,6 +100,12 @@ public class MainUserFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+
+        /*userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        userViewModel.getUser().observe(this, (user) -> {
+            this.user = user;
+            // if it was a list - notify adapter change
+        });*/
     }
 
     @Override
