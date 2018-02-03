@@ -2,6 +2,7 @@ package tmrapps.getinshapeapp.PersonalArea;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.arch.core.util.Function;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
@@ -16,8 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.Spinner;
+
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -25,8 +25,8 @@ import android.widget.TimePicker;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.function.Consumer;
 
-import tmrapps.getinshapeapp.Main.MainActivity;
 import tmrapps.getinshapeapp.Main.MultiSelectionSpinner;
 import tmrapps.getinshapeapp.PersonalArea.Model.PersonalInformation;
 import tmrapps.getinshapeapp.R;
@@ -45,6 +45,7 @@ public class PersonalAreaFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     DatePickerDialog datePickerDialog;
     TimePickerDialog timePickerDialog;
+    private String userId;
 
     PersonalInformation personalInformation = new PersonalInformation();
     PersonalAreaViewModel personalAreaViewModel;
@@ -70,7 +71,9 @@ public class PersonalAreaFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        if (getArguments() != null) {
+            userId = getArguments().getString("id");
+        }
     }
 
     @Override
@@ -79,29 +82,9 @@ public class PersonalAreaFragment extends Fragment {
         // Inflate the layout for this fragment_personal_area
         View view = inflater.inflate(R.layout.fragment_personal_area, container, false);
 
-        Button dateBtn = (Button) view.findViewById(R.id.btnEndDate);
-        dateBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onDatePickerClick(v);
-            }
-        });
-
-        Button timeBtn = (Button) view.findViewById(R.id.btnTime);
-        timeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onTimePickerClick(v);
-            }
-        });
-
-        Button saveBtn = (Button) view.findViewById(R.id.btnSave);
-        timeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onSaveBtnClick(v);
-            }
-        });
+        setBtnClick((Button) view.findViewById(R.id.btnTime), this::onTimePickerClick);
+        setBtnClick((Button) view.findViewById(R.id.btnSave), this::onDatePickerClick);
+        setBtnClick((Button) view.findViewById(R.id.btnEndDate), this::onSaveBtnClick);
 
         MultiSelectionSpinner spinner=(MultiSelectionSpinner)view.findViewById(R.id.input1);
 
@@ -117,6 +100,15 @@ public class PersonalAreaFragment extends Fragment {
         spinner.setItems(list);
 
         return view;
+    }
+
+    private void setBtnClick(Button btn, final Consumer<View> func){
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                func.accept(view);
+            }
+        });
     }
 
     private void onSaveBtnClick(View v) {
@@ -182,7 +174,7 @@ public class PersonalAreaFragment extends Fragment {
         }
 
         personalAreaViewModel = ViewModelProviders.of(this).get(PersonalAreaViewModel.class);
-        personalAreaViewModel.getPersonalInformation("TEst").observe(this, new Observer<PersonalInformation>() {
+        personalAreaViewModel.getPersonalInformation(userId).observe(this, new Observer<PersonalInformation>() {
             @Override
             public void onChanged(@Nullable PersonalInformation info) {
                 personalInformation = info;

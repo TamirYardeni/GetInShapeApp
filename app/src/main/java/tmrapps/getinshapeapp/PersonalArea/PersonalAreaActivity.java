@@ -19,7 +19,9 @@ public class PersonalAreaActivity extends AppCompatActivity implements PersonalA
                 fragmentManager.beginTransaction();
 
         this.personalAreaFrag = new PersonalAreaFragment();
-
+        Bundle bundle = new Bundle();
+        bundle.putString("id", "TEST");
+        this.personalAreaFrag.setArguments(bundle);
         fragmentTransaction.add(R.id.personalAreaContent, this.personalAreaFrag);
         fragmentTransaction.commit();
     }

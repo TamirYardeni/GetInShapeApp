@@ -4,6 +4,7 @@ import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 
+import tmrapps.getinshapeapp.GetInShapeApp;
 import tmrapps.getinshapeapp.PersonalArea.Model.PersonalInformationDAO;
 import tmrapps.getinshapeapp.PersonalArea.Model.PersonalInformation;
 
@@ -17,7 +18,7 @@ abstract class AppLocalStoreDb extends RoomDatabase {
 }
 
 public class AppLocalStore{
-    /*static public AppLocalStoreDb db = Room.databaseBuilder(MyApplication.getMyContext(),
+    static public AppLocalStoreDb db = Room.databaseBuilder(GetInShapeApp.getMyContext(),
             AppLocalStoreDb.class,
-            "database-name").fallbackToDestructiveMigration().build();*/
+            "get-in-shape-db").fallbackToDestructiveMigration().build();
 }

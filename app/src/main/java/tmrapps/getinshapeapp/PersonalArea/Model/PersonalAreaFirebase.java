@@ -33,15 +33,18 @@ public class PersonalAreaFirebase {
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Map<String,Object> value = (Map<String, Object>) dataSnapshot.getValue();
                 PersonalInformation info  = new PersonalInformation();
-                info.setUserId((String) value.get("userId"));
-                info.setCurrentWeight((double) value.get("currentWeight"));
-                info.setDateEndOfTrain((Date) value.get("dateEndOfTrain"));
-                info.setHourTrain((int) value.get("hourTrain"));
-                info.setMinuteTrain((int) value.get("minuteTrain"));
-                info.setWeightToAchieve((double) value.get("weightToAchieve"));
-                info.setDayOfWeek((List<String>) value.get("dayOfWeek"));
+                Map<String,Object> value = (Map<String, Object>) dataSnapshot.getValue();
+
+                if (value != null) {
+                    info.setUserId((String) value.get("userId"));
+                    info.setCurrentWeight((double) value.get("currentWeight"));
+                    info.setDateEndOfTrain((Date) value.get("dateEndOfTrain"));
+                    info.setHourTrain((int) value.get("hourTrain"));
+                    info.setMinuteTrain((int) value.get("minuteTrain"));
+                    info.setWeightToAchieve((double) value.get("weightToAchieve"));
+                    info.setDayOfWeek((List<String>) value.get("dayOfWeek"));
+                }
 
                 listener.onComplete(info);
             }
