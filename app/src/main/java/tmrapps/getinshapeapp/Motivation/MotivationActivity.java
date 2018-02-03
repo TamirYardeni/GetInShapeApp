@@ -5,8 +5,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import tmrapps.getinshapeapp.Main.MainAdminFragment;
-import tmrapps.getinshapeapp.Main.MainUserFragment;
 import tmrapps.getinshapeapp.R;
 import tmrapps.getinshapeapp.User.RoleType;
 

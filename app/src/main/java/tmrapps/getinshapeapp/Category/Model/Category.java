@@ -20,9 +20,15 @@ public class Category {
         this.exercises = new LinkedList<>();
     }
 
+    public Category(String name, String id) {
+        this.name = name;
+        this.id = id;
+        this.exercises = new LinkedList<>();
+    }
+
     public String getId() {
         //return this.id;
-        return "1";
+        return this.id;
     }
 
     public void setId(String id) {this.id = id;}

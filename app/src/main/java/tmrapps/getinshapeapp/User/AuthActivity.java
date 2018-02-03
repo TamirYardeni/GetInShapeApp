@@ -38,7 +38,11 @@ public class AuthActivity extends AppCompatActivity implements AuthFragment.OnFr
         super.onCreate(savedInstanceState);
         this.savedInstanceState = savedInstanceState;
         setContentView(R.layout.activity_auth);
-        authFragment = (AuthFragment) getSupportFragmentManager().findFragmentById(R.id.authFragment);
+
+        this.authFragment = AuthFragment.newInstance();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.add(R.id.authFragment, authFragment);
+        transaction.commit();
 
         // Configure Google Sign In
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)

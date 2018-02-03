@@ -1,14 +1,18 @@
 package tmrapps.getinshapeapp.Exercise.Model;
 
+import android.graphics.Bitmap;
+
 /**
  * Created by tamir on 2/1/2018.
  */
 
 public class Exercise {
 
+    private String _catId;
     private String _name;
     private String _data;
     private String _note;
+    private String _url;
 
     public Exercise() {
 
@@ -40,5 +44,21 @@ public class Exercise {
 
     public String getNotes() {
         return this._note;
+    }
+
+    public String getCatId() {
+        return this._catId;
+    }
+
+    public void setCatId(String catId) {
+        this._catId = catId;
+    }
+
+    public String getUrl() {
+        return this._url;
+    }
+
+    public void setUrl(String url) {
+        this._url = url;
     }
 }
