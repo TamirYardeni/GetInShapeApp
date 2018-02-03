@@ -155,7 +155,7 @@ public class CategoryFragment extends Fragment {
 
             // write to firebase
             Category catForDB = new Category("ידיים");
-            FirebaseExercise.getInstance().addCategory(catForDB);
+            //FirebaseExercise.getInstance().addCategory(catForDB);
             /*List<Category> categoriesFromDB = DBexercise.getInstance().getAllCategories();
 
             for (Category cat :categoriesFromDB) {

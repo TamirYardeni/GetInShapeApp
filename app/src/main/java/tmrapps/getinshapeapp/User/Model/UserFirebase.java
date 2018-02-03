@@ -1,5 +1,7 @@
 package tmrapps.getinshapeapp.User.Model;
 
+import android.util.Log;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -49,7 +51,7 @@ public class UserFirebase {
 
                 if (value != null) {
                     user.setId((String) value.get("userId"));
-                    user.setRoleType((Integer) value.get("roleType"));
+                    user.setRoleType(((Long) value.get("roleType")).intValue());
                 }
 
                 listener.onComplete(user);

@@ -5,10 +5,13 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -31,6 +34,10 @@ public class MainUserFragment extends Fragment {
     private UserViewModel userViewModel;
 
     private User user;
+
+    private View mainView;
+
+    private ProgressBar progressBar;
 
     public MainUserFragment() {
         // Required empty public constructor
@@ -63,41 +70,14 @@ public class MainUserFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_main_user, container, false);
+        mainView = inflater.inflate(R.layout.fragment_main_user, container, false);
 
+        progressBar = mainView.findViewById(R.id.mainProgressBar);
+        progressBar.setVisibility(View.VISIBLE);
 
-            Button personalAreaBtn = (Button) view.findViewById(R.id.personalAreaBtn);
-            Button exerciseBtn = (Button) view.findViewById(R.id.exerciseBtn);
-            Button motivationBtn = (Button) view.findViewById(R.id.motivationBtn);
-
-            personalAreaBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mListener != null) {
-                        mListener.onShowPersonalArea();
-                    }
-                }
-            });
-
-            exerciseBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mListener != null) {
-                        mListener.onShowExercise();
-                    }
-                }
-            });
-
-            motivationBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mListener != null) {
-                        mListener.onShowMotivation();
-                    }
-                }
-            });
+        hideAllUIElements();
         
-        return view;
+        return mainView;
     }
 
     @Override
@@ -114,6 +94,11 @@ public class MainUserFragment extends Fragment {
 
         userViewModel.getUser().observe(this, (user) -> {
             this.user = user;
+            if (user.getRoleType() == 0) {
+                showUserView();
+            } else if (user.getRoleType() == 1) {
+                showAdminView();
+            }
         });
     }
 
@@ -121,6 +106,80 @@ public class MainUserFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    private void showUserView() {
+        Button personalAreaBtn = (Button) mainView.findViewById(R.id.personalAreaBtn);
+        Button exerciseBtn = (Button) mainView.findViewById(R.id.exerciseBtn);
+        Button motivationBtn = (Button) mainView.findViewById(R.id.motivationBtn);
+        LinearLayout layout = mainView.findViewById(R.id.userLayout);
+        layout.setVisibility(View.VISIBLE);
+
+        personalAreaBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mListener != null) {
+                    mListener.onShowPersonalArea();
+                }
+            }
+        });
+
+        exerciseBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mListener != null) {
+                    mListener.onShowExercise();
+                }
+            }
+        });
+
+        motivationBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mListener != null) {
+                    mListener.onShowMotivation();
+                }
+            }
+        });
+
+        // Hide the progress bar
+        progressBar.setVisibility(View.GONE);
+    }
+
+    private void showAdminView() {
+        // Hide the progress bar
+        progressBar.setVisibility(View.GONE);
+
+        LinearLayout adminLayout = mainView.findViewById(R.id.adminLayout);
+        adminLayout.setVisibility(View.VISIBLE);
+
+        Button exerciseBtn = (Button) mainView.findViewById(R.id.exerciseBtn);
+        Button motivationBtn = (Button) mainView.findViewById(R.id.motivationBtn);
+
+        exerciseBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mListener != null){
+                    mListener.onShowExerciseAdmin();
+                }
+            }
+        });
+
+        motivationBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mListener != null){
+                    mListener.onShowMotivationAdmin();
+                }
+            }
+        });
+    }
+
+    private void hideAllUIElements() {
+        LinearLayout userLayout = mainView.findViewById(R.id.userLayout);
+        LinearLayout adminLayout = mainView.findViewById(R.id.adminLayout);
+        userLayout.setVisibility(View.GONE);
+        adminLayout.setVisibility(View.GONE);
     }
 
     /**
@@ -143,5 +202,11 @@ public class MainUserFragment extends Fragment {
 
         // Note for the main activity that the motivation button was clicked
         void onShowMotivation();
+
+        // Note for the main activity that the manage exercises button was clicked
+        void onShowExerciseAdmin();
+
+        // Note for the main activity that the manage motivation button was clicked
+        void onShowMotivationAdmin();
     }
 }

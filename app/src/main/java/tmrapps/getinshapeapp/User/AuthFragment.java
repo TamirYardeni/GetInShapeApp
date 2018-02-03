@@ -73,12 +73,6 @@ public class AuthFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
-
-        /*userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
-        userViewModel.getUser().observe(this, (user) -> {
-            this.user = user;
-            // if it was a list - notify adapter change
-        });*/
     }
 
     @Override
