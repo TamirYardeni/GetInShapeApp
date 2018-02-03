@@ -10,7 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import tmrapps.getinshapeapp.R;
+import tmrapps.getinshapeapp.User.Model.User;
 import tmrapps.getinshapeapp.User.UserViewModel;
 
 /**
@@ -24,6 +27,10 @@ import tmrapps.getinshapeapp.User.UserViewModel;
 public class MainUserFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+
+    private UserViewModel userViewModel;
+
+    private User user;
 
     public MainUserFragment() {
         // Required empty public constructor
@@ -57,36 +64,38 @@ public class MainUserFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main_user, container, false);
-        Button personalAreaBtn = (Button) view.findViewById(R.id.personalAreaBtn);
-        Button exerciseBtn = (Button) view.findViewById(R.id.exerciseBtn);
-        Button motivationBtn = (Button) view.findViewById(R.id.motivationBtn);
 
-        personalAreaBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mListener != null){
-                    mListener.onShowPersonalArea();
-                }
-            }
-        });
 
-        exerciseBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mListener != null){
-                    mListener.onShowExercise();
-                }
-            }
-        });
+            Button personalAreaBtn = (Button) view.findViewById(R.id.personalAreaBtn);
+            Button exerciseBtn = (Button) view.findViewById(R.id.exerciseBtn);
+            Button motivationBtn = (Button) view.findViewById(R.id.motivationBtn);
 
-        motivationBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mListener != null){
-                    mListener.onShowMotivation();
+            personalAreaBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mListener != null) {
+                        mListener.onShowPersonalArea();
+                    }
                 }
-            }
-        });
+            });
+
+            exerciseBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mListener != null) {
+                        mListener.onShowExercise();
+                    }
+                }
+            });
+
+            motivationBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mListener != null) {
+                        mListener.onShowMotivation();
+                    }
+                }
+            });
         
         return view;
     }
@@ -101,11 +110,11 @@ public class MainUserFragment extends Fragment {
                     + " must implement OnFragmentInteractionListener");
         }
 
-        /*userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+
         userViewModel.getUser().observe(this, (user) -> {
             this.user = user;
-            // if it was a list - notify adapter change
-        });*/
+        });
     }
 
     @Override
