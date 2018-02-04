@@ -21,5 +21,4 @@ public class PersonalAreaViewModel extends ViewModel {
         if (info == null) info = PersonalAreaRepository.instance.getPersonalInformation(id);
         return info;
     }
-
 }
