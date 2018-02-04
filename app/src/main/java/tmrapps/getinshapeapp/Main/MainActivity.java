@@ -19,8 +19,8 @@ import tmrapps.getinshapeapp.R;
 import tmrapps.getinshapeapp.User.AuthActivity;
 import tmrapps.getinshapeapp.User.RoleType;
 
-public class MainActivity extends AppCompatActivity implements MainAdminFragment.OnFragmentInteractionListener, MainUserFragment.OnFragmentInteractionListener {
-    
+public class MainActivity extends AppCompatActivity implements MainUserFragment.OnFragmentInteractionListener {
+
     private RoleType role;
     private Fragment mainFrag;
 
@@ -29,24 +29,19 @@ public class MainActivity extends AppCompatActivity implements MainAdminFragment
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_ACTION_BAR);
         setContentView(R.layout.activity_main);
-        role = RoleType.USER;
-        openMainFrag(role);
+        openMainFrag();
     }
 
     /**
      * Open the suitable fragment according to the permissions of the user (regular user or admin)
      * @param role
      */
-    private void openMainFrag(RoleType role) {
+    private void openMainFrag() {
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction fragmentTransaction =
                 fragmentManager.beginTransaction();
 
-        if (role == RoleType.USER) {
-            mainFrag = new MainUserFragment();
-        } else if (role == RoleType.ADMIN) {
-            mainFrag = new MainAdminFragment();
-        }
+        mainFrag = new MainUserFragment();
 
         fragmentTransaction.add(R.id.mainContent, mainFrag);
         fragmentTransaction.commit();
@@ -71,6 +66,14 @@ public class MainActivity extends AppCompatActivity implements MainAdminFragment
 
     private void logOut() {
         FirebaseAuth.getInstance().signOut();
+        /*// Google sign out
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(@NonNull Status status) {
+                        updateUI(null);
+                    }
+                });*/
         updateUI();
     }
 
@@ -122,9 +125,14 @@ public class MainActivity extends AppCompatActivity implements MainAdminFragment
     }
 
     @Override
+    public void onHasRoleType(RoleType role) {
+        this.role = role;
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
-        this.openMainFrag(this.role);
+        this.openMainFrag();
     }
 
     //    @Override

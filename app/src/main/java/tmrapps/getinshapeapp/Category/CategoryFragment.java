@@ -3,9 +3,7 @@ package tmrapps.getinshapeapp.Category;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +16,8 @@ import java.util.List;
 
 import tmrapps.getinshapeapp.Category.Model.AddCategoryDialog;
 import tmrapps.getinshapeapp.Category.Model.Category;
-import tmrapps.getinshapeapp.Exercise.Model.DBexercise;
-import tmrapps.getinshapeapp.Exercise.Model.FirebaseExercise;
 import tmrapps.getinshapeapp.R;
+import tmrapps.getinshapeapp.User.RoleType;
 
 public class CategoryFragment extends Fragment {
 
@@ -30,27 +27,28 @@ public class CategoryFragment extends Fragment {
 
     private ListView list;
 
+    private static final String ARG_PARAM = "roleType";
+
+    private RoleType role;
+
     public CategoryFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ExercieAdminFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static CategoryFragment newInstance(String param1, String param2) {
+    public static CategoryFragment newInstance(RoleType roleType) {
         CategoryFragment fragment = new CategoryFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM, roleType.name());
+        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            this.role = RoleType.valueOf(getArguments().getString(ARG_PARAM));
+        }
     }
 
     @Override
@@ -63,22 +61,29 @@ public class CategoryFragment extends Fragment {
         list.setAdapter(categoriesAdapter);
 
         FloatingActionButton addCategoryBtn = exerciseView.findViewById(R.id.addCategoryBtn);
-        addCategoryBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AddCategoryDialog newFragment = new
-                        AddCategoryDialog();
-                newFragment.setHandlerListener(new AddCategoryDialog.OnCategoryDialogInteractionListener() {
-                    @Override
-                    public void onCategoryAdded(String categoryName) {
-                        addCategory(categoryName);
-                    }
-                });
 
-                newFragment.show(CategoryFragment.this.getActivity().getSupportFragmentManager(),
-                        "TAG");
-            }
-        });
+        // If the user is admin - allow him to add categories.
+        // In case he is a regular user - hide the "add category" button.
+        if (this.role == RoleType.ADMIN) {
+            addCategoryBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AddCategoryDialog newFragment = new
+                            AddCategoryDialog();
+                    newFragment.setHandlerListener(new AddCategoryDialog.OnCategoryDialogInteractionListener() {
+                        @Override
+                        public void onCategoryAdded(String categoryName) {
+                            addCategory(categoryName);
+                        }
+                    });
+
+                    newFragment.show(CategoryFragment.this.getActivity().getSupportFragmentManager(),
+                            "TAG");
+                }
+            });
+        } else {
+            addCategoryBtn.setVisibility(View.GONE);
+        }
 
         // Inflate the layout for this fragment
         return exerciseView;
@@ -122,16 +127,6 @@ public class CategoryFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         void onShowCategory(String categoryId);
     }

@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import tmrapps.getinshapeapp.R;
 import tmrapps.getinshapeapp.User.Model.User;
+import tmrapps.getinshapeapp.User.RoleType;
 import tmrapps.getinshapeapp.User.UserViewModel;
 
 /**
@@ -94,11 +95,17 @@ public class MainUserFragment extends Fragment {
 
         userViewModel.getUser().observe(this, (user) -> {
             this.user = user;
+            RoleType roleType = RoleType.USER;
+
             if (user.getRoleType() == 0) {
                 showUserView();
+                roleType = RoleType.USER;
             } else if (user.getRoleType() == 1) {
                 showAdminView();
+                roleType = RoleType.ADMIN;
             }
+
+            mListener.onHasRoleType(roleType);
         });
     }
 
@@ -208,5 +215,7 @@ public class MainUserFragment extends Fragment {
 
         // Note for the main activity that the manage motivation button was clicked
         void onShowMotivationAdmin();
+
+        void onHasRoleType(RoleType role);
     }
 }

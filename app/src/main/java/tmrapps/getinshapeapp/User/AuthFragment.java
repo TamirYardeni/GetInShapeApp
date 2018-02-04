@@ -28,12 +28,6 @@ public class AuthFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     * @return A new instance of fragment AuthFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static AuthFragment newInstance() {
         AuthFragment fragment = new AuthFragment();
         return fragment;
