@@ -19,7 +19,7 @@ public class Category {
     @NonNull
     private String id;
     private String name;
-    private long lastUpdated;
+    //private long lastUpdated;
 
     private List<Exercise> exercises;
 
