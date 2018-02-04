@@ -2,6 +2,7 @@ package tmrapps.getinshapeapp.Exercise;
 
 import android.graphics.Bitmap;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,14 +29,10 @@ public class ExerciseActivity extends AppCompatActivity implements ExerciseFragm
 
         this.role = RoleType.valueOf(getIntent().getStringExtra("ROLE_TYPE"));
 
-        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-        android.support.v4.app.FragmentTransaction fragmentTransaction =
-                fragmentManager.beginTransaction();
-
-        this.categoryFrag = new CategoryFragment();
-
-        fragmentTransaction.add(R.id.exerciseContent, this.categoryFrag);
-        fragmentTransaction.commit();
+        this.categoryFrag = CategoryFragment.newInstance(this.role);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.add(R.id.exerciseContent, this.categoryFrag);
+        transaction.commit();
     }
 
     @Override
