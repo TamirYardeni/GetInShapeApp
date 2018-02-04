@@ -1,7 +1,6 @@
 package tmrapps.getinshapeapp.Category.Model;
 
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
@@ -22,13 +21,9 @@ public class Category {
     private String name;
     //private long lastUpdated;
 
-    @Ignore
-    private List<Exercise> exercises;
-
     public Category(String name, String id) {
         this.name = name;
         this.id = id;
-        this.exercises = new LinkedList<>();
     }
 
     public String getId() {
