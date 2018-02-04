@@ -21,12 +21,9 @@ public class Category {
     private String name;
     //private long lastUpdated;
 
-    private List<Exercise> exercises;
-
     public Category(String name, String id) {
         this.name = name;
         this.id = id;
-        this.exercises = new LinkedList<>();
     }
 
     public String getId() {
