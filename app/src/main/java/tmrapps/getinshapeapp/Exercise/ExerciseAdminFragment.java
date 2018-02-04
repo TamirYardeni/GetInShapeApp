@@ -18,8 +18,8 @@ import java.util.List;
 
 import tmrapps.getinshapeapp.Category.Model.AddCategoryDialog;
 import tmrapps.getinshapeapp.Category.Model.Category;
-import tmrapps.getinshapeapp.Exercise.Model.DBexercise;
-import tmrapps.getinshapeapp.Exercise.Model.ModelSql;
+//import tmrapps.getinshapeapp.Exercise.Model.DBexercise;
+//import tmrapps.getinshapeapp.Exercise.Model.ModelSql;
 import tmrapps.getinshapeapp.R;
 
 /**

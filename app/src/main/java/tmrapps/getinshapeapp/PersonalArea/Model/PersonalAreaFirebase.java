@@ -38,12 +38,12 @@ public class PersonalAreaFirebase {
 
                 if (value != null) {
                     info.setUserId((String) value.get("userId"));
-                    info.setCurrentWeight((double) value.get("currentWeight"));
-                    info.setDateEndOfTrain((Date) value.get("dateEndOfTrain"));
-                    info.setHourTrain((int) value.get("hourTrain"));
-                    info.setMinuteTrain((int) value.get("minuteTrain"));
-                    info.setWeightToAchieve((double) value.get("weightToAchieve"));
-                    info.setDayOfWeek((List<String>) value.get("dayOfWeek"));
+                    info.setCurrentWeight(((Long)(value.get("currentWeight"))).doubleValue());
+                    info.setDateEndOfTrain(new Date(value.get("dateEndOfTrain").toString()));
+                    info.setHourTrain(((Long)value.get("hourTrain")).intValue());
+                    info.setMinuteTrain(((Long)value.get("minuteTrain")).intValue());
+                    info.setWeightToAchieve(((Long)value.get("weightToAchieve")).doubleValue());
+                    //info.setDayOfWeek((List<String>) value.get("dayOfWeek"));
                 }
 
                 listener.onComplete(info);
@@ -56,7 +56,11 @@ public class PersonalAreaFirebase {
         });
     }
 
-    public static void savePersonalInformation(PersonalInformation info){
+    public interface SavePersonalInformationListener{
+        void onComplete(PersonalInformation personalInformation);
+    }
+
+    public static void savePersonalInformation(PersonalInformation info, SavePersonalInformationListener listener){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("personal_info").child(info.getUserId());
 
@@ -69,5 +73,7 @@ public class PersonalAreaFirebase {
         value.put("weightToAchieve", info.getWeightToAchieve());
         value.put("dayOfWeek ", info.getDayOfWeekAppend());
         myRef.setValue(value);
+
+        listener.onComplete(info);
     }
 }

@@ -18,8 +18,7 @@ public class PersonalAreaViewModel extends ViewModel {
 
 
     public LiveData<PersonalInformation> getPersonalInformation(String id) {
-        if (info == null) info = PersonalAreaRepository.instace.getPersonalInformation(id);
+        if (info == null) info = PersonalAreaRepository.instance.getPersonalInformation(id);
         return info;
     }
-
 }

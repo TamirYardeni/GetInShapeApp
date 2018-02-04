@@ -18,16 +18,19 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.function.Consumer;
 
 import tmrapps.getinshapeapp.Main.MultiSelectionSpinner;
+import tmrapps.getinshapeapp.PersonalArea.Model.PersonalAreaRepository;
 import tmrapps.getinshapeapp.PersonalArea.Model.PersonalInformation;
 import tmrapps.getinshapeapp.R;
 
@@ -45,7 +48,6 @@ public class PersonalAreaFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     DatePickerDialog datePickerDialog;
     TimePickerDialog timePickerDialog;
-    private String userId;
 
     PersonalInformation personalInformation = new PersonalInformation();
     PersonalAreaViewModel personalAreaViewModel;
@@ -72,7 +74,14 @@ public class PersonalAreaFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            userId = getArguments().getString("id");
+            personalInformation.setUserId(getArguments().getString("id"));
+            personalAreaViewModel = ViewModelProviders.of(this).get(PersonalAreaViewModel.class);
+            personalAreaViewModel.getPersonalInformation(personalInformation.getUserId()).observe(this, new Observer<PersonalInformation>() {
+                @Override
+                public void onChanged(@Nullable PersonalInformation info) {
+                    personalInformation = info;
+                }
+            });
         }
     }
 
@@ -83,8 +92,8 @@ public class PersonalAreaFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_personal_area, container, false);
 
         setBtnClick((Button) view.findViewById(R.id.btnTime), this::onTimePickerClick);
-        setBtnClick((Button) view.findViewById(R.id.btnSave), this::onDatePickerClick);
-        setBtnClick((Button) view.findViewById(R.id.btnEndDate), this::onSaveBtnClick);
+        setBtnClick((Button) view.findViewById(R.id.btnSave), this::onSaveBtnClick);
+        setBtnClick((Button) view.findViewById(R.id.btnEndDate), this::onDatePickerClick);
 
         MultiSelectionSpinner spinner=(MultiSelectionSpinner)view.findViewById(R.id.input1);
 
@@ -112,7 +121,13 @@ public class PersonalAreaFragment extends Fragment {
     }
 
     private void onSaveBtnClick(View v) {
+        final EditText textWeightAchieve =(EditText) getView().findViewById(R.id.edWeightAchieved);
+        final EditText textCurWeight =(EditText) getView().findViewById(R.id.edCurWeight);
 
+        personalInformation.setWeightToAchieve(Double.parseDouble( "" + textWeightAchieve.getText()));
+        personalInformation.setCurrentWeight(Double.parseDouble( "" + textCurWeight.getText()));
+
+        PersonalAreaRepository.instance.savePersonalInformation(personalInformation);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -132,6 +147,8 @@ public class PersonalAreaFragment extends Fragment {
                             // set day of month , month and year value in the edit text
                             textView.setText(hour + ":" +
                             minute);
+                            personalInformation.setHourTrain(hour);
+                            personalInformation.setMinuteTrain(minute);
 
                         }}
                     , mHour, mMinute, true);
@@ -157,6 +174,10 @@ public class PersonalAreaFragment extends Fragment {
                         // set day of month , month and year value in the edit text
                         textView.setText(dayOfMonth + "/"
                                 + (monthOfYear + 1) + "/" + year);
+                        Calendar cal = Calendar.getInstance();
+                        cal.set(year,monthOfYear,dayOfMonth);
+
+                        personalInformation.setDateEndOfTrain(cal.getTime());
 
                     }}
                 , mYear, mMonth, mDay);
@@ -172,14 +193,6 @@ public class PersonalAreaFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
-
-        personalAreaViewModel = ViewModelProviders.of(this).get(PersonalAreaViewModel.class);
-        personalAreaViewModel.getPersonalInformation(userId).observe(this, new Observer<PersonalInformation>() {
-            @Override
-            public void onChanged(@Nullable PersonalInformation info) {
-                personalInformation = info;
-            }
-        });
     }
 
     @Override

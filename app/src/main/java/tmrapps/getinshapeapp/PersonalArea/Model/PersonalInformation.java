@@ -22,6 +22,7 @@ public class PersonalInformation {
 
     public double currentWeight;
     public double weightToAchieve;
+
     @Ignore
     public Date dateEndOfTrain;
     public int hourTrain;
@@ -39,7 +40,10 @@ public class PersonalInformation {
     public double getWeightToAchieve() { return this.weightToAchieve; }
     public void setWeightToAchieve(double weight) { this.weightToAchieve = weight; }
 
-    public Date getDateEndOfTrain() { return this.dateEndOfTrain; }
+    public String getDateEndOfTrain()
+    {
+        return this.dateEndOfTrain.toString();
+    }
     public void setDateEndOfTrain(Date date) { this.dateEndOfTrain = date; }
 
     public int getHourTrain() { return this.hourTrain; }
