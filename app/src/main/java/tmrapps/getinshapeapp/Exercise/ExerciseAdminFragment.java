@@ -114,11 +114,11 @@ public class ExerciseAdminFragment extends Fragment {
         List<Category> data = new LinkedList<>();
 
         public ExerciseAdminAdapter(ExerciseAdminFragment fragment) {
-            data.add(new Category("ידיים"));
+        /*    data.add(new Category("ידיים"));
             data.add(new Category("בטן"));
             data.add(new Category("גב"));
             data.add(new Category("ישבן"));
-            data.add(new Category("חזה"));
+            data.add(new Category("חזה"));*/
 
             this.exerciseFrag = fragment;
         }

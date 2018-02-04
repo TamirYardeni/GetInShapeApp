@@ -1,6 +1,7 @@
 package tmrapps.getinshapeapp.Category.Model;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
@@ -19,8 +20,9 @@ public class Category {
     @NonNull
     private String id;
     private String name;
-    private long lastUpdated;
+    //private long lastUpdated;
 
+    @Ignore
     private List<Exercise> exercises;
 
     public Category(String name, String id) {

@@ -21,11 +21,12 @@ import tmrapps.getinshapeapp.Motivation.MotivationActivity;
 import tmrapps.getinshapeapp.PersonalArea.PersonalAreaActivity;
 import tmrapps.getinshapeapp.R;
 import tmrapps.getinshapeapp.User.AuthActivity;
+import tmrapps.getinshapeapp.User.Model.User;
 import tmrapps.getinshapeapp.User.RoleType;
 
 public class MainActivity extends AppCompatActivity implements MainUserFragment.OnFragmentInteractionListener {
 
-    private RoleType role;
+    private User user;
     private Fragment mainFrag;
 
     @Override
@@ -105,13 +106,14 @@ public class MainActivity extends AppCompatActivity implements MainUserFragment.
     }
 
     private void moveToNewActivity(RoleType permissions, Class activityClass){
-        if (this.role == permissions) {
+        if (this.user.roleType == permissions.ordinal()) {
             android.support.v4.app.FragmentTransaction tran = getSupportFragmentManager().beginTransaction();
             tran.hide(mainFrag);
             tran.commit();
 
             Intent intent = new Intent(this, activityClass);
-            intent.putExtra("ROLE_TYPE", this.role.name());
+            intent.putExtra("ROLE_TYPE", RoleType.values()[this.user.roleType]);
+            intent.putExtra("USER_ID", this.user.getId());
             startActivity(intent);
         }
     }
@@ -127,8 +129,8 @@ public class MainActivity extends AppCompatActivity implements MainUserFragment.
     }
 
     @Override
-    public void onHasRoleType(RoleType role) {
-        this.role = role;
+    public void onHasRoleType(User user) {
+        this.user = user;
     }
 
     @Override

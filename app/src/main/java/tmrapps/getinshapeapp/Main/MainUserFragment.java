@@ -105,7 +105,7 @@ public class MainUserFragment extends Fragment {
                 roleType = RoleType.ADMIN;
             }
 
-            mListener.onHasRoleType(roleType);
+            mListener.onHasRoleType(this.user);
         });
     }
 
@@ -216,6 +216,6 @@ public class MainUserFragment extends Fragment {
         // Note for the main activity that the manage motivation button was clicked
         void onShowMotivationAdmin();
 
-        void onHasRoleType(RoleType role);
+        void onHasRoleType(User user);
     }
 }
