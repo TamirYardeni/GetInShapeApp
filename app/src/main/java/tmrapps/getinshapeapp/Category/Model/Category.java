@@ -1,5 +1,9 @@
 package tmrapps.getinshapeapp.Category.Model;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -9,16 +13,15 @@ import tmrapps.getinshapeapp.SubCategories.Model.SubCategory;
 /**
  * Created by tamir on 1/20/2018.
  */
-
+@Entity
 public class Category {
+    @PrimaryKey
+    @NonNull
     private String id;
     private String name;
-    private List<Exercise> exercises;
+    private long lastUpdated;
 
-    public Category(String name) {
-        this.name = name;
-        this.exercises = new LinkedList<>();
-    }
+    private List<Exercise> exercises;
 
     public Category(String name, String id) {
         this.name = name;
@@ -27,7 +30,6 @@ public class Category {
     }
 
     public String getId() {
-        //return this.id;
         return this.id;
     }
 
@@ -40,4 +42,8 @@ public class Category {
     public void setName(String name) {
         this.name = name;
     }
+
+    /*public void setLastUpdated(long lastUpdated) { this.lastUpdated = lastUpdated;}
+
+    public long getLastUpdate() { return this.lastUpdated; }*/
 }

@@ -1,5 +1,6 @@
 package tmrapps.getinshapeapp.Category;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -22,6 +23,8 @@ import tmrapps.getinshapeapp.User.RoleType;
 public class CategoryFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+
+    private CategoryViewModel categoryViewModel;
 
     private CategoryFragment.CategoryAdapter categoriesAdapter;
 
@@ -99,10 +102,7 @@ public class CategoryFragment extends Fragment {
         }
 
         if (!isExist) {
-            this.categoriesAdapter.data.add(new Category(categoryName));
-            this.list.setAdapter(categoriesAdapter);
-            //TODO: notifyItemInserted
-            //this.categoriesAdapter.notifyItemInserted(this.categoriesAdapter.data.size()-1);
+            this.categoryViewModel.addCategory(categoryName);
         }
     }
 
@@ -119,6 +119,13 @@ public class CategoryFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+
+        this.categoryViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
+
+        this.categoryViewModel.getCategories().observe(this, (categories) -> {
+            this.categoriesAdapter.data = categories;
+            this.categoriesAdapter.notifyDataSetChanged();
+        });
     }
 
     @Override
@@ -137,11 +144,11 @@ public class CategoryFragment extends Fragment {
         List<Category> data = new LinkedList<>();
 
         public CategoryAdapter(CategoryFragment fragment) {
-            data.add(new Category("ידיים"));
+            /*data.add(new Category("ידיים"));
             data.add(new Category("בטן"));
             data.add(new Category("גב"));
             data.add(new Category("ישבן"));
-            data.add(new Category("חזה"));
+            data.add(new Category("חזה"));*/
 
             /*// Write to local db
             Category catForDB = new Category("ידיים");
@@ -149,7 +156,7 @@ public class CategoryFragment extends Fragment {
             DBexercise.getInstance().addCategory(catForDB);*/
 
             // write to firebase
-            Category catForDB = new Category("ידיים");
+            /*Category catForDB = new Category("ידיים");*/
             //FirebaseExercise.getInstance().addCategory(catForDB);
             /*List<Category> categoriesFromDB = DBexercise.getInstance().getAllCategories();
 

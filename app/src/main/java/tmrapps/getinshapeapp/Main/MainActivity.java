@@ -2,6 +2,8 @@ package tmrapps.getinshapeapp.Main;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +12,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.Window;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.api.ResultCallback;
 import com.google.firebase.auth.FirebaseAuth;
 
 import tmrapps.getinshapeapp.Exercise.ExerciseActivity;
@@ -34,7 +38,6 @@ public class MainActivity extends AppCompatActivity implements MainUserFragment.
 
     /**
      * Open the suitable fragment according to the permissions of the user (regular user or admin)
-     * @param role
      */
     private void openMainFrag() {
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
@@ -66,15 +69,14 @@ public class MainActivity extends AppCompatActivity implements MainUserFragment.
 
     private void logOut() {
         FirebaseAuth.getInstance().signOut();
-        /*// Google sign out
-        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-                new ResultCallback<Status>() {
+        // Google sign out
+        /*Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                new ResultCallback<AsyncTask.Status>() {
                     @Override
-                    public void onResult(@NonNull Status status) {
-                        updateUI(null);
+                    public void onResult(@NonNull AsyncTask.Status status) {
+                        updateUI();
                     }
                 });*/
-        updateUI();
     }
 
     /**
