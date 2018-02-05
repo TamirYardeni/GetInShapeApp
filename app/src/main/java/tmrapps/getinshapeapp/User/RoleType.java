@@ -5,6 +5,6 @@ package tmrapps.getinshapeapp.User;
  */
 
 public enum RoleType {
-    ADMIN,
-    USER;
+    USER,
+    ADMIN;
 }

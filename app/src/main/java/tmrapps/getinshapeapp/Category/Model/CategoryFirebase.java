@@ -13,9 +13,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import tmrapps.getinshapeapp.Exercise.Model.FirebaseExercise;
-import tmrapps.getinshapeapp.GetInShapeApp;
-
 /**
  * Created by tamir on 2/4/2018.
  */

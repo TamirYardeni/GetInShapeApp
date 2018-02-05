@@ -48,7 +48,7 @@ public class PersonalAreaFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     DatePickerDialog datePickerDialog;
     TimePickerDialog timePickerDialog;
-
+    String userId;
     PersonalInformation personalInformation = new PersonalInformation();
     PersonalAreaViewModel personalAreaViewModel;
 
@@ -74,9 +74,9 @@ public class PersonalAreaFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            personalInformation.setUserId(getArguments().getString("id"));
+            this.userId = getArguments().getString("userId");
             personalAreaViewModel = ViewModelProviders.of(this).get(PersonalAreaViewModel.class);
-            personalAreaViewModel.getPersonalInformation(personalInformation.getUserId()).observe(this, new Observer<PersonalInformation>() {
+            personalAreaViewModel.getPersonalInformation(this.userId).observe(this, new Observer<PersonalInformation>() {
                 @Override
                 public void onChanged(@Nullable PersonalInformation info) {
                     personalInformation = info;
@@ -124,6 +124,7 @@ public class PersonalAreaFragment extends Fragment {
         final EditText textWeightAchieve =(EditText) getView().findViewById(R.id.edWeightAchieved);
         final EditText textCurWeight =(EditText) getView().findViewById(R.id.edCurWeight);
 
+        personalInformation.setUserId(this.userId);
         personalInformation.setWeightToAchieve(Double.parseDouble( "" + textWeightAchieve.getText()));
         personalInformation.setCurrentWeight(Double.parseDouble( "" + textCurWeight.getText()));
 

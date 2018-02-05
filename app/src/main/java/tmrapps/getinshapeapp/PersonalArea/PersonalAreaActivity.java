@@ -17,10 +17,10 @@ public class PersonalAreaActivity extends AppCompatActivity implements PersonalA
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction fragmentTransaction =
                 fragmentManager.beginTransaction();
-
+        String userId = getIntent().getStringExtra("USER_ID");
         this.personalAreaFrag = new PersonalAreaFragment();
         Bundle bundle = new Bundle();
-        bundle.putString("id", "1234");
+        bundle.putString("userId", userId);
         this.personalAreaFrag.setArguments(bundle);
         fragmentTransaction.add(R.id.personalAreaContent, this.personalAreaFrag);
         fragmentTransaction.commit();
