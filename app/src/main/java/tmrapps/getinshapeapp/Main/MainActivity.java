@@ -13,6 +13,8 @@ import android.view.MenuItem;
 import android.view.Window;
 
 import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -28,6 +30,19 @@ public class MainActivity extends AppCompatActivity implements MainUserFragment.
 
     private User user;
     private Fragment mainFrag;
+    private GoogleApiClient mGoogleApiClient;
+
+    @Override
+    protected void onStart() {
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+        mGoogleApiClient.connect();
+        super.onStart();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,13 +86,8 @@ public class MainActivity extends AppCompatActivity implements MainUserFragment.
     private void logOut() {
         FirebaseAuth.getInstance().signOut();
         // Google sign out
-        /*Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-                new ResultCallback<AsyncTask.Status>() {
-                    @Override
-                    public void onResult(@NonNull AsyncTask.Status status) {
-                        updateUI();
-                    }
-                });*/
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                status -> updateUI());
     }
 
     /**
