@@ -3,11 +3,13 @@ package tmrapps.getinshapeapp.Category.Model;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
 import java.util.List;
 
 import tmrapps.getinshapeapp.GetInShapeApp;
+import tmrapps.getinshapeapp.Main.AppLocalStore;
 
 /**
  * Created by tamir on 2/4/2018.
@@ -26,10 +28,18 @@ public class CategoryRepository {
         synchronized (this) {
             if (this.categoriesLiveData == null) {
                 this.categoriesLiveData = new MutableLiveData<List<Category>>();
-                CategoryFirebase.getCategoriesAndObserve((data) -> {
-                    if (data != null) {
-                        this.categoriesLiveData.setValue(data);
-                    }
+
+                // Get the last update date
+                long lastUpdateDate = 0;
+                try {
+                    lastUpdateDate = GetInShapeApp.getMyContext()
+                            .getSharedPreferences("TAG", Context.MODE_PRIVATE).getLong("lastUpdateDate", 0);
+                } catch (Exception e) {
+
+                }
+
+                CategoryFirebase.getCategoriesAndObserve(lastUpdateDate, (data) -> {
+                    updateCategoryDataInLocalStore(data);
                 });
             }
         }
@@ -45,7 +55,12 @@ public class CategoryRepository {
         CategoryFirebase.addCategory(categoryName);
     }
 
- /*   class GetCategoriesTatk extends AsyncTask<List<Category>, String, List<Category>>{
+    private void updateCategoryDataInLocalStore(List<Category> data) {
+        GetCategoriesTatk categoriesTatk = new GetCategoriesTatk();
+        categoriesTatk.execute(data);
+    }
+
+    class GetCategoriesTatk extends AsyncTask<List<Category>, String, List<Category>>{
 
         @Override
         protected List<Category> doInBackground(List<Category>[] lists) {
@@ -60,10 +75,29 @@ public class CategoryRepository {
                 }
 
                 if (data != null && data.size() > 0) {
-                    long reacentUpdate = lastUpdateDate;
-
+                    long recentUpdate = lastUpdateDate;
+                    for (Category category : data) {
+                        AppLocalStore.db.categoryDao().insertAll(category);
+                        if (category.getLastUpdated() > recentUpdate) {
+                            recentUpdate = category.getLastUpdated();
+                        }
+                    }
+                    SharedPreferences.Editor editor = GetInShapeApp.getMyContext().getSharedPreferences("TAG", Context.MODE_PRIVATE).edit();
+                    editor.clear();
+                    editor.putLong("lastUpdateDate", recentUpdate);
+                    editor.commit();
                 }
+                List<Category> categoryList = AppLocalStore.db.categoryDao().getAll();
+
+                return categoryList;
             }
+            return null;
         }
-    }*/
+
+        @Override
+        protected void onPostExecute(List<Category> categories) {
+            super.onPostExecute(categories);
+            categoriesLiveData.setValue(categories);
+        }
+    }
 }
