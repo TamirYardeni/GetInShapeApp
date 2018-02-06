@@ -21,6 +21,8 @@ public class ExerciseViewModel extends ViewModel{
 
     private LiveData<String> imgUrl;
 
+    private LiveData<Bitmap> bitmapImg;
+
     public ExerciseViewModel() {
 
     }
@@ -33,6 +35,11 @@ public class ExerciseViewModel extends ViewModel{
     public LiveData<Exercise> getExerciseById(String exerciseId) {
         this.exercise = ExerciseReposirory.instance.getExerciseById(exerciseId);
         return this.exercise;
+    }
+
+    public LiveData<Bitmap> getExerciseImage(String url) {
+        this.bitmapImg = ExerciseReposirory.instance.getExerciseImage(url);
+        return this.bitmapImg;
     }
 
     public LiveData<List<ExerciseInCategory>> getExerciseByCategory(String categoryId) {

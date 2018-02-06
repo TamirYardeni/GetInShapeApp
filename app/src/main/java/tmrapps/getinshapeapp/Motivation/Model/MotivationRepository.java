@@ -30,7 +30,7 @@ public class MotivationRepository {
         modelFirebase.saveImage(imageBmp, name, new SaveImageListener() {
             @Override
             public void complete(String url) {
-                String fileName = URLUtil.guessFileName(url, null, null);
+                //String fileName = URLUtil.guessFileName(url, null, null);
                 /*saveImageToFile(imageBmp,fileName);*/
                 listener.complete(url);
             }
