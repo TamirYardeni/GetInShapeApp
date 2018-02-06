@@ -30,6 +30,10 @@ public class ExerciseActivity extends AppCompatActivity implements ExerciseFragm
 
         this.role = RoleType.valueOf(getIntent().getStringExtra("ROLE_TYPE"));
 
+        this.onShowCategory();
+    }
+
+    public void onShowCategory(){
         this.categoryFrag = CategoryFragment.newInstance(this.role);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.exerciseContent, this.categoryFrag);
@@ -71,4 +75,10 @@ public class ExerciseActivity extends AppCompatActivity implements ExerciseFragm
         transaction.addToBackStack(this.categoryFrag.getClass().getName());
         transaction.commit();
     }
+
+/*    @Override
+    protected void onResume() {
+        super.onResume();
+        this.onShowCategory();
+    }*/
 }
