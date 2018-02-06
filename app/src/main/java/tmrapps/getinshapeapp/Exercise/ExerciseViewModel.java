@@ -40,8 +40,8 @@ public class ExerciseViewModel extends ViewModel{
         return this.exercisesByCategory;
     }
 
-    public void addExercise(Exercise exercise) {
-        ExerciseReposirory.instance.addExercise(exercise);
+    public void addExercise(Exercise exercise, Bitmap bitmap) {
+        ExerciseReposirory.instance.addExercise(exercise, bitmap);
     }
 
     public LiveData<String> addExerciseImage(String exerciseId, Bitmap image) {

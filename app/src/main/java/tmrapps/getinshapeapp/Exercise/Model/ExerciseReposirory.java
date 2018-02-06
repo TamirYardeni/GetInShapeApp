@@ -80,7 +80,7 @@ public class ExerciseReposirory {
         return this.exercisesByCategoryLiveData;
     }
 
-    public void addExercise(Exercise exercise) {
+    public void addExercise(Exercise exercise, Bitmap bitmap) {
         ExerciseFirebase.addExercise(exercise, new ExerciseFirebase.OnExerciseListener() {
             @Override
             public void onComplete(List<Exercise> exercise) {
@@ -91,6 +91,8 @@ public class ExerciseReposirory {
             public void onComplete() {
                 ExerciseListItemRepository.instance.
                         addExerciseListItemOfCategory(exercise.getCategoryId(), exercise.getName(), exercise.getId());
+
+                addExerciseImage(exercise.getId(), bitmap);
             }
         });
     }
@@ -106,8 +108,7 @@ public class ExerciseReposirory {
             @Override
             public void complete(String url) {
                 String fileName = URLUtil.guessFileName(url, null, null);
-                /*saveImageToFile(imageBmp,fileName);*/
-                /*listener.complete(url);*/
+                addExerciseUrl(exerciseId, fileName);
                 urlLiveData.setValue(fileName);
             }
 
@@ -118,6 +119,10 @@ public class ExerciseReposirory {
         });
 
         return urlLiveData;
+    }
+
+    public void addExerciseUrl(String exerciseId, String url) {
+        ExerciseFirebase.addExerciseUrl(exerciseId, url);
     }
 
     private void updateExerciseDataInLocalStore(List<Exercise> data, String id) {
