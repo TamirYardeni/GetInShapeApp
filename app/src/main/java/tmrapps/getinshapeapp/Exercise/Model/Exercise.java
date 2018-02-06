@@ -1,64 +1,104 @@
 package tmrapps.getinshapeapp.Exercise.Model;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 import android.graphics.Bitmap;
+import android.support.annotation.NonNull;
+
+import com.google.firebase.database.ServerValue;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by tamir on 2/1/2018.
  */
-
+@Entity
 public class Exercise {
 
-    private String _catId;
-    private String _name;
-    private String _data;
-    private String _note;
-    private String _url;
+    @PrimaryKey
+    @NonNull
+    private String id;
+    private String categoryId;
+    private String name;
+    private String data;
+    private String note;
+    private String url;
+    private long lastUpdateDate;
 
     public Exercise() {
 
     }
 
     public String getId() {
-        return "1";
+        return this.id;
     }
 
+    public void setId(String id) {this.id = id;}
+
     public void setName(String name) {
-        this._name = name;
+        this.name = name;
     }
 
     public void setData(String data) {
-        this._data = data;
-    }
-
-    public void setNotes(String notes) {
-        this._note = notes;
+        this.data = data;
     }
 
     public String getName() {
-        return this._name;
+        return this.name;
     }
 
     public String getData() {
-        return this._data;
+        return this.data;
     }
 
-    public String getNotes() {
-        return this._note;
+    public String getNote() {
+        return note;
     }
 
-    public String getCatId() {
-        return this._catId;
+    public void setNote(String note) {
+        this.note = note;
     }
 
-    public void setCatId(String catId) {
-        this._catId = catId;
+    public String getCategoryId() {
+        return this.categoryId;
+    }
+
+    public void setCategoryId(String catId) {
+        this.categoryId = catId;
     }
 
     public String getUrl() {
-        return this._url;
+        return this.url;
     }
 
     public void setUrl(String url) {
-        this._url = url;
+        this.url = url;
+    }
+
+    public long getLastUpdateDate() {
+        return lastUpdateDate;
+    }
+
+    public void setLastUpdateDate(long lastUpdateDate) {
+        this.lastUpdateDate = lastUpdateDate;
+    }
+
+
+    /**
+     * This is a function that maps the object to name & value
+     * It helps inserting the object to the firebase database
+     * @return
+     */
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("id", this.id);
+        result.put("categoryId", this.categoryId);
+        result.put("name", this.name);
+        result.put("data", this.data);
+        result.put("note", this.note);
+        result.put("url", this.url);
+        result.put("lastUpdateDate", ServerValue.TIMESTAMP);
+        return  result;
     }
 }

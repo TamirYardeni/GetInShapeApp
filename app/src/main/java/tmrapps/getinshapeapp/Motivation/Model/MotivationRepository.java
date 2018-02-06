@@ -13,13 +13,9 @@ import tmrapps.getinshapeapp.Main.FirebaseModel;
 public class MotivationRepository {
     public final static MotivationRepository instace = new MotivationRepository();
 
-    /*private ModelMem modelMem;
-    private ModelSql modelSql;*/
     private FirebaseModel modelFirebase;
 
     private MotivationRepository() {
-        /*modelMem = new ModelMem();
-        modelSql = new ModelSql(MyApplication.getMyContext());*/
         modelFirebase = FirebaseModel.getInstance();
 
     }

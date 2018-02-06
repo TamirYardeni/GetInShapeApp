@@ -9,11 +9,12 @@ import android.util.Log;
 
 import tmrapps.getinshapeapp.Category.CategoryFragment;
 import tmrapps.getinshapeapp.Exercise.Model.Exercise;
+import tmrapps.getinshapeapp.ExerciseList.ExerciseFragment;
 import tmrapps.getinshapeapp.R;
 import tmrapps.getinshapeapp.User.RoleType;
 
 public class ExerciseActivity extends AppCompatActivity implements ExerciseFragment.OnFragmentInteractionListener,
-        ExerciseAdminFragment.OnFragmentInteractionListener, CategoryFragment.OnFragmentInteractionListener, ExerciseDetailsFragment.OnFragmentInteractionListener,
+        CategoryFragment.OnFragmentInteractionListener, ExerciseDetailsFragment.OnFragmentInteractionListener,
         CreateExerciseFragment.OnFragmentInteractionListener {
     private RoleType role;
 
@@ -36,56 +37,38 @@ public class ExerciseActivity extends AppCompatActivity implements ExerciseFragm
     }
 
     @Override
-    public void onShowCategory(String categoryId) {
-        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-        android.support.v4.app.FragmentTransaction fragmentTransaction =
-                fragmentManager.beginTransaction();
-
-        this.exerciseListFrag = new ExerciseFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("roleType", this.role.name());
-        this.exerciseListFrag.setArguments(bundle);
-
-        fragmentTransaction.replace(R.id.exerciseContent, this.exerciseListFrag);
-        fragmentTransaction.addToBackStack(this.categoryFrag.getClass().getName());
-        fragmentTransaction.commit();
+    public void onShowExercisesOfCategory(String categoryId) {
+        this.exerciseListFrag = ExerciseFragment.newInstance(this.role.name(), categoryId);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.exerciseContent, this.exerciseListFrag);
+        transaction.addToBackStack(this.categoryFrag.getClass().getName());
+        transaction.commit();
     }
 
     @Override
     public void onShowExerciseDetails(String id) {
-        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-        android.support.v4.app.FragmentTransaction fragmentTransaction =
-                fragmentManager.beginTransaction();
-
-        this.exerciseDetailsFrag = new ExerciseDetailsFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("id", id);
-        this.exerciseDetailsFrag.setArguments(bundle);
-
-        fragmentTransaction.replace(R.id.exerciseContent, this.exerciseDetailsFrag);
-        fragmentTransaction.addToBackStack(this.exerciseListFrag.getClass().getName());
-        fragmentTransaction.commit();
+        this.exerciseDetailsFrag = ExerciseDetailsFragment.newInstance(id);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.exerciseContent, this.exerciseDetailsFrag);
+        transaction.addToBackStack(this.exerciseListFrag.getClass().getName());
+        transaction.commit();
     }
 
     @Override
     public void onShowCreateExercise(String categoryId) {
-        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-        android.support.v4.app.FragmentTransaction fragmentTransaction =
-                fragmentManager.beginTransaction();
-
-        this.createExerciseFrag = new CreateExerciseFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("categoryId", categoryId);
-        this.createExerciseFrag.setArguments(bundle);
-
-        fragmentTransaction.replace(R.id.exerciseContent, this.createExerciseFrag);
-        fragmentTransaction.addToBackStack(this.exerciseListFrag.getClass().getName());
-        fragmentTransaction.commit();
+        this.createExerciseFrag = CreateExerciseFragment.newInstance(categoryId);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.exerciseContent, this.createExerciseFrag);
+        transaction.addToBackStack(this.exerciseListFrag.getClass().getName());
+        transaction.commit();
     }
 
     @Override
     public void onCreateExercise(Exercise exercise, Bitmap exerciseImage) {
-        // TODO:  save exercise to firebase and db
-        Log.d("TAG","EXERCISE CREATED");
+        this.exerciseListFrag = ExerciseFragment.newInstance(this.role.name(), exercise.getCategoryId());
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.exerciseContent, this.exerciseListFrag);
+        transaction.addToBackStack(this.categoryFrag.getClass().getName());
+        transaction.commit();
     }
 }

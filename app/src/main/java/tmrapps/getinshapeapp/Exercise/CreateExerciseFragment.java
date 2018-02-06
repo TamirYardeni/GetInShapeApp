@@ -1,6 +1,7 @@
 package tmrapps.getinshapeapp.Exercise;
 
 import android.Manifest;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -47,6 +48,8 @@ public class CreateExerciseFragment extends Fragment {
     private EditText textExerciseNote;
 
     private Bitmap selectedImage;
+
+    private ExerciseViewModel exerciseViewModel;
 
     public CreateExerciseFragment() {
         // Required empty public constructor
@@ -115,6 +118,8 @@ public class CreateExerciseFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+
+        this.exerciseViewModel = ViewModelProviders.of(this).get(ExerciseViewModel.class);
     }
 
     /**
@@ -190,8 +195,10 @@ public class CreateExerciseFragment extends Fragment {
         // Insert data to the exercise
         exercise.setName(this.textExerciseName.getText().toString());
         exercise.setData(this.textExerciseData.getText().toString());
-        exercise.setNotes(this.textExerciseNote.getText().toString());
-        exercise.setCatId(this.categoryId);
+        exercise.setNote(this.textExerciseNote.getText().toString());
+        exercise.setCategoryId(this.categoryId);
+
+        this.exerciseViewModel.addExercise(exercise);
 
         // Fire the event to the exercise activity
         mListener.onCreateExercise(exercise, this.selectedImage);

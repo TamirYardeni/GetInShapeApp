@@ -1,5 +1,7 @@
 package tmrapps.getinshapeapp.Exercise;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,10 +26,11 @@ public class ExerciseDetailsFragment extends Fragment {
 
     private static final String EXERCISE_ID = "id";
 
-    // TODO: Rename and change types of parameters
     private String exerciseId;
 
     private OnFragmentInteractionListener mListener;
+
+    private ExerciseViewModel exerciseViewModel;
 
     public ExerciseDetailsFragment() {
         // Required empty public constructor
@@ -54,16 +57,18 @@ public class ExerciseDetailsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_exercise_details, container, false);
 
+        LiveData<Exercise> exerciseLiveData = exerciseViewModel.getExerciseById(this.exerciseId);
+
         TextView exerciseName = (TextView)view.findViewById(R.id.exerciseNameTxt);
         TextView exerciseData = (TextView)view.findViewById(R.id.exerciseDataTxt);
         TextView exerciseNotes = (TextView)view.findViewById(R.id.exerciseNotesTxt);
         //view.findViewById(R.id.exerciseImage);
 
-        Exercise exercise = getExerciseDetails();
+        //Exercise exercise = getExerciseDetails();
 
-        exerciseName.setText(exercise.getName());
-        exerciseData.setText(exercise.getData());
-        exerciseNotes.setText(exercise.getNotes());
+        exerciseName.setText(exerciseLiveData.getValue().getName());
+        exerciseData.setText(exerciseLiveData.getValue().getData());
+        exerciseNotes.setText(exerciseLiveData.getValue().getNote());
 
         return view;
     }
@@ -77,6 +82,8 @@ public class ExerciseDetailsFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+
+        this.exerciseViewModel = ViewModelProviders.of(this).get(ExerciseViewModel.class);
     }
 
     @Override
@@ -85,7 +92,7 @@ public class ExerciseDetailsFragment extends Fragment {
         mListener = null;
     }
 
-    public Exercise getExerciseDetails() {
+    /*public Exercise getExerciseDetails() {
         Exercise exercise = new Exercise();
         String name = "כפיפות בטן בישיבה";
         String data = "1. שב זקוף עם הגב לקיר \n 2.עשה כפיפת בטן \n עלה חזרה עד למעלה";
@@ -95,7 +102,7 @@ public class ExerciseDetailsFragment extends Fragment {
         exercise.setNotes(note);
 
         return exercise;
-    }
+    }*/
 
     public interface OnFragmentInteractionListener {
 

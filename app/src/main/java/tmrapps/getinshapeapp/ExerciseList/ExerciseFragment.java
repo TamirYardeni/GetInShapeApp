@@ -1,20 +1,25 @@
-package tmrapps.getinshapeapp.Exercise;
+package tmrapps.getinshapeapp.ExerciseList;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import tmrapps.getinshapeapp.Exercise.ExerciseViewModel;
 import tmrapps.getinshapeapp.Exercise.Model.Exercise;
+import tmrapps.getinshapeapp.ExerciseList.Model.ExerciseInCategory;
+import tmrapps.getinshapeapp.ExerciseList.Model.ExerciseListItem;
 import tmrapps.getinshapeapp.R;
 import tmrapps.getinshapeapp.User.RoleType;
 
@@ -30,22 +35,33 @@ public class ExerciseFragment extends Fragment {
 
     private static final String ROLE_TYPE= "roleType";
 
+    private static final String CATEGORY_ID= "categoryId";
+
     private RoleType role;
 
+    private String categoryId;
+
     private ExerciseFragment.OnFragmentInteractionListener mListener;
+
+    private ExerciseListViewModel exerciseListViewModel;
+
+    //private ExerciseViewModel exerciseViewModel;
 
     private ExerciseFragment.ExerciseAdapter exercisesAdapter;
 
     private ListView list;
 
+    private ProgressBar progressBar;
+
     public ExerciseFragment() {
         // Required empty public constructor
     }
 
-    public static ExerciseFragment newInstance(String param1) {
+    public static ExerciseFragment newInstance(String param1, String param2) {
         ExerciseFragment fragment = new ExerciseFragment();
         Bundle args = new Bundle();
         args.putString(ROLE_TYPE, param1);
+        args.putString(CATEGORY_ID, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -55,6 +71,7 @@ public class ExerciseFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             String roleName = getArguments().getString(ROLE_TYPE);
+            this.categoryId = getArguments().getString(CATEGORY_ID);
             role = RoleType.valueOf(roleName);
         }
     }
@@ -63,6 +80,15 @@ public class ExerciseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View exerciseListView = inflater.inflate(R.layout.fragment_exercise, container, false);
+
+        progressBar = exerciseListView.findViewById(R.id.progressBarExerciseList);
+        progressBar.setVisibility(View.VISIBLE);
+
+        this.exerciseListViewModel.getExerciseOfCategory(this.categoryId).observe(this, (exerciseListItems) -> {
+            this.exercisesAdapter.data = exerciseListItems.getExercisesInCategory();
+            this.exercisesAdapter.notifyDataSetChanged();
+            progressBar.setVisibility(View.GONE);
+        });
 
         list = exerciseListView.findViewById(R.id.exerciseList);
         exercisesAdapter = new ExerciseFragment.ExerciseAdapter(this);
@@ -75,7 +101,7 @@ public class ExerciseFragment extends Fragment {
             addExerciseBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mListener.onShowCreateExercise("1");
+                    mListener.onShowCreateExercise(categoryId);
                 }
             });
         }
@@ -93,6 +119,8 @@ public class ExerciseFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+
+        this.exerciseListViewModel = ViewModelProviders.of(this).get(ExerciseListViewModel.class);
     }
 
     @Override
@@ -113,15 +141,9 @@ public class ExerciseFragment extends Fragment {
     class ExerciseAdapter extends BaseAdapter {
 
         ExerciseFragment exerciseFrag;
-        List<Exercise> data = new LinkedList<>();
+        List<ExerciseInCategory> data = new LinkedList<>();
 
         public ExerciseAdapter(ExerciseFragment fragment) {
-            data.add(new Exercise());
-            data.add(new Exercise());
-            data.add(new Exercise());
-            data.add(new Exercise());
-            data.add(new Exercise());
-
             this.exerciseFrag = fragment;
         }
 
@@ -131,7 +153,7 @@ public class ExerciseFragment extends Fragment {
         }
 
         @Override
-        public Exercise getItem(int i) {
+        public ExerciseInCategory getItem(int i) {
             return data.get(i);
         }
 
@@ -143,7 +165,7 @@ public class ExerciseFragment extends Fragment {
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
 
-            Exercise exercise = data.get(i);
+            ExerciseInCategory exerciseInCategory = data.get(i);
 
             if (view == null) {
                 view = getLayoutInflater().inflate(R.layout.category_row, null);
@@ -159,8 +181,7 @@ public class ExerciseFragment extends Fragment {
             }
 
             TextView exerciseName = view.findViewById(R.id.categoryTxt);
-            /*exerciseName.setText(exercise.getName());*/
-            exerciseName.setText(i + "תרגיל");
+            exerciseName.setText(exerciseInCategory.getName());
             exerciseName.setTag(i);
 
             return view;

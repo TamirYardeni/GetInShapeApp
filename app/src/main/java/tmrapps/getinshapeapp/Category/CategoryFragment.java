@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.LinkedList;
@@ -36,6 +37,10 @@ public class CategoryFragment extends Fragment {
 
     private RoleType role;
 
+    private ProgressBar progressBar;
+
+    private View categoryView;
+
     public CategoryFragment() {
         // Required empty public constructor
     }
@@ -59,13 +64,16 @@ public class CategoryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View exerciseView = inflater.inflate(R.layout.fragment_exercise_admin, container, false);
+        this.categoryView = inflater.inflate(R.layout.fragment_category, container, false);
 
-        list = exerciseView.findViewById(R.id.categoryListAdmin);
+        list = categoryView.findViewById(R.id.categoryList);
         categoriesAdapter = new CategoryFragment.CategoryAdapter(this);
         list.setAdapter(categoriesAdapter);
 
-        FloatingActionButton addCategoryBtn = exerciseView.findViewById(R.id.addCategoryBtn);
+        progressBar = categoryView.findViewById(R.id.categoryProgressBar);
+        progressBar.setVisibility(View.VISIBLE);
+
+        FloatingActionButton addCategoryBtn = categoryView.findViewById(R.id.addCategoryBtn);
 
         // If the user is admin - allow him to add categories.
         // In case he is a regular user - hide the "add category" button.
@@ -91,7 +99,7 @@ public class CategoryFragment extends Fragment {
         }
 
         // Inflate the layout for this fragment
-        return exerciseView;
+        return categoryView;
     }
 
     private void addCategory(String categoryName) {
@@ -109,7 +117,7 @@ public class CategoryFragment extends Fragment {
     }
 
     public void showCategory(String categoryId) {
-        mListener.onShowCategory(categoryId);
+        mListener.onShowExercisesOfCategory(categoryId);
     }
 
     @Override
@@ -127,6 +135,7 @@ public class CategoryFragment extends Fragment {
         this.categoryViewModel.getCategories().observe(this, (categories) -> {
             this.categoriesAdapter.data = categories;
             this.categoriesAdapter.notifyDataSetChanged();
+            progressBar.setVisibility(View.GONE);
         });
     }
 
@@ -137,7 +146,7 @@ public class CategoryFragment extends Fragment {
     }
 
     public interface OnFragmentInteractionListener {
-        void onShowCategory(String categoryId);
+        void onShowExercisesOfCategory(String categoryId);
     }
 
     class CategoryAdapter extends BaseAdapter {
@@ -146,26 +155,6 @@ public class CategoryFragment extends Fragment {
         List<Category> data = new LinkedList<>();
 
         public CategoryAdapter(CategoryFragment fragment) {
-            /*data.add(new Category("ידיים"));
-            data.add(new Category("בטן"));
-            data.add(new Category("גב"));
-            data.add(new Category("ישבן"));
-            data.add(new Category("חזה"));*/
-
-            /*// Write to local db
-            Category catForDB = new Category("ידיים");
-            catForDB.setId("0");
-            DBexercise.getInstance().addCategory(catForDB);*/
-
-            // write to firebase
-            /*Category catForDB = new Category("ידיים");*/
-            //FirebaseExercise.getInstance().addCategory(catForDB);
-            /*List<Category> categoriesFromDB = DBexercise.getInstance().getAllCategories();
-
-            for (Category cat :categoriesFromDB) {
-                Log.d("TAG", "read category from db" + cat.getName());
-            }*/
-
             this.exerciseFrag = fragment;
         }
 

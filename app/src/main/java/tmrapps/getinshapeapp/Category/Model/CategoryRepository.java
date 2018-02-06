@@ -33,7 +33,7 @@ public class CategoryRepository {
                 long lastUpdateDate = 0;
                 try {
                     lastUpdateDate = GetInShapeApp.getMyContext()
-                            .getSharedPreferences("TAG", Context.MODE_PRIVATE).getLong("lastUpdateDate", 0);
+                            .getSharedPreferences("TAG", Context.MODE_PRIVATE).getLong("lastUpdateDateCategory", 0);
                 } catch (Exception e) {
 
                 }
@@ -65,11 +65,14 @@ public class CategoryRepository {
         @Override
         protected List<Category> doInBackground(List<Category>[] lists) {
             if (lists.length > 0) {
+
+                SharedPreferences sharedPreferences = GetInShapeApp.getMyContext()
+                                                        .getSharedPreferences("TAG", Context.MODE_PRIVATE);
+
                 List<Category> data = lists[0];
                 long lastUpdateDate = 0;
                 try {
-                    lastUpdateDate = GetInShapeApp.getMyContext()
-                            .getSharedPreferences("TAG", Context.MODE_PRIVATE).getLong("lastUpdateDate", 0);
+                    lastUpdateDate = sharedPreferences.getLong("lastUpdateDateCategory", 0);
                 } catch (Exception ex) {
 
                 }
@@ -82,10 +85,12 @@ public class CategoryRepository {
                             recentUpdate = category.getLastUpdated();
                         }
                     }
-                    SharedPreferences.Editor editor = GetInShapeApp.getMyContext().getSharedPreferences("TAG", Context.MODE_PRIVATE).edit();
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.clear();
-                    editor.putLong("lastUpdateDate", recentUpdate);
                     editor.commit();
+                    SharedPreferences.Editor editor1 = sharedPreferences.edit();
+                    editor1.putLong("lastUpdateDateCategory", recentUpdate);
+                    editor1.commit();
                 }
                 List<Category> categoryList = AppLocalStore.db.categoryDao().getAll();
 

@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements MainUserFragment.
             tran.commit();
 
             Intent intent = new Intent(this, activityClass);
-            intent.putExtra("ROLE_TYPE", RoleType.values()[this.user.roleType]);
+            intent.putExtra("ROLE_TYPE", RoleType.values()[this.user.roleType].name());
             intent.putExtra("USER_ID", this.user.getId());
             startActivity(intent);
         }
