@@ -5,6 +5,9 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,7 +26,8 @@ public class PersonalInformation {
     public double currentWeight;
     public double weightToAchieve;
 
-    @Ignore
+    long lastUpdate;
+
     public Date dateEndOfTrain;
     public int hourTrain;
     public int minuteTrain;
@@ -42,9 +46,25 @@ public class PersonalInformation {
 
     public String getDateEndOfTrain()
     {
-        return this.dateEndOfTrain.toString();
+        if(dateEndOfTrain != null){
+            DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+
+            return df.format(this.dateEndOfTrain);
+        }
+
+        return "";
     }
     public void setDateEndOfTrain(Date date) { this.dateEndOfTrain = date; }
+
+    public void setDateEndOfTrain(String dateEndOfTrain) {
+        DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+        try {
+            this.dateEndOfTrain = format.parse(dateEndOfTrain);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
 
     public int getHourTrain() { return this.hourTrain; }
     public void setHourTrain(int hour) { this.hourTrain = hour; }
@@ -52,6 +72,14 @@ public class PersonalInformation {
     public int getMinuteTrain() { return this.minuteTrain; }
     public void setMinuteTrain(int minute) { this.minuteTrain = minute; }
 
+
+    public String getTime(){
+        if (this.minuteTrain != 0 || this.hourTrain != 0) {
+            return this.hourTrain + ":" + this.minuteTrain;
+        }
+
+        return "";
+    }
 
     public List<String> getDayOfWeek() { return this.dayOfWeek; }
     public void setDayOfWeek(List<String> days) { this.dayOfWeek = days; }

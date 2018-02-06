@@ -70,19 +70,33 @@ public class PersonalAreaFragment extends Fragment {
         return fragment;
     }
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             this.userId = getArguments().getString("userId");
-            personalAreaViewModel = ViewModelProviders.of(this).get(PersonalAreaViewModel.class);
-            personalAreaViewModel.getPersonalInformation(this.userId).observe(this, new Observer<PersonalInformation>() {
-                @Override
-                public void onChanged(@Nullable PersonalInformation info) {
-                    personalInformation = info;
-                }
-            });
         }
+    }
+
+    private void changeToReadOnlyMode() {
+        ((Button) getView().findViewById(R.id.btnSave)).setText("שינוי");
+        ((Button) getView().findViewById(R.id.btnEndDate)).setEnabled(false);
+        ((Button) getView().findViewById(R.id.btnTime)).setEnabled(false);
+        ((EditText) getView().findViewById(R.id.edCurWeight)).setEnabled(false);
+        ((EditText) getView().findViewById(R.id.edWeightAchieved)).setEnabled(false);
+        setBtnClick((Button) getView().findViewById(R.id.btnSave), this::onEditBtnClick);
+
+    }
+
+    private void changeToEditMode() {
+        ((Button) getView().findViewById(R.id.btnSave)).setText("שמור");
+        ((Button) getView().findViewById(R.id.btnEndDate)).setEnabled(true);
+        ((Button) getView().findViewById(R.id.btnTime)).setEnabled(true);
+        ((EditText) getView().findViewById(R.id.edCurWeight)).setEnabled(true);
+        ((EditText) getView().findViewById(R.id.edWeightAchieved)).setEnabled(true);
+        setBtnClick((Button) getView().findViewById(R.id.btnSave), this::onSaveBtnClick);
+
     }
 
     @Override
@@ -91,8 +105,25 @@ public class PersonalAreaFragment extends Fragment {
         // Inflate the layout for this fragment_personal_area
         View view = inflater.inflate(R.layout.fragment_personal_area, container, false);
 
+        personalAreaViewModel.getPersonalInformation(this.userId).observe(this, new Observer<PersonalInformation>() {
+            @Override
+            public void onChanged(@Nullable PersonalInformation info) {
+                if ( info != null) {
+                    changeToReadOnlyMode();
+                    personalInformation = info;
+
+                }
+                else{
+                    changeToEditMode();
+                    personalInformation = new PersonalInformation();
+                }
+
+                updateViewWithData(view, info);
+
+            }
+        });
+
         setBtnClick((Button) view.findViewById(R.id.btnTime), this::onTimePickerClick);
-        setBtnClick((Button) view.findViewById(R.id.btnSave), this::onSaveBtnClick);
         setBtnClick((Button) view.findViewById(R.id.btnEndDate), this::onDatePickerClick);
 
         MultiSelectionSpinner spinner=(MultiSelectionSpinner)view.findViewById(R.id.input1);
@@ -109,6 +140,13 @@ public class PersonalAreaFragment extends Fragment {
         spinner.setItems(list);
 
         return view;
+    }
+
+    private void updateViewWithData(View v, PersonalInformation info) {
+        ((EditText) v.findViewById(R.id.edWeightAchieved)).setText(Double.toString(info.getWeightToAchieve()));
+        ((EditText) v.findViewById(R.id.edCurWeight)).setText(Double.toString(info.getCurrentWeight()));
+        ((TextView) v.findViewById(R.id.txtEndDate)).setText(info.getDateEndOfTrain());
+        ((TextView) v.findViewById(R.id.txtTime)).setText(info.getTime());
     }
 
     private void setBtnClick(Button btn, final Consumer<View> func){
@@ -129,6 +167,13 @@ public class PersonalAreaFragment extends Fragment {
         personalInformation.setCurrentWeight(Double.parseDouble( "" + textCurWeight.getText()));
 
         PersonalAreaRepository.instance.savePersonalInformation(personalInformation);
+
+        this.changeToReadOnlyMode();
+    }
+
+    private void onEditBtnClick(View v) {
+        this.changeToEditMode();
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -136,22 +181,20 @@ public class PersonalAreaFragment extends Fragment {
             final TextView textView = (TextView) getView().findViewById(R.id.txtTime);
 
             final Calendar c = Calendar.getInstance();
+
             int mHour = c.get(Calendar.HOUR); // current hour
             int mMinute = c.get(Calendar.MINUTE); // current minute
 
             // date picker dialog
             timePickerDialog = new TimePickerDialog(getActivity(),
-                    new TimePickerDialog.OnTimeSetListener() {
-                        @Override
-                        public void onTimeSet(TimePicker view, int hour,
-                                              int minute) {
-                            // set day of month , month and year value in the edit text
-                            textView.setText(hour + ":" +
-                            minute);
-                            personalInformation.setHourTrain(hour);
-                            personalInformation.setMinuteTrain(minute);
+                    (view, hour, minute) -> {
+                        // set day of month , month and year value in the edit text
+                        textView.setText(hour + ":" +
+                        minute);
+                        personalInformation.setHourTrain(hour);
+                        personalInformation.setMinuteTrain(minute);
 
-                        }}
+                    }
                     , mHour, mMinute, true);
 
         timePickerDialog.show();
@@ -159,28 +202,28 @@ public class PersonalAreaFragment extends Fragment {
 
     private void onDatePickerClick(View v) {
         final TextView textView = (TextView) getView().findViewById(R.id.txtEndDate);
+        Calendar c = Calendar.getInstance();
 
-        final Calendar c = Calendar.getInstance();
+        if (personalInformation.dateEndOfTrain != null){
+            c.setTime(personalInformation.dateEndOfTrain);
+        }
+
         int mYear = c.get(Calendar.YEAR); // current year
         int mMonth = c.get(Calendar.MONTH); // current month
         int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
 
         // date picker dialog
         datePickerDialog = new DatePickerDialog(getActivity(),
-                new DatePickerDialog.OnDateSetListener() {
+                (view, year, monthOfYear, dayOfMonth) -> {
+                    // set day of month , month and year value in the edit text
+                    textView.setText(dayOfMonth + "/"
+                            + (monthOfYear + 1) + "/" + year);
+                    Calendar cal = Calendar.getInstance();
+                    cal.set(year,monthOfYear,dayOfMonth);
 
-                    @Override
-                    public void onDateSet(DatePicker view, int year,
-                                          int monthOfYear, int dayOfMonth) {
-                        // set day of month , month and year value in the edit text
-                        textView.setText(dayOfMonth + "/"
-                                + (monthOfYear + 1) + "/" + year);
-                        Calendar cal = Calendar.getInstance();
-                        cal.set(year,monthOfYear,dayOfMonth);
+                    personalInformation.setDateEndOfTrain(cal.getTime());
 
-                        personalInformation.setDateEndOfTrain(cal.getTime());
-
-                    }}
+                }
                 , mYear, mMonth, mDay);
         datePickerDialog.show();
     }
@@ -194,6 +237,8 @@ public class PersonalAreaFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+
+        personalAreaViewModel = ViewModelProviders.of(this).get(PersonalAreaViewModel.class);
     }
 
     @Override
