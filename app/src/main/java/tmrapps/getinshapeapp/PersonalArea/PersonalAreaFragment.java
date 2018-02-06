@@ -2,7 +2,6 @@ package tmrapps.getinshapeapp.PersonalArea;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.arch.core.util.Function;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
@@ -19,6 +18,8 @@ import android.widget.Button;
 import android.widget.DatePicker;
 
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -51,6 +52,7 @@ public class PersonalAreaFragment extends Fragment {
     String userId;
     PersonalInformation personalInformation = new PersonalInformation();
     PersonalAreaViewModel personalAreaViewModel;
+    private ProgressBar progressBar;
 
 
     public PersonalAreaFragment() {
@@ -105,20 +107,24 @@ public class PersonalAreaFragment extends Fragment {
         // Inflate the layout for this fragment_personal_area
         View view = inflater.inflate(R.layout.fragment_personal_area, container, false);
 
+        this.hideAllUIElements(view);
+        progressBar = view.findViewById(R.id.personalAreaProgressBar);
+        progressBar.setVisibility(View.VISIBLE);
         personalAreaViewModel.getPersonalInformation(this.userId).observe(this, new Observer<PersonalInformation>() {
             @Override
             public void onChanged(@Nullable PersonalInformation info) {
+                progressBar.setVisibility(View.GONE);
+                showAllUIElements(view);
+
                 if ( info != null) {
                     changeToReadOnlyMode();
                     personalInformation = info;
-
+                    updateViewWithData(view, info);
                 }
-                else{
+                else {
                     changeToEditMode();
                     personalInformation = new PersonalInformation();
                 }
-
-                updateViewWithData(view, info);
 
             }
         });
@@ -147,6 +153,18 @@ public class PersonalAreaFragment extends Fragment {
         ((EditText) v.findViewById(R.id.edCurWeight)).setText(Double.toString(info.getCurrentWeight()));
         ((TextView) v.findViewById(R.id.txtEndDate)).setText(info.getDateEndOfTrain());
         ((TextView) v.findViewById(R.id.txtTime)).setText(info.getTime());
+    }
+
+    private void hideAllUIElements(View v) {
+        LinearLayout layout = v.findViewById(R.id.llPersonalArea);
+
+        layout.setVisibility(View.GONE);
+    }
+
+    private void showAllUIElements(View v) {
+        LinearLayout layout = v.findViewById(R.id.llPersonalArea);
+
+        layout.setVisibility(View.VISIBLE);
     }
 
     private void setBtnClick(Button btn, final Consumer<View> func){

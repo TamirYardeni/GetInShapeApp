@@ -33,6 +33,9 @@ public class CreateExerciseFragment extends Fragment {
 
     private String categoryId;
 
+    private String categoryName;
+
+
     private OnFragmentInteractionListener mListener;
 
     private ImageView imageExample;
@@ -55,12 +58,14 @@ public class CreateExerciseFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static CreateExerciseFragment newInstance(String param1) {
+    public static CreateExerciseFragment newInstance(String param1, String param2) {
         CreateExerciseFragment fragment = new CreateExerciseFragment();
 
         // Insert category id to bundle when creating new instance of this fragment
         Bundle args = new Bundle();
         args.putString(ARG_PARAM_CATEGORY, param1);
+        args.putString("categoryName", param2);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -70,6 +75,7 @@ public class CreateExerciseFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             categoryId = getArguments().getString(ARG_PARAM_CATEGORY);
+            categoryName = getArguments().getString("categoryName");
         }
     }
 
@@ -79,7 +85,7 @@ public class CreateExerciseFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_create_exercise, container, false);
 
         this.textCategoryName = view.findViewById(R.id.textCategoryName);
-        this.textCategoryName.setText("בטן");
+        this.textCategoryName.setText(this.categoryName);
 
         this.textExerciseName = view.findViewById(R.id.textNewExerciseName);
         this.textExerciseData = view.findViewById(R.id.textNewExerciseData);
@@ -204,10 +210,10 @@ public class CreateExerciseFragment extends Fragment {
         this.exerciseViewModel.addExercise(exercise, this.selectedImage);
 
         // Fire the event to the exercise activity
-        mListener.onCreateExercise(exercise, this.selectedImage);
+        mListener.onCreateExercise(exercise, this.selectedImage, this.categoryName);
     }
 
     public interface OnFragmentInteractionListener {
-        void onCreateExercise(Exercise exercise, Bitmap exerciseImage);
+        void onCreateExercise(Exercise exercise, Bitmap exerciseImage, String categoryName);
     }
 }

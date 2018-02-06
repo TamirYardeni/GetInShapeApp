@@ -30,6 +30,10 @@ public class ExerciseActivity extends AppCompatActivity implements ExerciseFragm
 
         this.role = RoleType.valueOf(getIntent().getStringExtra("ROLE_TYPE"));
 
+        this.onShowCategory();
+    }
+
+    public void onShowCategory(){
         this.categoryFrag = CategoryFragment.newInstance(this.role);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.exerciseContent, this.categoryFrag);
@@ -37,8 +41,8 @@ public class ExerciseActivity extends AppCompatActivity implements ExerciseFragm
     }
 
     @Override
-    public void onShowExercisesOfCategory(String categoryId) {
-        this.exerciseListFrag = ExerciseFragment.newInstance(this.role.name(), categoryId);
+    public void onShowExercisesOfCategory(String categoryId, String categoryName) {
+        this.exerciseListFrag = ExerciseFragment.newInstance(this.role.name(), categoryId, categoryName);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.exerciseContent, this.exerciseListFrag);
         transaction.addToBackStack(this.categoryFrag.getClass().getName());
@@ -55,8 +59,8 @@ public class ExerciseActivity extends AppCompatActivity implements ExerciseFragm
     }
 
     @Override
-    public void onShowCreateExercise(String categoryId) {
-        this.createExerciseFrag = CreateExerciseFragment.newInstance(categoryId);
+    public void onShowCreateExercise(String categoryId, String categoryName) {
+        this.createExerciseFrag = CreateExerciseFragment.newInstance(categoryId, categoryName);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.exerciseContent, this.createExerciseFrag);
         transaction.addToBackStack(this.exerciseListFrag.getClass().getName());
@@ -64,11 +68,17 @@ public class ExerciseActivity extends AppCompatActivity implements ExerciseFragm
     }
 
     @Override
-    public void onCreateExercise(Exercise exercise, Bitmap exerciseImage) {
-        this.exerciseListFrag = ExerciseFragment.newInstance(this.role.name(), exercise.getCategoryId());
+    public void onCreateExercise(Exercise exercise, Bitmap exerciseImage, String categoryName) {
+        this.exerciseListFrag = ExerciseFragment.newInstance(this.role.name(), exercise.getCategoryId(), categoryName);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.exerciseContent, this.exerciseListFrag);
         transaction.addToBackStack(this.categoryFrag.getClass().getName());
         transaction.commit();
     }
+
+/*    @Override
+    protected void onResume() {
+        super.onResume();
+        this.onShowCategory();
+    }*/
 }

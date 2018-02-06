@@ -116,8 +116,8 @@ public class CategoryFragment extends Fragment {
         }
     }
 
-    public void showCategory(String categoryId) {
-        mListener.onShowExercisesOfCategory(categoryId);
+    public void showCategory(String categoryId, String categoryName) {
+        mListener.onShowExercisesOfCategory(categoryId,categoryName);
     }
 
     @Override
@@ -146,7 +146,7 @@ public class CategoryFragment extends Fragment {
     }
 
     public interface OnFragmentInteractionListener {
-        void onShowExercisesOfCategory(String categoryId);
+        void onShowExercisesOfCategory(String categoryId, String categoryName);
     }
 
     class CategoryAdapter extends BaseAdapter {
@@ -186,7 +186,7 @@ public class CategoryFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
                         int index =(int)view.getTag();
-                        exerciseFrag.showCategory(data.get(index).getId());
+                        exerciseFrag.showCategory(data.get(index).getId(), data.get(index).getName());
                     }
                 });
             }
