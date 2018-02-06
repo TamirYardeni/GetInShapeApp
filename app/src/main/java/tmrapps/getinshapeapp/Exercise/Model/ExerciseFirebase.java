@@ -17,8 +17,10 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import tmrapps.getinshapeapp.ExerciseList.Model.ExerciseInCategory;
 
@@ -100,6 +102,12 @@ public class ExerciseFirebase {
         List<Exercise> exerciseList = new ArrayList<>();
         exerciseList.add(exercise);
         callback.onComplete();
+    }
+
+    public static void addExerciseUrl(String exerciseId, String url) {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference ref = firebaseDatabase.getReference("exercises/" + exerciseId).child("url");
+        ref.setValue(url);
     }
 
     public static void saveImage(Bitmap imageBmp, String name, final ExerciseReposirory.OnSaveImageListener listener){

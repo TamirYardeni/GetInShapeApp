@@ -142,7 +142,10 @@ public class CreateExerciseFragment extends Fragment {
             // Do something with the photo based on Uri
             try {
                 selectedImage = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), photoUri);
-                Bitmap resizedBitmap = getResizedBitmap(selectedImage, 200,200);
+                //then create a copy of bitmap bmp1 into bmp2
+                Bitmap bmpForResize = selectedImage.copy(selectedImage.getConfig(), true);
+
+                Bitmap resizedBitmap = getResizedBitmap(bmpForResize, 200,200);
                 // Load the selected image into a preview
                 this.imageExample.setImageBitmap(resizedBitmap);
             } catch (IOException e) {
@@ -204,7 +207,7 @@ public class CreateExerciseFragment extends Fragment {
         exercise.setNote(this.textExerciseNote.getText().toString());
         exercise.setCategoryId(this.categoryId);
 
-        this.exerciseViewModel.addExercise(exercise);
+        this.exerciseViewModel.addExercise(exercise, this.selectedImage);
 
         // Fire the event to the exercise activity
         mListener.onCreateExercise(exercise, this.selectedImage, this.categoryName);
