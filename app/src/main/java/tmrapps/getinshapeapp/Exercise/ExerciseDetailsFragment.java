@@ -3,12 +3,14 @@ package tmrapps.getinshapeapp.Exercise;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import tmrapps.getinshapeapp.Exercise.Model.Exercise;
@@ -62,6 +64,16 @@ public class ExerciseDetailsFragment extends Fragment {
         exerciseViewModel.getExerciseById(this.exerciseId).observe(this, (exerciseDetails) -> {
             if (exerciseDetails != null) {
                 this.showDetailsView(exerciseDetails);
+                String url = exerciseDetails.getUrl();
+                if (url != null) {
+                    exerciseViewModel.getExerciseImage(exerciseDetails.getUrl()).observe(this, (bitmap) -> {
+                        if (bitmap != null) {
+                            this.showExerciseImageView(bitmap);
+                        }
+
+                        //progressBar.setVisibility(View.GONE);
+                    });
+                }
             }
 
             //progressBar.setVisibility(View.GONE);
@@ -81,6 +93,11 @@ public class ExerciseDetailsFragment extends Fragment {
         exerciseName.setText(exercise.getName());
         exerciseData.setText(exercise.getData());
         exerciseNotes.setText(exercise.getNote());
+    }
+
+    public void showExerciseImageView(Bitmap bitmap) {
+        ImageView exerciseImage = (ImageView)this.detailsView.findViewById(R.id.exerciseImage);
+        exerciseImage.setImageBitmap(bitmap);
     }
 
     @Override

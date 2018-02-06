@@ -28,7 +28,7 @@ public class ExerciseReposirory {
 
     MutableLiveData<List<ExerciseInCategory>> exercisesByCategoryLiveData;
 
-    MutableLiveData<String> imageUrlLiveData;
+    MutableLiveData<Bitmap> imageLiveData;
 
     ExerciseReposirory() {
 
@@ -80,6 +80,26 @@ public class ExerciseReposirory {
         return this.exercisesByCategoryLiveData;
     }
 
+    public LiveData<Bitmap> getExerciseImage(String url) {
+        if (this.imageLiveData == null) {
+            this.imageLiveData = new MutableLiveData<>();
+        }
+
+        ExerciseFirebase.getExerciseImage(url, new OnGetImageListener() {
+            @Override
+            public void complete(Bitmap image) {
+                imageLiveData.setValue(image);
+            }
+
+            @Override
+            public void fail() {
+
+            }
+        });
+
+        return this.imageLiveData;
+    }
+
     public void addExercise(Exercise exercise, Bitmap bitmap) {
         ExerciseFirebase.addExercise(exercise, new ExerciseFirebase.OnExerciseListener() {
             @Override
@@ -102,14 +122,18 @@ public class ExerciseReposirory {
         void fail();
     }
 
+    public interface OnGetImageListener {
+        void complete(Bitmap bitmap);
+        void fail();
+    }
+
     public LiveData<String> addExerciseImage(String exerciseId, Bitmap image) {
         MutableLiveData<String> urlLiveData = new MutableLiveData<>();
         ExerciseFirebase.saveImage(image, exerciseId, new OnSaveImageListener() {
             @Override
             public void complete(String url) {
-                String fileName = URLUtil.guessFileName(url, null, null);
-                addExerciseUrl(exerciseId, fileName);
-                urlLiveData.setValue(fileName);
+                addExerciseUrl(exerciseId, url);
+                urlLiveData.setValue(url);
             }
 
             @Override

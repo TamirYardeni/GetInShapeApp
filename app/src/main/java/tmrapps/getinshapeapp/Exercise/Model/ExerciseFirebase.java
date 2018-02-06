@@ -1,7 +1,9 @@
 package tmrapps.getinshapeapp.Exercise.Model;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.util.Log;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -46,31 +48,13 @@ public class ExerciseFirebase {
         void onComplete();
     }
 
-
-    public static void getAllExerciseAndObserve(long lastUpdate, String categoryId, final OnExerciseListener callback) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref = database.getReference("exercises");
-        Query query = ref.orderByChild("lastUpdateDate").startAt(lastUpdate);
-        ValueEventListener listener = query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                List<Exercise> exercises = new ArrayList<>();
-                for (DataSnapshot snap: dataSnapshot.getChildren()) {
-                    Exercise exercise = snap.getValue(Exercise.class);
-                    exercises.add(exercise);
-                }
-
-                callback.onComplete(exercises);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                callback.onComplete(null);
-            }
-        });
+    public interface OnGetStoredImageListener {
+        void onComplete(Bitmap bitmap);
+        void onComplete();
     }
 
-    public static void getExerciseByIdAndObserve(long lastUpdate, String exerciseId, final OnExerciseListener callback) {
+
+    public static void getAllExerciseAndObserve(long lastUpdate, String categoryId, final OnExerciseListener callback) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference("exercises");
         Query query = ref.orderByChild("lastUpdateDate").startAt(lastUpdate);
@@ -130,6 +114,24 @@ public class ExerciseFirebase {
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 @SuppressWarnings("VisibleForTests") Uri downloadUrl = taskSnapshot.getDownloadUrl();
                 listener.complete(downloadUrl.toString());
+            }
+        });
+    }
+
+    public static void getExerciseImage(String url, final ExerciseReposirory.OnGetImageListener listener) {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference httpsReference = storage.getReferenceFromUrl(url);
+        final long ONE_MEGABYTE = 1024 * 1024 * 5;
+        httpsReference.getBytes(3* ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                Bitmap image = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+                listener.complete(image);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(Exception exception) {
+                listener.fail();
             }
         });
     }
