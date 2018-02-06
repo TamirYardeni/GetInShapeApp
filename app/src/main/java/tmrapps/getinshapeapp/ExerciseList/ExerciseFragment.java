@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class ExerciseFragment extends Fragment {
 
     private ExerciseListViewModel exerciseListViewModel;
 
-    //private ExerciseViewModel exerciseViewModel;
+    private ExerciseViewModel exerciseViewModel;
 
     private ExerciseFragment.ExerciseAdapter exercisesAdapter;
 
@@ -84,8 +85,26 @@ public class ExerciseFragment extends Fragment {
         progressBar = exerciseListView.findViewById(R.id.progressBarExerciseList);
         progressBar.setVisibility(View.VISIBLE);
 
-        this.exerciseListViewModel.getExerciseOfCategory(this.categoryId).observe(this, (exerciseListItems) -> {
-            this.exercisesAdapter.data = exerciseListItems.getExercisesInCategory();
+        /*this.exerciseListViewModel.getExerciseOfCategory(this.categoryId).observe(this, (exerciseListItems) -> {
+            if (exerciseListItems != null) {
+                this.exercisesAdapter.data = exerciseListItems.getExercisesInCategory();
+
+            } else {
+                // In case there is no exercises for this category
+                this.exercisesAdapter.data = new ArrayList<>();
+            }
+            this.exercisesAdapter.notifyDataSetChanged();
+            progressBar.setVisibility(View.GONE);
+        });*/
+
+        exerciseViewModel.getExerciseByCategory(this.categoryId).observe(this, (exerciseListItems) -> {
+            if (exerciseListItems != null) {
+                this.exercisesAdapter.data = exerciseListItems;
+
+            } else {
+                // In case there is no exercises for this category
+                this.exercisesAdapter.data = new ArrayList<>();
+            }
             this.exercisesAdapter.notifyDataSetChanged();
             progressBar.setVisibility(View.GONE);
         });
@@ -120,7 +139,9 @@ public class ExerciseFragment extends Fragment {
                     + " must implement OnFragmentInteractionListener");
         }
 
-        this.exerciseListViewModel = ViewModelProviders.of(this).get(ExerciseListViewModel.class);
+        //this.exerciseListViewModel = ViewModelProviders.of(this).get(ExerciseListViewModel.class);
+        this.exerciseViewModel = ViewModelProviders.of(this).get(ExerciseViewModel.class);
+        /*this.exerciseViewModel.getAll();*/
     }
 
     @Override

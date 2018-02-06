@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
 import java.util.List;
+import java.util.Map;
 
 import tmrapps.getinshapeapp.Exercise.Model.ExerciseFirebase;
 import tmrapps.getinshapeapp.Exercise.Model.ExerciseReposirory;
@@ -20,15 +21,58 @@ import tmrapps.getinshapeapp.Main.AppLocalStore;
 public class ExerciseListItemRepository {
     public static final ExerciseListItemRepository instance = new ExerciseListItemRepository();
 
+    //MutableLiveData<Map<String,MutableLiveData<ExerciseListItem>>> exerciseOfCategoryLiveData;
+
     MutableLiveData<ExerciseListItem> exerciseOfCategoryLiveData;
 
     ExerciseListItemRepository() {
 
     }
 
+    /*public void getAll() {
+        long lastUpdateDate = 0;
+        try {
+            lastUpdateDate = GetInShapeApp.getMyContext()
+                    .getSharedPreferences("TAG", Context.MODE_PRIVATE).getLong("lastUpdateDateExerciseList", 0);
+        } catch (Exception e) {
+
+        }
+
+        ExerciseListFirebase.getExercisesOfCategoryAndObserve(lastUpdateDate,categoryId, (data) -> {
+            updateExerciseOfCategoryDataInLocalStore(data, categoryId);
+        });
+    }*/
+
+    /*public LiveData<ExerciseListItem> getExerciseOfCategory(String categoryId) {
+        synchronized (this) {
+            if (this.exerciseOfCategoryLiveData == null) {
+                this.exerciseOfCategoryLiveData = new MutableLiveData<>();
+            }
+
+            // Check that the exercises list of category does not already exist
+            if (this.exerciseOfCategoryLiveData.getValue().get(categoryId) == null) {
+                // Get the last update date
+                long lastUpdateDate = 0;
+                try {
+                    lastUpdateDate = GetInShapeApp.getMyContext()
+                            .getSharedPreferences("TAG", Context.MODE_PRIVATE).getLong("lastUpdateDateExerciseList", 0);
+                } catch (Exception e) {
+
+                }
+
+                ExerciseListFirebase.getExercisesOfCategoryAndObserve(lastUpdateDate,categoryId, (data) -> {
+                    updateExerciseOfCategoryDataInLocalStore(data, categoryId);
+                });
+            }
+        }
+
+        return this.exerciseOfCategoryLiveData.getValue().get(categoryId);
+    }*/
+
     public LiveData<ExerciseListItem> getExerciseOfCategory(String categoryId) {
         synchronized (this) {
             if (this.exerciseOfCategoryLiveData == null) {
+
                 this.exerciseOfCategoryLiveData = new MutableLiveData<ExerciseListItem>();
 
                 // Get the last update date

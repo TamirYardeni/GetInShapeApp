@@ -32,6 +32,8 @@ public class ExerciseDetailsFragment extends Fragment {
 
     private ExerciseViewModel exerciseViewModel;
 
+    private View detailsView;
+
     public ExerciseDetailsFragment() {
         // Required empty public constructor
     }
@@ -55,22 +57,30 @@ public class ExerciseDetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_exercise_details, container, false);
+        this.detailsView = inflater.inflate(R.layout.fragment_exercise_details, container, false);
 
-        LiveData<Exercise> exerciseLiveData = exerciseViewModel.getExerciseById(this.exerciseId);
+        exerciseViewModel.getExerciseById(this.exerciseId).observe(this, (exerciseDetails) -> {
+            if (exerciseDetails != null) {
+                this.showDetailsView(exerciseDetails);
+            }
 
-        TextView exerciseName = (TextView)view.findViewById(R.id.exerciseNameTxt);
-        TextView exerciseData = (TextView)view.findViewById(R.id.exerciseDataTxt);
-        TextView exerciseNotes = (TextView)view.findViewById(R.id.exerciseNotesTxt);
+            //progressBar.setVisibility(View.GONE);
+        });
+
+        return this.detailsView;
+    }
+
+    private void showDetailsView(Exercise exercise) {
+        TextView exerciseName = (TextView)this.detailsView.findViewById(R.id.exerciseNameTxt);
+        TextView exerciseData = (TextView)this.detailsView.findViewById(R.id.exerciseDataTxt);
+        TextView exerciseNotes = (TextView)this.detailsView.findViewById(R.id.exerciseNotesTxt);
         //view.findViewById(R.id.exerciseImage);
 
         //Exercise exercise = getExerciseDetails();
 
-        exerciseName.setText(exerciseLiveData.getValue().getName());
-        exerciseData.setText(exerciseLiveData.getValue().getData());
-        exerciseNotes.setText(exerciseLiveData.getValue().getNote());
-
-        return view;
+        exerciseName.setText(exercise.getName());
+        exerciseData.setText(exercise.getData());
+        exerciseNotes.setText(exercise.getNote());
     }
 
     @Override

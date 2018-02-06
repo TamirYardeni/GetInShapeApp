@@ -7,8 +7,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
+import tmrapps.getinshapeapp.ExerciseList.Model.ExerciseInCategory;
 
 /**
  * Created by tamir on 2/5/2018.
@@ -28,20 +31,47 @@ public class ExerciseFirebase {
     }
 
     public interface OnExerciseListener {
-        void onComplete(Exercise exercise);
+        void onComplete(List<Exercise> exercise);
+        void onComplete();
+    }
+
+    public static void getAllExerciseAndObserve(long lastUpdate, String categoryId, final OnExerciseListener callback) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ref = database.getReference("exercises");
+        Query query = ref.orderByChild("lastUpdateDate").startAt(lastUpdate);
+        ValueEventListener listener = query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List<Exercise> exercises = new ArrayList<>();
+                for (DataSnapshot snap: dataSnapshot.getChildren()) {
+                    Exercise exercise = snap.getValue(Exercise.class);
+                    exercises.add(exercise);
+                }
+
+                callback.onComplete(exercises);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                callback.onComplete(null);
+            }
+        });
     }
 
     public static void getExerciseByIdAndObserve(long lastUpdate, String exerciseId, final OnExerciseListener callback) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref = database.getReference("exercises").child(exerciseId);
+        DatabaseReference ref = database.getReference("exercises");
         Query query = ref.orderByChild("lastUpdateDate").startAt(lastUpdate);
-        // This is single because we dont want to update the view of other users
-        // When a new exercise was added or update in the firebase by the admin
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
+        ValueEventListener listener = query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Exercise exercise = dataSnapshot.getValue(Exercise.class);
-                callback.onComplete(exercise);
+                List<Exercise> exercises = new ArrayList<>();
+                for (DataSnapshot snap: dataSnapshot.getChildren()) {
+                    Exercise exercise = snap.getValue(Exercise.class);
+                    exercises.add(exercise);
+                }
+
+                callback.onComplete(exercises);
             }
 
             @Override
@@ -57,6 +87,8 @@ public class ExerciseFirebase {
         DatabaseReference ref = firebaseDatabase.getReference("exercises").child(key);
         exercise.setId(key);
         ref.setValue(exercise.toMap());
-        callback.onComplete(exercise);
+        List<Exercise> exerciseList = new ArrayList<>();
+        exerciseList.add(exercise);
+        callback.onComplete();
     }
 }
