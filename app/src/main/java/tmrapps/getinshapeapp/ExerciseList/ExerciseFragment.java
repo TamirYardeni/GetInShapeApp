@@ -38,6 +38,9 @@ public class ExerciseFragment extends Fragment {
 
     private static final String CATEGORY_ID= "categoryId";
 
+    private static final String CATEGORY_NAME= "categoryName";
+
+
     private RoleType role;
 
     private String categoryId;
@@ -53,16 +56,18 @@ public class ExerciseFragment extends Fragment {
     private ListView list;
 
     private ProgressBar progressBar;
+    private String categoryName;
 
     public ExerciseFragment() {
         // Required empty public constructor
     }
 
-    public static ExerciseFragment newInstance(String param1, String param2) {
+    public static ExerciseFragment newInstance(String param1, String param2, String param3) {
         ExerciseFragment fragment = new ExerciseFragment();
         Bundle args = new Bundle();
         args.putString(ROLE_TYPE, param1);
         args.putString(CATEGORY_ID, param2);
+        args.putString(CATEGORY_NAME, param3);
         fragment.setArguments(args);
         return fragment;
     }
@@ -73,6 +78,7 @@ public class ExerciseFragment extends Fragment {
         if (getArguments() != null) {
             String roleName = getArguments().getString(ROLE_TYPE);
             this.categoryId = getArguments().getString(CATEGORY_ID);
+            this.categoryName = getArguments().getString(CATEGORY_NAME);
             role = RoleType.valueOf(roleName);
         }
     }
@@ -120,7 +126,7 @@ public class ExerciseFragment extends Fragment {
             addExerciseBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mListener.onShowCreateExercise(categoryId);
+                    mListener.onShowCreateExercise(categoryId, categoryName);
                 }
             });
         }
@@ -156,7 +162,7 @@ public class ExerciseFragment extends Fragment {
 
     public interface OnFragmentInteractionListener {
         void onShowExerciseDetails(String id);
-        void onShowCreateExercise(String categoryId);
+        void onShowCreateExercise(String categoryId, String categoryName);
     }
 
     class ExerciseAdapter extends BaseAdapter {
