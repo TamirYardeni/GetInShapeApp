@@ -31,6 +31,8 @@ public class CategoryFragment extends Fragment {
 
     private CategoryFragment.CategoryAdapter categoriesAdapter;
 
+    List<Category> data = new LinkedList<>();
+
     private ListView list;
 
     private static final String ARG_PARAM = "roleType";
@@ -104,8 +106,8 @@ public class CategoryFragment extends Fragment {
 
     private void addCategory(String categoryName) {
         boolean isExist = false;
-        for (int counter = 0; counter < this.categoriesAdapter.data.size(); counter++) {
-            if (this.categoriesAdapter.data.get(counter).getName().equals(categoryName)) {
+        for (int counter = 0; counter < this.data.size(); counter++) {
+            if (this.data.get(counter).getName().equals(categoryName)) {
                 isExist = true;
                 break;
             }
@@ -133,7 +135,7 @@ public class CategoryFragment extends Fragment {
         this.categoryViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
 
         this.categoryViewModel.getCategories().observe(this, (categories) -> {
-            this.categoriesAdapter.data = categories;
+            this.data = categories;
             this.categoriesAdapter.notifyDataSetChanged();
             progressBar.setVisibility(View.GONE);
         });
@@ -145,6 +147,12 @@ public class CategoryFragment extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        progressBar.setVisibility(View.GONE);
+    }
+
     public interface OnFragmentInteractionListener {
         void onShowExercisesOfCategory(String categoryId, String categoryName);
     }
@@ -152,7 +160,6 @@ public class CategoryFragment extends Fragment {
     class CategoryAdapter extends BaseAdapter {
 
         CategoryFragment exerciseFrag;
-        List<Category> data = new LinkedList<>();
 
         public CategoryAdapter(CategoryFragment fragment) {
             this.exerciseFrag = fragment;
@@ -186,7 +193,7 @@ public class CategoryFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
                         int index =(int)view.getTag();
-                        exerciseFrag.showCategory(data.get(index).getId(), data.get(index).getName());
+                        exerciseFrag.showCategory(cat.getId(), cat.getName());
                     }
                 });
             }
