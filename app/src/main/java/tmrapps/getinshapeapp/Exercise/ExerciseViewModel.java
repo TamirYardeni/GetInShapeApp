@@ -2,6 +2,7 @@ package tmrapps.getinshapeapp.Exercise;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
+import android.graphics.Bitmap;
 
 import java.util.List;
 
@@ -18,13 +19,16 @@ public class ExerciseViewModel extends ViewModel{
 
     private LiveData<List<ExerciseInCategory>> exercisesByCategory;
 
+    private LiveData<String> imgUrl;
+
     public ExerciseViewModel() {
 
     }
 
-    /*public void getAll() {
-        ExerciseReposirory.instance.getAll();
-    }*/
+    public interface OnSaveImageListener {
+        void complete(String url);
+        void fail();
+    }
 
     public LiveData<Exercise> getExerciseById(String exerciseId) {
         this.exercise = ExerciseReposirory.instance.getExerciseById(exerciseId);
@@ -38,5 +42,10 @@ public class ExerciseViewModel extends ViewModel{
 
     public void addExercise(Exercise exercise) {
         ExerciseReposirory.instance.addExercise(exercise);
+    }
+
+    public LiveData<String> addExerciseImage(String exerciseId, Bitmap image) {
+        this.imgUrl = ExerciseReposirory.instance.addExerciseImage(exerciseId, image);
+        return this.imgUrl;
     }
 }

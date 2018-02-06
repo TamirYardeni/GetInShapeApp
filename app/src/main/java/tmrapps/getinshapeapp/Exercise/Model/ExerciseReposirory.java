@@ -4,7 +4,9 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.webkit.URLUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,34 +28,11 @@ public class ExerciseReposirory {
 
     MutableLiveData<List<ExerciseInCategory>> exercisesByCategoryLiveData;
 
+    MutableLiveData<String> imageUrlLiveData;
+
     ExerciseReposirory() {
 
     }
-
-  /*  public void getAll() {
-        synchronized (this) {
-            // Get the last update date
-            long lastUpdateDate = 0;
-            try {
-                lastUpdateDate = GetInShapeApp.getMyContext()
-                        .getSharedPreferences("TAG", Context.MODE_PRIVATE).getLong("lastUpdateDateExercise", 0);
-            } catch (Exception e) {
-
-            }
-
-            ExerciseFirebase.getAllExerciseAndObserve(lastUpdateDate, new ExerciseFirebase.OnExerciseListener() {
-                @Override
-                public void onComplete(List<Exercise> exerciseList) {
-                    updateExerciseDataInLocalStore(exerciseList);
-                }
-
-                @Override
-                public void onComplete() {
-                    // No need to implement
-                }
-            });
-        }
-    }*/
 
     public LiveData<Exercise> getExerciseById(String exerciseId) {
         synchronized (this) {
@@ -114,6 +93,31 @@ public class ExerciseReposirory {
                         addExerciseListItemOfCategory(exercise.getCategoryId(), exercise.getName(), exercise.getId());
             }
         });
+    }
+
+    public interface OnSaveImageListener {
+        void complete(String url);
+        void fail();
+    }
+
+    public LiveData<String> addExerciseImage(String exerciseId, Bitmap image) {
+        MutableLiveData<String> urlLiveData = new MutableLiveData<>();
+        ExerciseFirebase.saveImage(image, exerciseId, new OnSaveImageListener() {
+            @Override
+            public void complete(String url) {
+                String fileName = URLUtil.guessFileName(url, null, null);
+                /*saveImageToFile(imageBmp,fileName);*/
+                /*listener.complete(url);*/
+                urlLiveData.setValue(fileName);
+            }
+
+            @Override
+            public void fail() {
+                urlLiveData.setValue(null);
+            }
+        });
+
+        return urlLiveData;
     }
 
     private void updateExerciseDataInLocalStore(List<Exercise> data, String id) {
