@@ -17,5 +17,5 @@ import tmrapps.getinshapeapp.PersonalArea.Model.PersonalInformation;
 public class AppLocalStore{
     static public AppLocalStoreDb db = Room.databaseBuilder(GetInShapeApp.getMyContext(),
             AppLocalStoreDb.class,
-            "get-in-shape-db").build();
+            "get-in-shape-db").fallbackToDestructiveMigration().build();
 }

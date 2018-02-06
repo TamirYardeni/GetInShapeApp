@@ -3,6 +3,7 @@ package tmrapps.getinshapeapp.PersonalArea.Model;
 import android.arch.persistence.room.TypeConverter;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -11,18 +12,16 @@ import java.util.List;
 
 public class PersonalInformationConverter {
     @TypeConverter
-    public PersonalInformation storedStringToLanguages(String value) {
-        List<String> langs = Arrays.asList(value.split("\\s*,\\s*"));
-        return new PersonalInformation();
+    public Date fromTimestamp(Long value) {
+        return value == null ? null : new Date(value);
     }
 
     @TypeConverter
-    public String languagesToStoredString(PersonalInformation cl) {
-        String value = "";
-
-        for (String lang :cl.getDayOfWeek())
-            value += lang + ",";
-
-        return value;
+    public Long dateToTimestamp(Date date) {
+        if (date == null) {
+            return null;
+        } else {
+            return date.getTime();
+        }
     }
 }

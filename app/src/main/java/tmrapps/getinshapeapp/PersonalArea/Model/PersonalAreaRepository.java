@@ -2,6 +2,7 @@ package tmrapps.getinshapeapp.PersonalArea.Model;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
 import tmrapps.getinshapeapp.GetInShapeApp;
@@ -18,13 +19,13 @@ public class PersonalAreaRepository {
 
     public final static PersonalAreaRepository instance = new PersonalAreaRepository();
 
-    private PersonalAreaRepository(){
+    private PersonalAreaRepository() {
 
     }
 
     MutableLiveData<PersonalInformation> personalInfoliveData;
 
-    public LiveData<PersonalInformation> getPersonalInformation(String userId){
+   /* public LiveData<PersonalInformation> getPersonalInformation(String userId){
         synchronized (this) {
             if (personalInfoliveData == null) {
                 personalInfoliveData = new MutableLiveData<>();
@@ -36,9 +37,9 @@ public class PersonalAreaRepository {
         }
 
         return personalInfoliveData;
-    }
+    }*/
 
-    /*public LiveData<PersonalInformation> getPersonalInformation(String userId){
+    public LiveData<PersonalInformation> getPersonalInformation(String userId) {
         synchronized (this) {
             if (personalInfoliveData == null) {
                 personalInfoliveData = new MutableLiveData<>();
@@ -47,44 +48,64 @@ public class PersonalAreaRepository {
                 try {
                     lastUpdateDate = GetInShapeApp.getMyContext()
                             .getSharedPreferences("TAG", MODE_PRIVATE).getLong("lastUpdateDate", 0);
-                }catch (Exception e){
+                } catch (Exception e) {
 
                 }
 
                 PersonalAreaFirebase.getPersonalInformationByUserId(userId, lastUpdateDate, (personalInformation) -> {
-                    if (personalInformation != null){
-
-                    }
-
+                    updateExerciseDataInLocalStore(personalInformation, userId);
                 });
 
 
-                GetPersonalInformationTask task = new GetPersonalInformationTask();
-                task.execute(userId);
             }
         }
 
         return personalInfoliveData;
-    }*/
+    }
 
-    public void savePersonalInformation(PersonalInformation personalInformation){
+    public void savePersonalInformation(PersonalInformation personalInformation) {
         PersonalAreaFirebase.savePersonalInformation(personalInformation, (data) -> {
-           // AppLocalStore.db.personalInformationDAO().savePersonalInformation(data);
+            SavePersonalInformationTask task = new SavePersonalInformationTask();
+            task.execute(data);
         });
     }
 
-   /* class GetPersonalInformationTask extends AsyncTask<PersonalInformation,String,PersonalInformation> {
+    private void updateExerciseDataInLocalStore(PersonalInformation data, String userId) {
+        GetPersonalInformationTask exerciseListTask = new GetPersonalInformationTask();
+        GetPersonalAreaTaskParams getExerciseTaskParams = new GetPersonalAreaTaskParams(userId, data);
+        exerciseListTask.execute(getExerciseTaskParams);
+    }
+
+    private static class GetPersonalAreaTaskParams {
+        String userId;
+        PersonalInformation data;
+
+        GetPersonalAreaTaskParams(String userId, PersonalInformation data) {
+            this.userId = userId;
+            this.data = data;
+        }
+    }
+
+    class GetPersonalInformationTask extends AsyncTask<GetPersonalAreaTaskParams, String, PersonalInformation> {
         @Override
-        protected PersonalInformation doInBackground(PersonalInformation[] lists) {
+        protected PersonalInformation doInBackground(GetPersonalAreaTaskParams[] lists) {
             if (lists.length > 0) {
-                PersonalInformation info = lists[0];
+                GetPersonalAreaTaskParams data = lists[0];
 //                 PersonalInformation info = AppLocalStore.db.personalInformationDAO().getPersonalInformation(userId);
 
-                if (info != null) {
-
+                if (data.data != null) {
+                    //data.data.lastUpdate =
+                    AppLocalStore.db.personalInformationDAO().savePersonalInformation(data.data);
                 }
 
-                PersonalInformation info = AppLocalStore.db.personalInformationDAO().getPersonalInformation(userId);
+                PersonalInformation info = AppLocalStore.db.personalInformationDAO().getPersonalInformation(data.userId);
+
+                if (info != null) {
+                    SharedPreferences.Editor editor = GetInShapeApp.getMyContext().getSharedPreferences("TAG", MODE_PRIVATE).edit();
+
+                    editor.putLong("lastUpdateDate", info.lastUpdate);
+                    editor.commit();
+                }
 
                 return info;
             }
@@ -97,8 +118,22 @@ public class PersonalAreaRepository {
             super.onPostExecute(information);
             personalInfoliveData.setValue(information);
         }
-    }*/
+    }
 
 
+    class SavePersonalInformationTask extends AsyncTask<PersonalInformation, String, PersonalInformation> {
+
+        @Override
+        protected PersonalInformation doInBackground(PersonalInformation[] lists) {
+            if (lists.length > 0) {
+                PersonalInformation data = lists[0];
+                AppLocalStore.db.personalInformationDAO().savePersonalInformation(data);
+
+                return  data;
+            }
+
+            return null;
+        }
+    }
 }
 

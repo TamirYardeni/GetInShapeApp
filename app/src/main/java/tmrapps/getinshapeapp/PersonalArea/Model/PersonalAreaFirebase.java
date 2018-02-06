@@ -4,6 +4,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Date;
@@ -25,10 +26,11 @@ public class PersonalAreaFirebase {
         void onComplete(PersonalInformation personalInformation);
     }
 
-    public static void getPersonalInformationByUserId(String userId, final GetPersonalInformationByIdListener listener){
+    public static void getPersonalInformationByUserId(String userId, long lastUpdate, final GetPersonalInformationByIdListener listener){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
+        //DatabaseReference myRef = database.getReference("personal_info/" + userId).child(userId);
         DatabaseReference myRef = database.getReference("personal_info").child(userId);
-
+        //Query query = myRef.orderByChild("lastUpdateDate").startAt(lastUpdate);
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -38,11 +40,14 @@ public class PersonalAreaFirebase {
                 if (value != null) {
                     info.setUserId((String) value.get("userId"));
                     info.setCurrentWeight(((Long)(value.get("currentWeight"))).doubleValue());
-                    info.setDateEndOfTrain(new Date(value.get("dateEndOfTrain").toString()));
+                    info.setDateEndOfTrain(value.get("dateEndOfTrain").toString());
                     info.setHourTrain(((Long)value.get("hourTrain")).intValue());
                     info.setMinuteTrain(((Long)value.get("minuteTrain")).intValue());
                     info.setWeightToAchieve(((Long)value.get("weightToAchieve")).doubleValue());
                     //info.setDayOfWeek((List<String>) value.get("dayOfWeek"));
+                }
+                else {
+                    info = null;
                 }
 
                 listener.onComplete(info);
