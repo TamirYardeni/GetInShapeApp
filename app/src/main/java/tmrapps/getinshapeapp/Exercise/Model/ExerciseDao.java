@@ -17,4 +17,7 @@ public interface ExerciseDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(Exercise... exercises);
+
+    @Query("SELECT id, name, lastUpdateDate FROM Exercise WHERE categoryId=:categoryId")
+    List<Exercise> getExerciseByCategory(String categoryId);
 }

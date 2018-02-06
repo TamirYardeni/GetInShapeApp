@@ -40,11 +40,9 @@ public class ExerciseListFirebase {
 
     public static void getExercisesOfCategoryAndObserve(long lastUpdate, String categoryId, final OnExerciseListListener callback) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref = database.getReference("exercisesInCategory");
-        Query query = ref.orderByChild("lastUpdated").startAt(lastUpdate);
-        // This is single because we dont want to update the view of other users
-        // When a new exercise was added or update in the firebase by the admin
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference ref = database.getReference("exercisesInCategory").child(categoryId);
+
+        ValueEventListener listener = ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 List<ExerciseListItem> exerciseListItems = new ArrayList<>();
