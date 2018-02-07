@@ -13,7 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import tmrapps.getinshapeapp.Exercise.Model.Exercise;
 import tmrapps.getinshapeapp.R;
@@ -35,6 +37,8 @@ public class ExerciseDetailsFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     private ExerciseViewModel exerciseViewModel;
+
+    private ProgressBar progressBarOfImage;
 
     private View detailsView;
 
@@ -63,6 +67,8 @@ public class ExerciseDetailsFragment extends Fragment {
                              Bundle savedInstanceState) {
         this.detailsView = inflater.inflate(R.layout.fragment_exercise_details, container, false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.exerciseDetailsHeader);
+        this.progressBarOfImage = this.detailsView.findViewById(R.id.progressBarOfImage);
+        this.progressBarOfImage.setVisibility(View.VISIBLE);
         exerciseViewModel.getExerciseById(this.exerciseId).observe(this, (exerciseDetails) -> {
             if (exerciseDetails != null) {
                 this.showDetailsView(exerciseDetails);
@@ -71,14 +77,15 @@ public class ExerciseDetailsFragment extends Fragment {
                     exerciseViewModel.getExerciseImage(exerciseDetails.getUrl()).observe(this, (bitmap) -> {
                         if (bitmap != null) {
                             this.showExerciseImageView(bitmap);
+                        } else {
+                            Toast.makeText(getActivity(), R.string.imageNotFound,
+                                    Toast.LENGTH_LONG).show();
                         }
 
-                        //progressBar.setVisibility(View.GONE);
+                        this.progressBarOfImage.setVisibility(View.GONE);
                     });
                 }
             }
-
-            //progressBar.setVisibility(View.GONE);
         });
 
         return this.detailsView;
