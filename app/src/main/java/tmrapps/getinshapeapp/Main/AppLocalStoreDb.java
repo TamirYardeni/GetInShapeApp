@@ -14,6 +14,7 @@ import tmrapps.getinshapeapp.PersonalArea.Model.PersonalInformationDAO;
 
 /**
  * Created by nathan on 03/02/2018.
+ * Interface that defines the data accesses objects
  */
 
 @Database(entities = {PersonalInformation.class, Category.class, Exercise.class}, version = 8)

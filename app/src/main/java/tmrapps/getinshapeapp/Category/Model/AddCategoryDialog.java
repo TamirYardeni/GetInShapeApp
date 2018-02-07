@@ -16,8 +16,8 @@ import tmrapps.getinshapeapp.R;
 
 /**
  * Created by tamir on 1/20/2018.
+ * This is a dialog fragment for adding a new category
  */
-
 public class AddCategoryDialog extends DialogFragment{
     private OnCategoryDialogInteractionListener mListener;
 
@@ -33,9 +33,12 @@ public class AddCategoryDialog extends DialogFragment{
             public void onClick(DialogInterface dialog, int id) {
                 String msg = getString(R.string.add_category_err);
                 String catName = categoryTxt.getText().toString();
+                // Validation check
                 if (!catName.equals("")) {
                     msg = getString(R.string.add_category_ok);
                 }
+
+                // Show result to the user
                 Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
 
                 if(mListener!=null)

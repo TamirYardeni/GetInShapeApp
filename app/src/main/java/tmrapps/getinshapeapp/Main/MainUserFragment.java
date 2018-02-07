@@ -21,12 +21,8 @@ import tmrapps.getinshapeapp.User.RoleType;
 import tmrapps.getinshapeapp.User.UserViewModel;
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link MainUserFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link MainUserFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * This is the main fragment
+ * It has 2 different layouts that appears according to the permissions yhe user have.
  */
 public class MainUserFragment extends Fragment {
 
@@ -44,15 +40,6 @@ public class MainUserFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment MainUserFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static MainUserFragment newInstance(String param1, String param2) {
         MainUserFragment fragment = new MainUserFragment();
 
@@ -62,9 +49,6 @@ public class MainUserFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-
-        }
     }
 
     @Override
@@ -73,6 +57,7 @@ public class MainUserFragment extends Fragment {
         // Inflate the layout for this fragment
         mainView = inflater.inflate(R.layout.fragment_main_user, container, false);
 
+        // Show spinner because we want to get user from firebase db
         progressBar = mainView.findViewById(R.id.mainProgressBar);
         progressBar.setVisibility(View.VISIBLE);
 
@@ -91,18 +76,18 @@ public class MainUserFragment extends Fragment {
                     + " must implement OnFragmentInteractionListener");
         }
 
+        // Create viewModel instance
         userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
 
+        // Get the suer from the viewModel
         userViewModel.getUser().observe(this, (user) -> {
             this.user = user;
-            RoleType roleType = RoleType.USER;
 
+            // Show layout according to the permission
             if (user.getRoleType() == 0) {
                 showUserView();
-                roleType = RoleType.USER;
             } else if (user.getRoleType() == 1) {
                 showAdminView();
-                roleType = RoleType.ADMIN;
             }
 
             mListener.onHasRoleType(this.user);
@@ -115,6 +100,9 @@ public class MainUserFragment extends Fragment {
         mListener = null;
     }
 
+    /**
+     * Make the regular user view elements visible
+     */
     private void showUserView() {
         Button personalAreaBtn = (Button) mainView.findViewById(R.id.personalAreaBtn);
         Button exerciseBtn = (Button) mainView.findViewById(R.id.exerciseBtn);
@@ -143,6 +131,9 @@ public class MainUserFragment extends Fragment {
         progressBar.setVisibility(View.GONE);
     }
 
+    /**
+     * Make the admin view elements visible
+     */
     private void showAdminView() {
         // Hide the progress bar
         progressBar.setVisibility(View.GONE);
@@ -162,6 +153,10 @@ public class MainUserFragment extends Fragment {
         });
     }
 
+    /**
+     * Hide all the elements in the fragment because there are no permissions yet
+     * So we dont know wich view to show.
+     */
     private void hideAllUIElements() {
         LinearLayout userLayout = mainView.findViewById(R.id.userLayout);
         LinearLayout adminLayout = mainView.findViewById(R.id.adminLayout);
@@ -169,16 +164,6 @@ public class MainUserFragment extends Fragment {
         adminLayout.setVisibility(View.GONE);
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
 
         // Note for the main activity that the personal area button was clicked

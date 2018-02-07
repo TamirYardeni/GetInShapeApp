@@ -23,7 +23,6 @@ import java.util.List;
 /**
  * Created by tamir on 2/5/2018.
  */
-
 public class ExerciseFirebase {
     private static ExerciseFirebase instance = null;
 
