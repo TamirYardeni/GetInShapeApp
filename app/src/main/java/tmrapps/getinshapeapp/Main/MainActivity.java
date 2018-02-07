@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements MainUserFragment.
         // Google sign out
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
                 status -> updateUI());
+        user = null;
     }
 
     /**

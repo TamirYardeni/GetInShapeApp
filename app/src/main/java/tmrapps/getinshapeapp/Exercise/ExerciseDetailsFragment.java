@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import tmrapps.getinshapeapp.Exercise.Model.Exercise;
 import tmrapps.getinshapeapp.R;
@@ -76,6 +77,9 @@ public class ExerciseDetailsFragment extends Fragment {
                     exerciseViewModel.getExerciseImage(exerciseDetails.getUrl()).observe(this, (bitmap) -> {
                         if (bitmap != null) {
                             this.showExerciseImageView(bitmap);
+                        } else {
+                            Toast.makeText(getActivity(), R.string.imageNotFound,
+                                    Toast.LENGTH_LONG).show();
                         }
 
                         this.progressBarOfImage.setVisibility(View.GONE);

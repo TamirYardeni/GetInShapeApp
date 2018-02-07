@@ -26,4 +26,5 @@
     <string name="craeteExerciseHeader">יצירת תרגיל</string>
     <string name="signInBtn">התחבר</string>
     <string name="welcomeMsg">ברוך הבא לgetInShape! \n כאן תוכל לנהל את תוכנית האימונים שלך ולהעזר במאגר התרגילים שלנו</string>
+    <string name="imageNotFound">התמונה לא נמצאה</string>
 </resources>
