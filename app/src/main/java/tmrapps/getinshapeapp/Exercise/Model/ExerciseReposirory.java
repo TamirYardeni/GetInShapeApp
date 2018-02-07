@@ -7,14 +7,14 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.webkit.URLUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import tmrapps.getinshapeapp.ExerciseList.Model.ExerciseInCategory;
-import tmrapps.getinshapeapp.ExerciseList.Model.ExerciseListItem;
-import tmrapps.getinshapeapp.ExerciseList.Model.ExerciseListItemRepository;
+/*import tmrapps.getinshapeapp.ExerciseList.Model.ExerciseListItem;
+import tmrapps.getinshapeapp.ExerciseList.Model.ExerciseListItemRepository;*/
 import tmrapps.getinshapeapp.GetInShapeApp;
 import tmrapps.getinshapeapp.Main.AppLocalStore;
 
@@ -29,17 +29,17 @@ public class ExerciseReposirory {
 
     MutableLiveData<List<ExerciseInCategory>> exercisesByCategoryLiveData;
 
-    MutableLiveData<Bitmap> imageLiveData;
+    Map<String,MutableLiveData<Bitmap>> imageLiveData;
 
     ExerciseReposirory() {
-
+        if (this.imageLiveData == null) {
+            this.imageLiveData = new HashMap<>();
+        }
     }
 
     public LiveData<Exercise> getExerciseById(String exerciseId) {
         synchronized (this) {
-            if (this.exerciseLiveData == null) {
-                this.exerciseLiveData = new MutableLiveData<Exercise>();
-            }
+            this.exerciseLiveData = new MutableLiveData<Exercise>();
 
             GetExerciseByIdTask GetExerciseByIdTask = new GetExerciseByIdTask();
             GetExerciseByIdTask.execute(exerciseId);
@@ -84,23 +84,24 @@ public class ExerciseReposirory {
     }
 
     public LiveData<Bitmap> getExerciseImage(String url) {
-        if (this.imageLiveData == null) {
-            this.imageLiveData = new MutableLiveData<>();
+        if (imageLiveData.get(url) == null) {
+            MutableLiveData<Bitmap> mutableImage = new MutableLiveData<>();
+            this.imageLiveData.put(url, mutableImage);
+            ExerciseFirebase.getExerciseImage(url, new OnGetImageListener() {
+                @Override
+                public void complete(Bitmap image) {
+
+                    mutableImage.setValue(image);
+                }
+
+                @Override
+                public void fail() {
+
+                }
+            });
         }
 
-        ExerciseFirebase.getExerciseImage(url, new OnGetImageListener() {
-            @Override
-            public void complete(Bitmap image) {
-                imageLiveData.setValue(image);
-            }
-
-            @Override
-            public void fail() {
-
-            }
-        });
-
-        return this.imageLiveData;
+        return this.imageLiveData.get(url);
     }
 
     public void addExercise(Exercise exercise, Bitmap bitmap) {
@@ -112,9 +113,6 @@ public class ExerciseReposirory {
 
             @Override
             public void onComplete() {
-                ExerciseListItemRepository.instance.
-                        addExerciseListItemOfCategory(exercise.getCategoryId(), exercise.getName(), exercise.getId());
-
                 addExerciseImage(exercise.getId(), bitmap);
             }
         });

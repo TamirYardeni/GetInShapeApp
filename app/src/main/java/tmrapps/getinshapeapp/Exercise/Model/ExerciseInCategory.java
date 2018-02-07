@@ -1,4 +1,4 @@
-package tmrapps.getinshapeapp.ExerciseList.Model;
+package tmrapps.getinshapeapp.Exercise.Model;
 
 import android.arch.persistence.room.Entity;
 
