@@ -3,11 +3,9 @@ package tmrapps.getinshapeapp.PersonalArea;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModel;
-import android.arch.lifecycle.ViewModelProvider;
+
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,18 +14,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.DatePicker;
 
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.TimePicker;
-
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -178,6 +172,8 @@ public class PersonalAreaFragment extends Fragment {
     }
 
     private void onSaveBtnClick(View v) {
+        progressBar.setVisibility(View.VISIBLE);
+
         final EditText textWeightAchieve =(EditText) getView().findViewById(R.id.edWeightAchieved);
         final EditText textCurWeight =(EditText) getView().findViewById(R.id.edCurWeight);
 
@@ -186,6 +182,8 @@ public class PersonalAreaFragment extends Fragment {
         personalInformation.setCurrentWeight(Double.parseDouble( "" + textCurWeight.getText()));
 
         PersonalAreaRepository.instance.savePersonalInformation(personalInformation);
+
+        progressBar.setVisibility(View.GONE);
 
         this.changeToReadOnlyMode();
     }
