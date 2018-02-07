@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,6 +85,7 @@ public class CreateExerciseFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_create_exercise, container, false);
 
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.craeteExerciseHeader);
         this.textCategoryName = view.findViewById(R.id.textCategoryName);
         this.textCategoryName.setText(this.categoryName);
 

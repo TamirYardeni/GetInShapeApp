@@ -19,4 +19,9 @@
     <string name="exerciseNoteHeader">הערות</string>
     <string name="exerciseImageHeader">בחר תמונה להמחשה</string>
     <string name="exerciseAddBtn">הוסף תרגיל</string>
+    <string name="exerciseDetailsHeader">פרטי תרגיל</string>
+    <string name="categoryAppBarHeader">כל הקטגוריות</string>
+    <string name="exercisesInCatAppBarHeader">תרגילים בקטגוריה </string>
+    <string name="personalAreaAppBarHeader">האיזור האישי</string>
+    <string name="craeteExerciseHeader">יצירת תרגיל</string>
 </resources>
