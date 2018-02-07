@@ -103,9 +103,9 @@ public class ExerciseDetailsFragment extends Fragment {
 
         //Exercise exercise = getExerciseDetails();
 
-        exerciseName.setText(exercise.getName());
-        exerciseData.setText(exercise.getData());
-        exerciseNotes.setText(exercise.getNote());
+        exerciseName.setText(R.string.exerciseNameHeaderShow + exercise.getName());
+        exerciseData.setText(R.string.exerciseDataHeaderShow + exercise.getData());
+        exerciseNotes.setText(R.string.exerciseNoteHeaderShow + exercise.getNote());
     }
 
     public void showExerciseImageView(Bitmap bitmap) {

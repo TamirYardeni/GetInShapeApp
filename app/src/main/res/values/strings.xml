@@ -15,6 +15,9 @@
     <string name="exerciseNameHeader">שם התרגיל</string>
     <string name="exerciseDataHeader">תוכן התרגיל</string>
     <string name="exerciseNoteHeader">הערות</string>
+    <string name="exerciseNameHeaderShow">שם התרגיל:</string>
+    <string name="exerciseDataHeaderShow">תוכן התרגיל:</string>
+    <string name="exerciseNoteHeaderShow">הערות:</string>
     <string name="exerciseImageHeader">בחר תמונה להמחשה</string>
     <string name="exerciseAddBtn">הוסף תרגיל</string>
     <string name="exerciseDetailsHeader">פרטי תרגיל</string>
