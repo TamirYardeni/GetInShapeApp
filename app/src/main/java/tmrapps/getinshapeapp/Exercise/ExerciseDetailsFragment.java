@@ -85,6 +85,10 @@ public class ExerciseDetailsFragment extends Fragment {
                         this.progressBarOfImage.setVisibility(View.GONE);
                     });
                 }
+                else {
+                    this.progressBarOfImage.setVisibility(View.GONE);
+
+                }
             }
         });
 

@@ -1,7 +1,5 @@
 package tmrapps.getinshapeapp.User.Model;
 
-import android.util.Log;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,10 +38,8 @@ public class UserFirebase {
     }
 
     public static void getUserAndObserve(String userId, final GetUserListener listener) {
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference ref = firebaseDatabase.getReference("users").child(userId);
-
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference mUserReference = FirebaseDatabase.getInstance().getReference("users").child(userId);
+        mUserReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Map<String, Object> value = (Map<String, Object>) dataSnapshot.getValue();

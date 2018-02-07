@@ -15,6 +15,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -107,6 +108,8 @@ public class CategoryFragment extends Fragment {
     }
 
     private void addCategory(String categoryName) {
+        progressBar.setVisibility(View.VISIBLE);
+
         boolean isExist = false;
         for (int counter = 0; counter < this.data.size(); counter++) {
             if (this.data.get(counter).getName().equals(categoryName)) {
@@ -117,7 +120,16 @@ public class CategoryFragment extends Fragment {
 
         if (!isExist) {
             this.categoryViewModel.addCategory(categoryName);
+            Toast.makeText(getActivity(), "הקטגוריה נשמרה בהצלחה",
+                    Toast.LENGTH_LONG).show();
         }
+        else {
+            Toast.makeText(getActivity(), "הקטגוריה כבר קיימת",
+                    Toast.LENGTH_LONG).show();
+        }
+
+        progressBar.setVisibility(View.GONE);
+
     }
 
     public void showCategory(String categoryId, String categoryName) {
@@ -152,7 +164,10 @@ public class CategoryFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        progressBar.setVisibility(View.GONE);
+
+        if(!data.isEmpty()) {
+            progressBar.setVisibility(View.GONE);
+        }
     }
 
     public interface OnFragmentInteractionListener {

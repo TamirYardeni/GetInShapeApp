@@ -210,7 +210,8 @@ public class CreateExerciseFragment extends Fragment {
 
         if(!this.textExerciseName.getText().toString().equals("") &&
                 !this.textExerciseData.getText().toString().equals("") &&
-                !this.textExerciseNote.getText().toString().equals("")
+                !this.textExerciseNote.getText().toString().equals("") &&
+                this.selectedImage != null
 
                 ) {
             exercise.setName(this.textExerciseName.getText().toString());
@@ -222,6 +223,9 @@ public class CreateExerciseFragment extends Fragment {
 
             // Fire the event to the exercise activity
             mListener.onCreateExercise(exercise, this.selectedImage, this.categoryName);
+
+            Toast.makeText(getActivity(), (String)"התרגיל נשמר בהצלחה",
+                    Toast.LENGTH_LONG).show();
         }
         else {
             // Notify the user that he need to enter all the fields
