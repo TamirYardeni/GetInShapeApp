@@ -13,12 +13,7 @@ import tmrapps.getinshapeapp.R;
 import tmrapps.getinshapeapp.User.Model.User;
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link AuthFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link AuthFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * The fragment of the authentication
  */
 public class AuthFragment extends Fragment {
 
@@ -38,6 +33,13 @@ public class AuthFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * The create of the auth fragment view
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -46,6 +48,7 @@ public class AuthFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_auth, container, false);
         Button signBtn = (Button) view.findViewById(R.id.signBtn);
 
+        // Add click listener for log in to the app
         signBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,12 +78,7 @@ public class AuthFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     */
+
     public interface OnFragmentInteractionListener {
         void onEntranceFragmentInteraction();
     }

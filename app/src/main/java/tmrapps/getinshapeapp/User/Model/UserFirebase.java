@@ -10,6 +10,8 @@ import java.util.Map;
 
 /**
  * Created by tamir on 2/3/2018.
+ * With this class we communicate with the firebase
+ * in all that connected to the user
  */
 
 public class UserFirebase {
@@ -18,6 +20,7 @@ public class UserFirebase {
     protected UserFirebase() {
         // Exists only to defeat instantiation.
     }
+
     public static UserFirebase getInstance() {
         if(instance == null) {
             instance = new UserFirebase();
@@ -25,6 +28,11 @@ public class UserFirebase {
         return instance;
     }
 
+    /**
+     *
+     * @param userId
+     * @param listener
+     */
     public static void createUser(String userId, final GetUserListener listener) {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference ref = firebaseDatabase.getReference("users").child(userId);

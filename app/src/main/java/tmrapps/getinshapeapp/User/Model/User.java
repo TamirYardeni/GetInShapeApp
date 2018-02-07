@@ -6,6 +6,8 @@ import android.support.annotation.NonNull;
 
 /**
  * Created by tamir on 2/3/2018.
+ * This is the user object that lives in the app
+ * It contains the google user id and the type of the user (regular or admin)
  */
 @Entity
 public class User {
@@ -19,6 +21,11 @@ public class User {
 
     }
 
+    /**
+     * Create user with data
+     * @param id
+     * @param roleType
+     */
     public User(String id, int roleType) {
         this.id = id;
         this.roleType = roleType;

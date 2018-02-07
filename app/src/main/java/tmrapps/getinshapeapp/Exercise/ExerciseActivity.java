@@ -5,12 +5,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
 import tmrapps.getinshapeapp.Category.CategoryFragment;
 import tmrapps.getinshapeapp.Exercise.Model.Exercise;
 import tmrapps.getinshapeapp.R;
 import tmrapps.getinshapeapp.User.RoleType;
 
+/**
+ * This is the exercise activity - we can manage (add and watch) exercises here.
+ */
 public class ExerciseActivity extends AppCompatActivity implements ExerciseFragment.OnFragmentInteractionListener,
         CategoryFragment.OnFragmentInteractionListener, ExerciseDetailsFragment.OnFragmentInteractionListener,
         CreateExerciseFragment.OnFragmentInteractionListener {
@@ -26,11 +28,16 @@ public class ExerciseActivity extends AppCompatActivity implements ExerciseFragm
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise);
 
+        // Get permissions from the main activity
         this.role = RoleType.valueOf(getIntent().getStringExtra("ROLE_TYPE"));
 
+        // First show the category list
         this.onShowCategory();
     }
 
+    /**
+     * Opens the category fragment - it has a list of all the categories of exercises
+     */
     public void onShowCategory(){
         this.categoryFrag = CategoryFragment.newInstance(this.role);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

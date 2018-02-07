@@ -110,6 +110,11 @@ public class AuthActivity extends AppCompatActivity implements AuthFragment.OnFr
         }
     }
 
+    /**
+     * After sign in with google we sign to firebase
+     * In case the login succeeded - we update the ui for the main activity
+     * @param acct
+     */
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d("TAG", "firebaseAuthWithGoogle:" + acct.getId());
 

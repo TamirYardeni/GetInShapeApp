@@ -21,6 +21,10 @@ import tmrapps.getinshapeapp.User.AuthActivity;
 import tmrapps.getinshapeapp.User.Model.User;
 import tmrapps.getinshapeapp.User.RoleType;
 
+/**
+ * The main activity of the app
+ * Opens the suitable activity according the user
+ */
 public class MainActivity extends AppCompatActivity implements MainUserFragment.OnFragmentInteractionListener {
 
     private User user;
@@ -48,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements MainUserFragment.
     }
 
     /**
-     * Open the suitable fragment according to the permissions of the user (regular user or admin)
+     * Open the main fragment that has buttons for opening new activities
      */
     private void openMainFrag() {
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
@@ -78,6 +82,9 @@ public class MainActivity extends AppCompatActivity implements MainUserFragment.
         }
     }
 
+    /**
+     * The user logs out from firebase and from google
+     */
     private void logOut() {
         FirebaseAuth.getInstance().signOut();
         // Google sign out
@@ -106,6 +113,9 @@ public class MainActivity extends AppCompatActivity implements MainUserFragment.
         moveToNewActivity(RoleType.USER, ExerciseActivity.class);
     }
 
+    /*
+        This function start activity with permissions given from parameter
+     */
     private void moveToNewActivity(RoleType permissions, Class activityClass){
         if (this.user.roleType == permissions.ordinal()) {
             android.support.v4.app.FragmentTransaction tran = getSupportFragmentManager().beginTransaction();
@@ -134,16 +144,4 @@ public class MainActivity extends AppCompatActivity implements MainUserFragment.
         super.onResume();
         this.openMainFrag();
     }
-
-    //    @Override
-//    public void onShowCategory(String categoryId) {
-//       /* android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-//        android.support.v4.app.FragmentTransaction fragmentTransaction =
-//                fragmentManager.beginTransaction();
-//
-//        fragmentTransaction.remove(exerciseAdminFragment);
-//        CategoryFragment fragment = new CategoryFragment();
-//        fragmentTransaction.add(R.id.mainContent, fragment);
-//        fragmentTransaction.commit();*/
-//    }
 }

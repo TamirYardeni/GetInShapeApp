@@ -10,8 +10,9 @@ import tmrapps.getinshapeapp.User.Model.UserRepository;
 
 /**
  * Created by tamir on 2/3/2018.
+ * This is the viewModel of the user -
+ * the main user fragment get the user data from it
  */
-
 public class UserViewModel extends ViewModel {
 
     private LiveData<User> user;

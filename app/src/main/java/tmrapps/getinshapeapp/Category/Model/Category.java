@@ -3,16 +3,9 @@ package tmrapps.getinshapeapp.Category.Model;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
-
 import com.google.firebase.database.ServerValue;
-
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
-
-import tmrapps.getinshapeapp.Exercise.Model.Exercise;
-import tmrapps.getinshapeapp.SubCategories.Model.SubCategory;
 
 /**
  * Created by tamir on 1/20/2018.
