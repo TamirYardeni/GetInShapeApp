@@ -118,7 +118,6 @@ public class MainUserFragment extends Fragment {
     private void showUserView() {
         Button personalAreaBtn = (Button) mainView.findViewById(R.id.personalAreaBtn);
         Button exerciseBtn = (Button) mainView.findViewById(R.id.exerciseBtn);
-        Button motivationBtn = (Button) mainView.findViewById(R.id.motivationBtn);
         LinearLayout layout = mainView.findViewById(R.id.userLayout);
         layout.setVisibility(View.VISIBLE);
 
@@ -140,15 +139,6 @@ public class MainUserFragment extends Fragment {
             }
         });
 
-        motivationBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mListener != null) {
-                    mListener.onShowMotivation();
-                }
-            }
-        });
-
         // Hide the progress bar
         progressBar.setVisibility(View.GONE);
     }
@@ -161,22 +151,12 @@ public class MainUserFragment extends Fragment {
         adminLayout.setVisibility(View.VISIBLE);
 
         Button exerciseBtn = (Button) mainView.findViewById(R.id.exerciseAdminBtn);
-        Button motivationBtn = (Button) mainView.findViewById(R.id.motivationAdminBtn);
 
         exerciseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(mListener != null){
                     mListener.onShowExerciseAdmin();
-                }
-            }
-        });
-
-        motivationBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mListener != null){
-                    mListener.onShowMotivationAdmin();
                 }
             }
         });
@@ -207,14 +187,8 @@ public class MainUserFragment extends Fragment {
         // Note for the main activity that the exercise button was clicked
         void onShowExercise();
 
-        // Note for the main activity that the motivation button was clicked
-        void onShowMotivation();
-
         // Note for the main activity that the manage exercises button was clicked
         void onShowExerciseAdmin();
-
-        // Note for the main activity that the manage motivation button was clicked
-        void onShowMotivationAdmin();
 
         void onHasRoleType(User user);
     }
