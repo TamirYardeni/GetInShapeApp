@@ -1,4 +1,4 @@
-package tmrapps.getinshapeapp.ExerciseList;
+package tmrapps.getinshapeapp.Exercise;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -18,8 +18,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import tmrapps.getinshapeapp.Exercise.ExerciseViewModel;
-import tmrapps.getinshapeapp.ExerciseList.Model.ExerciseInCategory;
+import tmrapps.getinshapeapp.Exercise.Model.ExerciseInCategory;
 import tmrapps.getinshapeapp.R;
 import tmrapps.getinshapeapp.User.RoleType;
 

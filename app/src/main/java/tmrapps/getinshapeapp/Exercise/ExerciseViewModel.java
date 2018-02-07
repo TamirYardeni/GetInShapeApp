@@ -8,7 +8,7 @@ import java.util.List;
 
 import tmrapps.getinshapeapp.Exercise.Model.Exercise;
 import tmrapps.getinshapeapp.Exercise.Model.ExerciseReposirory;
-import tmrapps.getinshapeapp.ExerciseList.Model.ExerciseInCategory;
+import tmrapps.getinshapeapp.Exercise.Model.ExerciseInCategory;
 
 /**
  * Created by tamir on 2/5/2018.
@@ -38,7 +38,9 @@ public class ExerciseViewModel extends ViewModel{
     }
 
     public LiveData<Bitmap> getExerciseImage(String url) {
+        this.bitmapImg = null;
         this.bitmapImg = ExerciseReposirory.instance.getExerciseImage(url);
+
         return this.bitmapImg;
     }
 

@@ -42,6 +42,14 @@ public class ExerciseDetailsFragment extends Fragment {
 
     private View detailsView;
 
+    private TextView exerciseName;
+
+    private TextView exerciseData;
+
+    private TextView exerciseNotes;
+
+    private ImageView exerciseImage;
+
     public ExerciseDetailsFragment() {
         // Required empty public constructor
     }
@@ -66,6 +74,11 @@ public class ExerciseDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         this.detailsView = inflater.inflate(R.layout.fragment_exercise_details, container, false);
+        this.exerciseName = (TextView)this.detailsView.findViewById(R.id.exerciseNameTxt);
+        this.exerciseData = (TextView)this.detailsView.findViewById(R.id.exerciseDataTxt);
+        this.exerciseNotes = (TextView)this.detailsView.findViewById(R.id.exerciseNotesTxt);
+        this.exerciseImage = (ImageView) this.detailsView.findViewById(R.id.exerciseImage);
+        clearViewElements();
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.exerciseDetailsHeader);
         this.progressBarOfImage = this.detailsView.findViewById(R.id.progressBarOfImage);
         this.progressBarOfImage.setVisibility(View.VISIBLE);
@@ -96,21 +109,13 @@ public class ExerciseDetailsFragment extends Fragment {
     }
 
     private void showDetailsView(Exercise exercise) {
-        TextView exerciseName = (TextView)this.detailsView.findViewById(R.id.exerciseNameTxt);
-        TextView exerciseData = (TextView)this.detailsView.findViewById(R.id.exerciseDataTxt);
-        TextView exerciseNotes = (TextView)this.detailsView.findViewById(R.id.exerciseNotesTxt);
-        //view.findViewById(R.id.exerciseImage);
-
-        //Exercise exercise = getExerciseDetails();
-
-        exerciseName.setText(R.string.exerciseNameHeaderShow + exercise.getName());
-        exerciseData.setText(R.string.exerciseDataHeaderShow + exercise.getData());
-        exerciseNotes.setText(R.string.exerciseNoteHeaderShow + exercise.getNote());
+        this.exerciseName.setText("שם התרגיל: " + exercise.getName());
+        this.exerciseData.setText("תוכן התרגיל: " + exercise.getData());
+        this.exerciseNotes.setText("הערות: " + exercise.getNote());
     }
 
     public void showExerciseImageView(Bitmap bitmap) {
-        ImageView exerciseImage = (ImageView)this.detailsView.findViewById(R.id.exerciseImage);
-        exerciseImage.setImageBitmap(bitmap);
+        this.exerciseImage.setImageBitmap(bitmap);
     }
 
     @Override
@@ -130,19 +135,21 @@ public class ExerciseDetailsFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        clearViewElements();
     }
 
-    /*public Exercise getExerciseDetails() {
-        Exercise exercise = new Exercise();
-        String name = "כפיפות בטן בישיבה";
-        String data = "1. שב זקוף עם הגב לקיר \n 2.עשה כפיפת בטן \n עלה חזרה עד למעלה";
-        String note = "אל תשכח לנשום";
-        exercise.setName(name);
-        exercise.setData(data);
-        exercise.setNotes(note);
-
-        return exercise;
-    }*/
+    /**
+     * Clears the exercise details text and bitmap because this view
+     * Open again and should show different exercise details
+     */
+    private void clearViewElements() {
+        this.exerciseName.setText("");
+        this.exerciseData.setText("");
+        this.exerciseNotes.setText("");
+        this.exerciseImage.setImageDrawable(null);
+        this.exerciseImage.setImageBitmap(null);
+        this.exerciseImage.setImageResource(0);
+    }
 
     public interface OnFragmentInteractionListener {
 

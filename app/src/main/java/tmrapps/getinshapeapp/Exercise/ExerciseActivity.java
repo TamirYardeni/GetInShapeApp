@@ -5,11 +5,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 
 import tmrapps.getinshapeapp.Category.CategoryFragment;
 import tmrapps.getinshapeapp.Exercise.Model.Exercise;
-import tmrapps.getinshapeapp.ExerciseList.ExerciseFragment;
 import tmrapps.getinshapeapp.R;
 import tmrapps.getinshapeapp.User.RoleType;
 
