@@ -2,8 +2,6 @@ package tmrapps.getinshapeapp.Main;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.AsyncTask;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,11 +13,8 @@ import android.view.Window;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
 import com.google.firebase.auth.FirebaseAuth;
-
 import tmrapps.getinshapeapp.Exercise.ExerciseActivity;
-import tmrapps.getinshapeapp.Motivation.MotivationActivity;
 import tmrapps.getinshapeapp.PersonalArea.PersonalAreaActivity;
 import tmrapps.getinshapeapp.R;
 import tmrapps.getinshapeapp.User.AuthActivity;
@@ -111,11 +106,6 @@ public class MainActivity extends AppCompatActivity implements MainUserFragment.
         moveToNewActivity(RoleType.USER, ExerciseActivity.class);
     }
 
-    @Override
-    public void onShowMotivation() {
-        moveToNewActivity(RoleType.USER, MotivationActivity.class);
-    }
-
     private void moveToNewActivity(RoleType permissions, Class activityClass){
         if (this.user.roleType == permissions.ordinal()) {
             android.support.v4.app.FragmentTransaction tran = getSupportFragmentManager().beginTransaction();
@@ -132,11 +122,6 @@ public class MainActivity extends AppCompatActivity implements MainUserFragment.
     @Override
     public void onShowExerciseAdmin() {
         moveToNewActivity(RoleType.ADMIN, ExerciseActivity.class);
-    }
-
-    @Override
-    public void onShowMotivationAdmin() {
-        moveToNewActivity(RoleType.ADMIN, MotivationActivity.class);
     }
 
     @Override
