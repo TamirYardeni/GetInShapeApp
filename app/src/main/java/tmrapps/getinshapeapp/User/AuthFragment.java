@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import tmrapps.getinshapeapp.R;
 import tmrapps.getinshapeapp.User.Model.User;
@@ -23,6 +24,7 @@ import tmrapps.getinshapeapp.User.Model.User;
 public class AuthFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+    private ProgressBar prog;
 
     public AuthFragment() {
         // Required empty public constructor
@@ -46,12 +48,12 @@ public class AuthFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_auth, container, false);
         Button signBtn = (Button) view.findViewById(R.id.signBtn);
 
-        signBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mListener != null){
-                    mListener.onEntranceFragmentInteraction();
-                }
+        prog = view.findViewById(R.id.progressBar2);
+
+        signBtn.setOnClickListener(v -> {
+            if(mListener != null){
+                prog.setVisibility(View.VISIBLE);
+                mListener.onEntranceFragmentInteraction();
             }
         });
 
@@ -72,6 +74,8 @@ public class AuthFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        prog.setVisibility(View.GONE);
+
         mListener = null;
     }
 

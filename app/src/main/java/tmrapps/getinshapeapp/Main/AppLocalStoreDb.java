@@ -16,7 +16,7 @@ import tmrapps.getinshapeapp.PersonalArea.Model.PersonalInformationDAO;
  * Created by nathan on 03/02/2018.
  */
 
-@Database(entities = {PersonalInformation.class, Category.class, Exercise.class}, version = 7)
+@Database(entities = {PersonalInformation.class, Category.class, Exercise.class}, version = 8)
 @TypeConverters({PersonalInformationConverter.class})
 public abstract class AppLocalStoreDb extends RoomDatabase {
     public abstract PersonalInformationDAO personalInformationDAO();

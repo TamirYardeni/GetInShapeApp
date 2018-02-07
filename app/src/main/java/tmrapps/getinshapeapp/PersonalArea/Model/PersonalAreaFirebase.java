@@ -38,11 +38,11 @@ public class PersonalAreaFirebase {
 
                 if (value != null) {
                     info.setUserId((String) value.get("userId"));
-                    info.setCurrentWeight(((Long)(value.get("currentWeight"))).doubleValue());
+                    info.setCurrentWeight((Long)value.get("currentWeight"));
                     info.setDateEndOfTrain(value.get("dateEndOfTrain").toString());
                     info.setHourTrain(((Long)value.get("hourTrain")).intValue());
                     info.setMinuteTrain(((Long)value.get("minuteTrain")).intValue());
-                    info.setWeightToAchieve(((Long)value.get("weightToAchieve")).doubleValue());
+                    info.setWeightToAchieve((Long)value.get("weightToAchieve"));
                     info.setDayOfWeek(value.get("dayOfWeek").toString());
                 }
                 else {
