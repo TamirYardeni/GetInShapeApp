@@ -2,6 +2,7 @@ package tmrapps.getinshapeapp.PersonalArea.Model;
 
 import android.arch.persistence.room.TypeConverter;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -23,5 +24,38 @@ public class PersonalInformationConverter {
         } else {
             return date.getTime();
         }
+    }
+
+    @TypeConverter
+    public List<String> fromString(String value){
+        List<String> dayOfWeek = new ArrayList<>();
+
+        if(value != null) {
+            String[] parts = value.split(",");
+
+            for (String item :
+                    parts) {
+                dayOfWeek.add(item);
+            }
+
+            return dayOfWeek;
+        }
+
+        return dayOfWeek;
+    }
+
+    @TypeConverter
+    public String listToString(List<String> data) {
+        if(data != null) {
+            StringBuilder build = new StringBuilder();
+            for (String item :
+                    data) {
+                build.append(item + ",");
+            }
+
+            return build.toString();
+        }
+
+        return null;
     }
 }

@@ -3,8 +3,6 @@ package tmrapps.getinshapeapp.PersonalArea;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
-import java.util.List;
-
 import tmrapps.getinshapeapp.PersonalArea.Model.PersonalAreaRepository;
 import tmrapps.getinshapeapp.PersonalArea.Model.PersonalInformation;
 

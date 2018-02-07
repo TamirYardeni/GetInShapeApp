@@ -25,20 +25,6 @@ public class PersonalAreaRepository {
 
     MutableLiveData<PersonalInformation> personalInfoliveData;
 
-   /* public LiveData<PersonalInformation> getPersonalInformation(String userId){
-        synchronized (this) {
-            if (personalInfoliveData == null) {
-                personalInfoliveData = new MutableLiveData<>();
-                PersonalAreaFirebase.getPersonalInformationByUserId(userId, (personalInformation) -> {
-                    if (personalInformation != null)
-                        personalInfoliveData.setValue(personalInformation);
-                });
-            }
-        }
-
-        return personalInfoliveData;
-    }*/
-
     public LiveData<PersonalInformation> getPersonalInformation(String userId) {
         synchronized (this) {
             if (personalInfoliveData == null) {
@@ -55,8 +41,6 @@ public class PersonalAreaRepository {
                 PersonalAreaFirebase.getPersonalInformationByUserId(userId, lastUpdateDate, (personalInformation) -> {
                     updateExerciseDataInLocalStore(personalInformation, userId);
                 });
-
-
             }
         }
 
@@ -91,10 +75,8 @@ public class PersonalAreaRepository {
         protected PersonalInformation doInBackground(GetPersonalAreaTaskParams[] lists) {
             if (lists.length > 0) {
                 GetPersonalAreaTaskParams data = lists[0];
-//                 PersonalInformation info = AppLocalStore.db.personalInformationDAO().getPersonalInformation(userId);
 
                 if (data.data != null) {
-                    //data.data.lastUpdate =
                     AppLocalStore.db.personalInformationDAO().savePersonalInformation(data.data);
                 }
 

@@ -32,7 +32,6 @@ public class PersonalInformation {
     public int hourTrain;
     public int minuteTrain;
 
-    @Ignore
     public List<String> dayOfWeek;
 
     public String getUserId() { return this.userId; }
@@ -86,11 +85,13 @@ public class PersonalInformation {
 
     public void setDayOfWeek(String days)
     {
-        String[] parts = days.split(",");
+        if (days != null) {
+            String[] parts = days.split(",");
 
-        for (String item:
-                parts) {
-            this.dayOfWeek.add(item);
+            for (String item :
+                    parts) {
+                this.dayOfWeek.add(item);
+            }
         }
     }
 
@@ -99,7 +100,7 @@ public class PersonalInformation {
         StringBuilder build = new StringBuilder();
         for (String item:
              dayOfWeek) {
-            build.append(item + ", ");
+            build.append(item + ",");
         }
         return build.toString();
     }

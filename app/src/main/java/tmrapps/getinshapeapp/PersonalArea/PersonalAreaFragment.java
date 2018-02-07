@@ -2,12 +2,10 @@ package tmrapps.getinshapeapp.PersonalArea;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.arch.lifecycle.Observer;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -78,21 +76,23 @@ public class PersonalAreaFragment extends Fragment {
 
     private void changeToReadOnlyMode() {
         ((Button) getView().findViewById(R.id.btnSave)).setText("שינוי");
-        ((Button) getView().findViewById(R.id.btnEndDate)).setEnabled(false);
-        ((Button) getView().findViewById(R.id.btnTime)).setEnabled(false);
-        ((EditText) getView().findViewById(R.id.edCurWeight)).setEnabled(false);
-        ((EditText) getView().findViewById(R.id.edWeightAchieved)).setEnabled(false);
-        setBtnClick((Button) getView().findViewById(R.id.btnSave), this::onEditBtnClick);
+        getView().findViewById(R.id.btnEndDate).setEnabled(false);
+        getView().findViewById(R.id.btnTime).setEnabled(false);
+        getView().findViewById(R.id.edCurWeight).setEnabled(false);
+        getView().findViewById(R.id.edWeightAchieved).setEnabled(false);
+        getView().findViewById(R.id.multiSelectDay).setEnabled(false);
+        setBtnClick(getView().findViewById(R.id.btnSave), this::onEditBtnClick);
 
     }
 
     private void changeToEditMode() {
         ((Button) getView().findViewById(R.id.btnSave)).setText("שמור");
-        ((Button) getView().findViewById(R.id.btnEndDate)).setEnabled(true);
-        ((Button) getView().findViewById(R.id.btnTime)).setEnabled(true);
-        ((EditText) getView().findViewById(R.id.edCurWeight)).setEnabled(true);
-        ((EditText) getView().findViewById(R.id.edWeightAchieved)).setEnabled(true);
-        setBtnClick((Button) getView().findViewById(R.id.btnSave), this::onSaveBtnClick);
+        getView().findViewById(R.id.btnEndDate).setEnabled(true);
+        getView().findViewById(R.id.btnTime).setEnabled(true);
+        getView().findViewById(R.id.edCurWeight).setEnabled(true);
+        getView().findViewById(R.id.multiSelectDay).setEnabled(true);
+        getView().findViewById(R.id.edWeightAchieved).setEnabled(true);
+        setBtnClick(getView().findViewById(R.id.btnSave), this::onSaveBtnClick);
 
     }
 
@@ -105,30 +105,31 @@ public class PersonalAreaFragment extends Fragment {
         this.hideAllUIElements(view);
         progressBar = view.findViewById(R.id.personalAreaProgressBar);
         progressBar.setVisibility(View.VISIBLE);
-        personalAreaViewModel.getPersonalInformation(this.userId).observe(this, new Observer<PersonalInformation>() {
-            @Override
-            public void onChanged(@Nullable PersonalInformation info) {
-                progressBar.setVisibility(View.GONE);
-                showAllUIElements(view);
-
-                if ( info != null) {
-                    changeToReadOnlyMode();
-                    personalInformation = info;
-                    updateViewWithData(view, info);
-                }
-                else {
-                    changeToEditMode();
-                    personalInformation = new PersonalInformation();
-                }
-
+        personalAreaViewModel.getPersonalInformation(this.userId).observe(this, info -> {
+            progressBar.setVisibility(View.GONE);
+            showAllUIElements(view);
+            if (info != null) {
+                changeToReadOnlyMode();
+                personalInformation = info;
+                updateViewWithData(view, info);
+            }
+            else {
+                changeToEditMode();
+                personalInformation = new PersonalInformation();
             }
         });
 
-        setBtnClick((Button) view.findViewById(R.id.btnTime), this::onTimePickerClick);
-        setBtnClick((Button) view.findViewById(R.id.btnEndDate), this::onDatePickerClick);
+        setBtnClick(view.findViewById(R.id.btnTime), this::onTimePickerClick);
+        setBtnClick(view.findViewById(R.id.btnEndDate), this::onDatePickerClick);
 
-        MultiSelectionSpinner spinner=(MultiSelectionSpinner)view.findViewById(R.id.input1);
+        MultiSelectionSpinner spinner = view.findViewById(R.id.multiSelectDay);
+        spinner.setItems(getAllDayOfWeek());
 
+        return view;
+    }
+
+
+    private List<String> getAllDayOfWeek() {
         List<String> list = new ArrayList<String>();
         list.add("ראשון");
         list.add("שני");
@@ -138,9 +139,7 @@ public class PersonalAreaFragment extends Fragment {
         list.add("שישי");
         list.add("שבת");
 
-        spinner.setItems(list);
-
-        return view;
+        return list;
     }
 
     private void updateViewWithData(View v, PersonalInformation info) {
@@ -148,6 +147,7 @@ public class PersonalAreaFragment extends Fragment {
         ((EditText) v.findViewById(R.id.edCurWeight)).setText(Double.toString(info.getCurrentWeight()));
         ((TextView) v.findViewById(R.id.txtEndDate)).setText(info.getDateEndOfTrain());
         ((TextView) v.findViewById(R.id.txtTime)).setText(info.getTime());
+        ((MultiSelectionSpinner)getView().findViewById(R.id.multiSelectDay)).setSelection(info.dayOfWeek);
     }
 
     private void hideAllUIElements(View v) {
@@ -163,23 +163,20 @@ public class PersonalAreaFragment extends Fragment {
     }
 
     private void setBtnClick(Button btn, final Consumer<View> func){
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                func.accept(view);
-            }
-        });
+        btn.setOnClickListener(view -> func.accept(view));
     }
 
     private void onSaveBtnClick(View v) {
         progressBar.setVisibility(View.VISIBLE);
 
-        final EditText textWeightAchieve =(EditText) getView().findViewById(R.id.edWeightAchieved);
-        final EditText textCurWeight =(EditText) getView().findViewById(R.id.edCurWeight);
+        final EditText textWeightAchieve = getView().findViewById(R.id.edWeightAchieved);
+        final EditText textCurWeight = getView().findViewById(R.id.edCurWeight);
+        final MultiSelectionSpinner daysOfWeek = getView().findViewById(R.id.multiSelectDay);
 
         personalInformation.setUserId(this.userId);
         personalInformation.setWeightToAchieve(Double.parseDouble( "" + textWeightAchieve.getText()));
         personalInformation.setCurrentWeight(Double.parseDouble( "" + textCurWeight.getText()));
+        personalInformation.setDayOfWeek(daysOfWeek.getSelectedStrings());
 
         PersonalAreaRepository.instance.savePersonalInformation(personalInformation);
 
@@ -190,12 +187,11 @@ public class PersonalAreaFragment extends Fragment {
 
     private void onEditBtnClick(View v) {
         this.changeToEditMode();
-
     }
 
     // TODO: Rename method, update argument and hook method into UI event
     private void onTimePickerClick(View v) {
-            final TextView textView = (TextView) getView().findViewById(R.id.txtTime);
+            final TextView textView = getView().findViewById(R.id.txtTime);
 
             final Calendar c = Calendar.getInstance();
 
@@ -218,7 +214,7 @@ public class PersonalAreaFragment extends Fragment {
     }
 
     private void onDatePickerClick(View v) {
-        final TextView textView = (TextView) getView().findViewById(R.id.txtEndDate);
+        final TextView textView = getView().findViewById(R.id.txtEndDate);
         Calendar c = Calendar.getInstance();
 
         if (personalInformation.dateEndOfTrain != null){
