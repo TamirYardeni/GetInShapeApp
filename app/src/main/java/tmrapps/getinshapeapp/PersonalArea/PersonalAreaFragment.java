@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -41,6 +42,8 @@ public class PersonalAreaFragment extends Fragment {
     // the fragment_personal_area initialization parameters, e.g. ARG_ITEM_NUMBER
     private OnFragmentInteractionListener mListener;
     DatePickerDialog datePickerDialog;
+    boolean isDateChanged;
+
     TimePickerDialog timePickerDialog;
     String userId;
     PersonalInformation personalInformation = new PersonalInformation();
@@ -99,6 +102,7 @@ public class PersonalAreaFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        isDateChanged = false;
         // Inflate the layout for this fragment_personal_area
         View view = inflater.inflate(R.layout.fragment_personal_area, container, false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.personalAreaAppBarHeader);
@@ -182,6 +186,10 @@ public class PersonalAreaFragment extends Fragment {
 
         progressBar.setVisibility(View.GONE);
 
+        if (isDateChanged)
+            mListener.makeCalendarEvent(personalInformation.dateEndOfTrain);
+
+        isDateChanged = false;
         this.changeToReadOnlyMode();
     }
 
@@ -235,7 +243,7 @@ public class PersonalAreaFragment extends Fragment {
                     cal.set(year,monthOfYear,dayOfMonth);
 
                     personalInformation.setDateEndOfTrain(cal.getTime());
-
+                    isDateChanged = true;
                 }
                 , mYear, mMonth, mDay);
         datePickerDialog.show();
@@ -273,5 +281,6 @@ public class PersonalAreaFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
+        void makeCalendarEvent(Date d);
     }
 }

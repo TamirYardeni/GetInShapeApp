@@ -1,5 +1,7 @@
 package tmrapps.getinshapeapp.User;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -12,6 +14,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -20,11 +24,19 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import android.Manifest;
 
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
 import tmrapps.getinshapeapp.Main.MainActivity;
 import tmrapps.getinshapeapp.R;
 
 public class AuthActivity extends AppCompatActivity implements AuthFragment.OnFragmentInteractionListener{
+
+    static final int REQUEST_ACCOUNT_PICKER = 1000;
+    static final int REQUEST_AUTHORIZATION = 1001;
+    static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
+    static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
 
     private GoogleSignInOptions gso;
     private FirebaseAuth mAuth;
@@ -122,6 +134,9 @@ public class AuthActivity extends AppCompatActivity implements AuthFragment.OnFr
                     }
                 });
     }
+
+
+
 
     @Override
     public void onEntranceFragmentInteraction() {

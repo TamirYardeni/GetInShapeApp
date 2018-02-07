@@ -46,7 +46,7 @@ public class PersonalInformation {
     public String getDateEndOfTrain()
     {
         if(dateEndOfTrain != null){
-            DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+            DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
             return df.format(this.dateEndOfTrain);
         }

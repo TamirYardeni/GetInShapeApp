@@ -30,7 +30,7 @@ public class PersonalAreaFirebase {
         //DatabaseReference myRef = database.getReference("personal_info/" + userId).child(userId);
         DatabaseReference myRef = database.getReference("personal_info").child(userId);
         //Query query = myRef.orderByChild("lastUpdateDate").startAt(lastUpdate);
-        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 PersonalInformation info  = new PersonalInformation();
