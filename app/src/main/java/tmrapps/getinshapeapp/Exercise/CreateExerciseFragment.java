@@ -18,6 +18,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.io.IOException;
 
 import permissions.dispatcher.NeedsPermission;
@@ -204,15 +206,30 @@ public class CreateExerciseFragment extends Fragment {
         Exercise exercise = new Exercise();
 
         // Insert data to the exercise
-        exercise.setName(this.textExerciseName.getText().toString());
-        exercise.setData(this.textExerciseData.getText().toString());
-        exercise.setNote(this.textExerciseNote.getText().toString());
-        exercise.setCategoryId(this.categoryId);
 
-        this.exerciseViewModel.addExercise(exercise, this.selectedImage);
 
-        // Fire the event to the exercise activity
-        mListener.onCreateExercise(exercise, this.selectedImage, this.categoryName);
+        if(!this.textExerciseName.getText().toString().equals("") &&
+                !this.textExerciseData.getText().toString().equals("") &&
+                !this.textExerciseNote.getText().toString().equals("")
+
+                ) {
+            exercise.setName(this.textExerciseName.getText().toString());
+            exercise.setData(this.textExerciseData.getText().toString());
+            exercise.setNote(this.textExerciseNote.getText().toString());
+            exercise.setCategoryId(this.categoryId);
+
+            this.exerciseViewModel.addExercise(exercise, this.selectedImage);
+
+            // Fire the event to the exercise activity
+            mListener.onCreateExercise(exercise, this.selectedImage, this.categoryName);
+        }
+        else {
+            // Notify the user that he need to enter all the fields
+            Toast.makeText(getActivity(), (String)"נא למאלות את כל השדות",
+                    Toast.LENGTH_LONG).show();
+        }
+
+
     }
 
     public interface OnFragmentInteractionListener {
