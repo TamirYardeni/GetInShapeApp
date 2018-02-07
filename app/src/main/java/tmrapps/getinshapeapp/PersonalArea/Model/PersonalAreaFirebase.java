@@ -4,11 +4,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -44,7 +43,7 @@ public class PersonalAreaFirebase {
                     info.setHourTrain(((Long)value.get("hourTrain")).intValue());
                     info.setMinuteTrain(((Long)value.get("minuteTrain")).intValue());
                     info.setWeightToAchieve(((Long)value.get("weightToAchieve")).doubleValue());
-                    //info.setDayOfWeek((List<String>) value.get("dayOfWeek"));
+                    info.setDayOfWeek(value.get("dayOfWeek").toString());
                 }
                 else {
                     info = null;
@@ -75,7 +74,7 @@ public class PersonalAreaFirebase {
         value.put("hourTrain", info.getHourTrain());
         value.put("minuteTrain", info.getMinuteTrain());
         value.put("weightToAchieve", info.getWeightToAchieve());
-        value.put("dayOfWeek ", info.getDayOfWeekAppend());
+        value.put("dayOfWeek", info.getDayOfWeekAppend());
         myRef.setValue(value);
 
         listener.onComplete(info);
