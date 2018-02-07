@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.webkit.URLUtil;
 
 import java.util.ArrayList;
@@ -59,6 +60,8 @@ public class ExerciseReposirory {
                 } catch (Exception e) {
 
                 }
+
+                Log.d("TAG", String.valueOf(lastUpdateDate));
 
                 ExerciseFirebase.getAllExerciseAndObserve(lastUpdateDate, categoryId, new ExerciseFirebase.OnExerciseListener() {
                     @Override

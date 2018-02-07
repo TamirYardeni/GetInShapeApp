@@ -19,9 +19,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import tmrapps.getinshapeapp.Exercise.ExerciseViewModel;
-import tmrapps.getinshapeapp.Exercise.Model.Exercise;
 import tmrapps.getinshapeapp.ExerciseList.Model.ExerciseInCategory;
-import tmrapps.getinshapeapp.ExerciseList.Model.ExerciseListItem;
 import tmrapps.getinshapeapp.R;
 import tmrapps.getinshapeapp.User.RoleType;
 
@@ -47,8 +45,6 @@ public class ExerciseFragment extends Fragment {
     private String categoryId;
 
     private ExerciseFragment.OnFragmentInteractionListener mListener;
-
-    private ExerciseListViewModel exerciseListViewModel;
 
     private ExerciseViewModel exerciseViewModel;
 
@@ -89,21 +85,9 @@ public class ExerciseFragment extends Fragment {
                              Bundle savedInstanceState) {
         View exerciseListView = inflater.inflate(R.layout.fragment_exercise, container, false);
 
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.exercisesInCatAppBarHeader + this.categoryName);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("תרגילים בקטגוריה:" + this.categoryName);
         progressBar = exerciseListView.findViewById(R.id.progressBarExerciseList);
         progressBar.setVisibility(View.VISIBLE);
-
-        /*this.exerciseListViewModel.getExerciseOfCategory(this.categoryId).observe(this, (exerciseListItems) -> {
-            if (exerciseListItems != null) {
-                this.exercisesAdapter.data = exerciseListItems.getExercisesInCategory();
-
-            } else {
-                // In case there is no exercises for this category
-                this.exercisesAdapter.data = new ArrayList<>();
-            }
-            this.exercisesAdapter.notifyDataSetChanged();
-            progressBar.setVisibility(View.GONE);
-        });*/
 
         exerciseViewModel.getExerciseByCategory(this.categoryId).observe(this, (exerciseListItems) -> {
             if (exerciseListItems != null) {
@@ -147,9 +131,7 @@ public class ExerciseFragment extends Fragment {
                     + " must implement OnFragmentInteractionListener");
         }
 
-        //this.exerciseListViewModel = ViewModelProviders.of(this).get(ExerciseListViewModel.class);
         this.exerciseViewModel = ViewModelProviders.of(this).get(ExerciseViewModel.class);
-        /*this.exerciseViewModel.getAll();*/
     }
 
     @Override

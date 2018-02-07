@@ -31,9 +31,15 @@
             android:layoutDirection="rtl"
             android:textSize="20sp"/>
 
+    <ProgressBar
+        android:id="@+id/progressBarOfImage"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <ImageView
         android:id="@+id/exerciseImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        />
+        android:background="@android:color/background_dark" />
 </LinearLayout>
