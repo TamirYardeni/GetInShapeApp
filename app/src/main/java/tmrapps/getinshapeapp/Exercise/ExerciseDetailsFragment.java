@@ -6,7 +6,9 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,7 +62,7 @@ public class ExerciseDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         this.detailsView = inflater.inflate(R.layout.fragment_exercise_details, container, false);
-
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.exerciseDetailsHeader);
         exerciseViewModel.getExerciseById(this.exerciseId).observe(this, (exerciseDetails) -> {
             if (exerciseDetails != null) {
                 this.showDetailsView(exerciseDetails);

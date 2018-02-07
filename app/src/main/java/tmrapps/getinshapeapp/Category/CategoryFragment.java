@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,6 +69,7 @@ public class CategoryFragment extends Fragment {
                              Bundle savedInstanceState) {
         this.categoryView = inflater.inflate(R.layout.fragment_category, container, false);
 
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.categoryAppBarHeader);
         list = categoryView.findViewById(R.id.categoryList);
         categoriesAdapter = new CategoryFragment.CategoryAdapter(this);
         list.setAdapter(categoriesAdapter);
