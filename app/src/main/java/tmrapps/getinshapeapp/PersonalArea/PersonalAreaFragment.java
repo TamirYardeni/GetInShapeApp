@@ -147,8 +147,8 @@ public class PersonalAreaFragment extends Fragment {
     }
 
     private void updateViewWithData(View v, PersonalInformation info) {
-        ((EditText) v.findViewById(R.id.edWeightAchieved)).setText(Double.toString(info.getWeightToAchieve()));
-        ((EditText) v.findViewById(R.id.edCurWeight)).setText(Double.toString(info.getCurrentWeight()));
+        ((EditText) v.findViewById(R.id.edWeightAchieved)).setText(Long.toString(info.getWeightToAchieve()));
+        ((EditText) v.findViewById(R.id.edCurWeight)).setText(Long.toString(info.getCurrentWeight()));
         ((TextView) v.findViewById(R.id.txtEndDate)).setText(info.getDateEndOfTrain());
         ((TextView) v.findViewById(R.id.txtTime)).setText(info.getTime());
         ((MultiSelectionSpinner)getView().findViewById(R.id.multiSelectDay)).setSelection(info.dayOfWeek);
@@ -178,8 +178,8 @@ public class PersonalAreaFragment extends Fragment {
         final MultiSelectionSpinner daysOfWeek = getView().findViewById(R.id.multiSelectDay);
 
         personalInformation.setUserId(this.userId);
-        personalInformation.setWeightToAchieve(Double.parseDouble( "" + textWeightAchieve.getText()));
-        personalInformation.setCurrentWeight(Double.parseDouble( "" + textCurWeight.getText()));
+        personalInformation.setWeightToAchieve(Long.parseLong( "" + textWeightAchieve.getText()));
+        personalInformation.setCurrentWeight(Long.parseLong( "" + textCurWeight.getText()));
         personalInformation.setDayOfWeek(daysOfWeek.getSelectedStrings());
 
         PersonalAreaRepository.instance.savePersonalInformation(personalInformation);

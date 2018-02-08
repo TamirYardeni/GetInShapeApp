@@ -5,15 +5,29 @@
     tools:context="tmrapps.getinshapeapp.User.AuthFragment">
 
     <!-- TODO: Update blank fragment layout -->
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ProgressBar
+            android:id="@+id/progressBar2"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="11dp"
+            android:visibility="invisible" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
             android:text="@string/welcomeMsg"
-            android:textSize="25dp"/>
+            android:textSize="25dp" />
+
         <Button
             android:id="@+id/signBtn"
             android:layout_width="wrap_content"

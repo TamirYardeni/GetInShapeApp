@@ -23,8 +23,8 @@ public class PersonalInformation {
     @NonNull
     public String userId;
 
-    public double currentWeight;
-    public double weightToAchieve;
+    public long currentWeight;
+    public long weightToAchieve;
 
     long lastUpdate;
 
@@ -37,11 +37,11 @@ public class PersonalInformation {
     public String getUserId() { return this.userId; }
     public void setUserId(String id) { this.userId = id; }
 
-    public double getCurrentWeight() { return this.currentWeight; }
-    public void setCurrentWeight(double weight) { this.currentWeight = weight; }
+    public long getCurrentWeight() { return this.currentWeight; }
+    public void setCurrentWeight(long weight) { this.currentWeight = weight; }
 
-    public double getWeightToAchieve() { return this.weightToAchieve; }
-    public void setWeightToAchieve(double weight) { this.weightToAchieve = weight; }
+    public long getWeightToAchieve() { return this.weightToAchieve; }
+    public void setWeightToAchieve(long weight) { this.weightToAchieve = weight; }
 
     public String getDateEndOfTrain()
     {
