@@ -41,7 +41,7 @@ public class ExerciseActivity extends AppCompatActivity implements ExerciseFragm
     public void onShowCategory(){
         this.categoryFrag = CategoryFragment.newInstance(this.role);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.exerciseContent, this.categoryFrag);
+        transaction.replace(R.id.exerciseContent, this.categoryFrag);
         transaction.commit();
     }
 
@@ -63,6 +63,11 @@ public class ExerciseActivity extends AppCompatActivity implements ExerciseFragm
         transaction.commit();
     }
 
+    /**
+     * Show the exercises in category fragment
+     * @param categoryId
+     * @param categoryName
+     */
     @Override
     public void onShowCreateExercise(String categoryId, String categoryName) {
         this.createExerciseFrag = CreateExerciseFragment.newInstance(categoryId, categoryName);
@@ -72,18 +77,21 @@ public class ExerciseActivity extends AppCompatActivity implements ExerciseFragm
         transaction.commit();
     }
 
+    /**
+     * This function is called after a new exercise was created
+     * @param exercise
+     * @param exerciseImage
+     * @param categoryName
+     */
     @Override
     public void onCreateExercise(Exercise exercise, Bitmap exerciseImage, String categoryName) {
         this.exerciseListFrag = ExerciseFragment.newInstance(this.role.name(), exercise.getCategoryId(), categoryName);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.exerciseContent, this.exerciseListFrag);
-        transaction.addToBackStack(this.categoryFrag.getClass().getName());
+        getSupportFragmentManager().popBackStack();
+        //transaction.remove(this.createExerciseFrag);
+        //transaction.add(R.id.exerciseContent, this.exerciseListFrag);
+        //transaction.addToBackStack(this.categoryFrag.getClass().getName());
         transaction.commit();
     }
-
-/*    @Override
-    protected void onResume() {
-        super.onResume();
-        this.onShowCategory();
-    }*/
 }

@@ -232,8 +232,6 @@ public class CreateExerciseFragment extends Fragment {
             Toast.makeText(getActivity(), (String)"נא למאלות את כל השדות",
                     Toast.LENGTH_LONG).show();
         }
-
-
     }
 
     public interface OnFragmentInteractionListener {
