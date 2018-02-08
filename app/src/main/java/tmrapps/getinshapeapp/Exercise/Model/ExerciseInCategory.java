@@ -4,6 +4,7 @@ import android.arch.persistence.room.Entity;
 
 /**
  * Created by tamir on 2/5/2018.
+ * Represent
  */
 public class ExerciseInCategory {
     private String id;
